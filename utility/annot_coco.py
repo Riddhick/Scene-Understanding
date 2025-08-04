@@ -1,116 +1,164 @@
 import os
 import json
-import cv2
-from tqdm import tqdm
+from PIL import Image
 
-# Script directory
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-DOTA_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..', 'DOTA'))
+def convert_dota_to_coco(dota_image_dir, dota_label_dir, output_json_path):
+    """
+    Converts DOTA dataset annotations to COCO format.
 
-# Category definitions (from DOTA official class names)
-CATEGORIES = [
-    "plane", "ship", "storage-tank", "baseball-diamond", "tennis-court",
-    "basketball-court", "ground-track-field", "harbor", "bridge", "large-vehicle",
-    "small-vehicle", "helicopter", "roundabout", "soccer-ball-field", "swimming-pool"
-]
-category2id = {name: i + 1 for i, name in enumerate(CATEGORIES)}  # COCO uses 1-based indexing
-
-def parse_dota_label(label_file):
-    objects = []
-    with open(label_file, 'r') as f:
-        lines = f.readlines()
-        for line in lines:
-            parts = line.strip().split()
-            if len(parts) < 9:
-                continue
-            try:
-                x1, y1, x2, y2, x3, y3, x4, y4 = map(float, parts[:8])
-                category = parts[8]
-            except ValueError:
-                continue
-
-            if category not in category2id:
-                continue
-
-            segmentation = [x1, y1, x2, y2, x3, y3, x4, y4]
-            xs = [x1, x2, x3, x4]
-            ys = [y1, y2, y3, y4]
-            xmin, ymin = min(xs), min(ys)
-            xmax, ymax = max(xs), max(ys)
-            width, height = xmax - xmin, ymax - ymin
-
-            bbox = [xmin, ymin, width, height]
-            area = width * height
-
-            obj = {
-                "bbox": bbox,
-                "segmentation": [segmentation],
-                "category_id": category2id[category],
-                "area": area,
-                "iscrowd": 0
-            }
-            objects.append(obj)
-    return objects
-
-def generate_coco_json(image_dir, label_dir, output_path):
-    print(f"Generating COCO annotations for: {image_dir}")
-    coco_dict = {
+    Args:
+        dota_image_dir (str): Path to the DOTA images directory.
+        dota_label_dir (str): Path to the DOTA labelTxt directory.
+        output_json_path (str): Path to save the output COCO JSON file.
+    """
+    # Create the main COCO format dictionary
+    coco_data = {
+        "info": {
+            "description": "COCO-style dataset generated from DOTA annotations.",
+            "version": "1.0",
+            "year": 2024,
+            "contributor": "Automated Script",
+            "date_created": "2024/01/01"
+        },
+        "licenses": [], # DOTA does not provide licenses in the annotations
         "images": [],
         "annotations": [],
-        "categories": [{"id": cid, "name": name} for name, cid in category2id.items()]
+        "categories": []
     }
 
-    annotation_id = 1
-    image_id = 1
+    # Dictionaries to manage unique IDs and categories
+    category_map = {}
+    image_id = 0
+    annotation_id = 0
+    category_id = 1
 
-    for img_file in tqdm(sorted(os.listdir(image_dir))):
-        if not img_file.lower().endswith(('.png', '.jpg')):
-            continue
+    # Get a list of all DOTA annotation files
+    label_files = [f for f in os.listdir(dota_label_dir) if f.endswith('.txt')]
 
-        img_path = os.path.join(image_dir, img_file)
-        label_file = os.path.join(label_dir, os.path.splitext(img_file)[0] + '.txt')
+    print(f"Found {len(label_files)} annotation files in {dota_label_dir}. Starting conversion...")
 
-        if not os.path.exists(label_file):
-            continue
+    for label_file in label_files:
+        try:
+            image_filename = label_file.replace('.txt', '.png')  # Assuming DOTA images are PNG
+            image_path = os.path.join(dota_image_dir, image_filename)
 
-        img = cv2.imread(img_path)
-        if img is None:
-            continue
+            # Check if image file exists
+            if not os.path.exists(image_path):
+                print(f"Warning: Image file '{image_filename}' not found. Skipping '{label_file}'.")
+                continue
 
-        height, width = img.shape[:2]
+            # Open image to get dimensions
+            with Image.open(image_path) as img:
+                width, height = img.size
 
-        coco_dict["images"].append({
-            "id": image_id,
-            "file_name": img_file,
-            "width": width,
-            "height": height
-        })
+            # Create an image entry for the COCO format
+            image_entry = {
+                "id": image_id,
+                "width": width,
+                "height": height,
+                "file_name": image_filename,
+                "license": 1,
+            }
+            coco_data["images"].append(image_entry)
 
-        objects = parse_dota_label(label_file)
-        for obj in objects:
-            obj["id"] = annotation_id
-            obj["image_id"] = image_id
-            coco_dict["annotations"].append(obj)
-            annotation_id += 1
+            # Read the DOTA annotation file
+            with open(os.path.join(dota_label_dir, label_file), 'r') as f:
+                lines = f.readlines()
 
-        image_id += 1
+            for line in lines:
+                # Skip metadata lines (e.g., gsd, imagesource)
+                if not line or line.startswith('gsd') or line.startswith('imagesource'):
+                    continue
 
-    # Write to file
-    with open(output_path, 'w') as f:
-        json.dump(coco_dict, f, indent=2)
-    print(f"Saved COCO annotations to: {output_path}")
+                parts = line.strip().split()
+                if len(parts) < 10:
+                    print(f"Warning: Skipping malformed line in {label_file}: {line.strip()}")
+                    continue
+
+                # DOTA format: x1 y1 x2 y2 x3 y3 x4 y4 category difficult
+                points = [float(p) for p in parts[:8]]
+                category_name = parts[8]
+                difficult_flag = int(parts[9])
+                
+                # Dynamically create category IDs
+                if category_name not in category_map:
+                    category_map[category_name] = category_id
+                    coco_data["categories"].append({
+                        "id": category_id,
+                        "name": category_name,
+                        "supercategory": "None" # DOTA doesn't have supercategories
+                    })
+                    category_id += 1
+
+                current_category_id = category_map[category_name]
+
+                # Convert OBB points to an axis-aligned bounding box (HBB)
+                # COCO bbox format: [x, y, width, height]
+                x_coords = points[0::2]
+                y_coords = points[1::2]
+                x_min = min(x_coords)
+                y_min = min(y_coords)
+                x_max = max(x_coords)
+                y_max = max(y_coords)
+                bbox_width = x_max - x_min
+                bbox_height = y_max - y_min
+                bbox = [x_min, y_min, bbox_width, bbox_height]
+
+                # Create segmentation polygon from OBB points
+                # COCO segmentation format is a flat list of coordinates
+                segmentation = [points]
+                area = bbox_width * bbox_height
+
+                # Create the annotation entry for the COCO format
+                annotation_entry = {
+                    "id": annotation_id,
+                    "image_id": image_id,
+                    "category_id": current_category_id,
+                    "segmentation": segmentation,
+                    "area": area,
+                    "bbox": bbox,
+                    "iscrowd": difficult_flag # Use the DOTA 'difficult' flag as 'iscrowd'
+                }
+                coco_data["annotations"].append(annotation_entry)
+
+                annotation_id += 1
+            
+            image_id += 1
+
+        except Exception as e:
+            print(f"Error processing file {label_file}: {e}")
+
+    # Write the final COCO JSON to a file
+    with open(output_json_path, 'w') as f:
+        json.dump(coco_data, f, indent=4)
+
+    print("\nConversion complete!")
+    print(f"Saved COCO-formatted JSON file to: {output_json_path}")
+    print(f"Total images converted: {len(coco_data['images'])}")
+    print(f"Total annotations converted: {len(coco_data['annotations'])}")
+    print(f"Total categories found: {len(coco_data['categories'])}")
+
+
+
 
 if __name__ == "__main__":
-    # Training set
-    train_img_dir = os.path.join(DOTA_ROOT, 'training')
-    train_label_dir = os.path.join(DOTA_ROOT, 'label_train')
-    train_output = os.path.join(SCRIPT_DIR, 'dota_train_coco.json')
 
-    # Testing set
-    test_img_dir = os.path.join(DOTA_ROOT, 'testing')
-    test_label_dir = os.path.join(DOTA_ROOT, 'label_test')
-    test_output = os.path.join(SCRIPT_DIR, 'dota_test_coco.json')
+    SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+    CODE_ROOT=os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..', 'Code'))
+    DOTA_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..', 'DOTA'))
+    IMAGE_DIR = os.path.join(DOTA_ROOT, 'testing')  # or 'testing'
+    ANNOTATION_FILE = os.path.join(CODE_ROOT, 'annotations/test_ann.json') 
+    # Define your dataset paths
+    # IMPORTANT: Replace these with your actual DOTA dataset paths
+    dota_image_dir = IMAGE_DIR
+    dota_label_dir = 'D:/Work/RCI/DOTA/label_test'
+    output_json_path = ANNOTATION_FILE
 
-    # Generate both
-    generate_coco_json(train_img_dir, train_label_dir, train_output)
-    generate_coco_json(test_img_dir, test_label_dir, test_output)
+    # Check if the example paths exist, if not, provide a user-friendly message
+    if not os.path.exists(dota_image_dir) or not os.path.exists(dota_label_dir):
+        print("DOTA dataset directories not found.")
+        print("Please ensure the paths are correct and that you have downloaded the DOTA devkit and placed it in the script's directory.")
+        print(f"Expected image directory: {os.path.abspath(dota_image_dir)}")
+        print(f"Expected label directory: {os.path.abspath(dota_label_dir)}")
+    else:
+        convert_dota_to_coco(dota_image_dir, dota_label_dir, output_json_path)
