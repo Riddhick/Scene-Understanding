@@ -8,6 +8,7 @@ transformers==4.43.2
 datasets==2.21.0
 accelerate==0.33.0
 huggingface-hub==0.24.6
+optuna==3.6.1
 
 # Image augmentations
 albumentations==1.4.3
@@ -26,4 +27,4 @@ typing_extensions>=4.10.0
 # Jupyter/IPython (if running in notebooks)
 ipython==8.25.0
 jupyter==1.0.0
-torch.backends.cuda.matmul.allow_tf32 = False
+
