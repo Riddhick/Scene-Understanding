@@ -9,7 +9,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 CODE_ROOT=os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..', 'Code'))
 DOTA_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..', 'DOTA'))
 IMAGE_DIR = os.path.join(DOTA_ROOT, 'training')  # or 'testing'
-ANNOTATION_FILE = os.path.join(CODE_ROOT, 'annotations\dota_train_filtered_coco.json') 
+ANNOTATION_FILE = os.path.join(CODE_ROOT, 'annotations\\train_ann.json') 
 #ANNOTATION_FILE = os.path.join(SCRIPT_DIR, 'dota_train_filtered_coco.json')  # or 'dota_test_coco.json'
 
 # Load COCO-style annotation

@@ -1,0 +1,406 @@
+import os
+import random 
+import numpy as np
+
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches 
+
+import torch
+import torchvision
+from torchvision import transforms as torchtrans
+from torchvision.models.detection.mask_rcnn import MaskRCNNPredictor 
+from xml.etree import ElementTree as et
+from engine import train_one_epoch, evaluate
+import utils
+import transforms as T
+import albumentations as A
+from albumentations.pytorch.transforms import ToTensorV2
+
+from sklearn.model_selection import KFold
+from torch.utils.data import DataLoader, SubsetRandomSampler
+import cv2
+
+class VisDroneDataset(torch.utils.data.Dataset):
+
+    def __init__(self, img_dir,ann_dir, width, height, transforms=None):
+        self.transforms = transforms
+        self.img_dir = img_dir
+        self.ann_dir = ann_dir
+        self.height = height
+        self.width = width
+        
+        # sorting the images for consistency
+        # To get images, the extension of the filename is checked to be jpg
+        self.imgs = [image for image in sorted(os.listdir(img_dir))
+                        if image[-4:]=='.jpg']
+        
+        # classes: 0 index is reserved for background
+        self.classes = [_, 'pedestrian','people','bicycle', 
+                        'car','van','truck','tricycle','awning-tricycle','bus','motor']
+
+    def __getitem__(self, idx):
+
+        img_name = self.imgs[idx]
+        image_path = os.path.join(self.img_dir, img_name)
+
+        # reading the images and converting them to correct size and color    
+        img = cv2.imread(image_path)
+        img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB).astype(np.float32)
+        img_res = cv2.resize(img_rgb, (self.width, self.height), cv2.INTER_AREA)
+        # dividing by 255
+        img_res /= 255.0
+        
+        # annotation file
+        annot_filename = img_name[:-4] + '.txt'
+        annot_file_path = os.path.join(self.ann_dir, annot_filename)
+        
+        boxes = []
+        labels = []
+        
+        with open(annot_file_path, 'r') as f:
+            for line in f:
+                box = [float(x) for x in line.strip().split(',')]
+                labels.append(int(box[5]))
+                
+                xmin, ymin, w, h = box[:4]
+                xmax = xmin + w
+                ymax = ymin + h
+                xmin_corr = (xmin/img.shape[1])*self.width
+                xmax_corr = (xmax/img.shape[1])*self.width
+                ymin_corr = (ymin/img.shape[0])*self.height
+                ymax_corr = (ymax/img.shape[0])*self.height
+                boxes.append([xmin_corr, ymin_corr, xmax_corr, ymax_corr])
+        
+        # convert boxes into a torch.Tensor
+        boxes = torch.as_tensor(boxes, dtype=torch.float32)
+        # getting the areas of the boxes
+        area = (boxes[:, 3] - boxes[:, 1]) * (boxes[:, 2] - boxes[:, 0])
+        # suppose all instances are not crowd
+        iscrowd = torch.zeros((boxes.shape[0],), dtype=torch.int64)    
+        labels = torch.as_tensor(labels, dtype=torch.int64)
+
+        target = {}
+        target["boxes"] = boxes
+        target["labels"] = labels
+        target["area"] = area
+        target["iscrowd"] = iscrowd
+        target["masks"] = torch.zeros((boxes.shape[0], self.height, self.width), dtype=torch.uint8)
+        # image_id
+        image_id = torch.tensor([idx])
+        target["image_id"] = image_id
+
+
+        if self.transforms:
+            
+            sample = self.transforms(image=img_res, bboxes=target['boxes'], labels=labels)
+            
+            img_res = sample['image']
+            target['boxes'] = torch.Tensor(sample['bboxes'])
+                      
+        return img_res, target
+
+    def __len__(self):
+        return len(self.imgs)
+
+
+files_dir_train = 'D:/Work/RCI/Visdrone/train'
+files_dir_test = 'D:/Work/RCI/Visdrone/test'
+
+# check dataset
+dataset_train = VisDroneDataset(files_dir_train+'/images',files_dir_train+'/annotations', 1224, 724)
+dataset_test= VisDroneDataset(files_dir_test+'/images',files_dir_test+'/annotations', 1224, 724)
+
+
+# getting the image and target for a test index
+img1, target = dataset_train[1]
+img, target = dataset_test[0]
+print(img.shape, '\n',target)
+
+
+# Function to visualize bounding boxes in the image
+
+def plot_bbox(img, target):
+    # plot the image and bboxes
+    # Bounding boxes are defined as follows: x-min y-min width height
+    fig, a = plt.subplots(1,1)
+    fig.set_size_inches(10,15)
+    a.imshow(img)
+    label_names = {0: '', 1: 'pedestrian', 2: 'people', 3 : 'bicycle', 4: 'car', 5: 'van', 6: 'truck', 7: 'tricycle', 8: 'awning-tricycle', 9: 'bus', 10: 'motor', 11:''}
+    for box, label in zip(target['boxes'], target['labels']):
+      x, y, width, height = box[0], box[1], box[2]-box[0], box[3]-box[1]
+      rect = patches.Rectangle((x, y), width, height,linewidth=1, edgecolor='b', facecolor='none')
+      a.add_patch(rect)
+      label_text = label_names[label.item()]
+      a.text(x, y, f"{label_text}", color='r', fontsize=8)
+    plt.show()
+
+
+    img, target = dataset_train[0]
+plot_bbox(img, target)
+
+
+
+from torchvision.models.detection.mask_rcnn import MaskRCNNPredictor
+from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
+
+
+def get_object_detection_model(num_classes):
+
+    # load a model pre-trained pre-trained on COCO
+    model = torchvision.models.detection.maskrcnn_resnet50_fpn(pretrained=True)
+    
+    # get number of input features for the classifier
+    in_features = model.roi_heads.box_predictor.cls_score.in_features
+    # replace the pre-trained head with a new one
+    model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes) 
+
+    return model
+
+
+# Send train=True for training transforms and False for val/test transforms
+def get_transform(train):
+      
+    if train:
+        return A.Compose([A.HorizontalFlip(0.5),ToTensorV2(p=1.0)], bbox_params={'format': 'pascal_voc', 'label_fields': ['labels']})
+    else:
+        return A.Compose([ToTensorV2(p=1.0)], bbox_params={'format': 'pascal_voc', 'label_fields': ['labels']})
+
+
+
+
+dataset_train = VisDroneDataset(files_dir_train+'/images',files_dir_train+'/annotations', 1224, 724)
+dataset_test= VisDroneDataset(files_dir_test+'/images',files_dir_test+'/annotations', 1224, 724)
+
+
+# split the dataset in train and test set
+torch.manual_seed(1)
+indices = torch.randperm(len(dataset_train)).tolist()
+
+# train test split
+test_split = 0.2
+tsize = int(len(dataset_train)*test_split)
+dataset_train = torch.utils.data.Subset(dataset_train, indices[:-tsize])
+dataset_test = torch.utils.data.Subset(dataset_test, indices[-tsize:])
+
+# define training and validation data loaders
+data_loader = torch.utils.data.DataLoader(
+    dataset_train, batch_size=1, shuffle=True, num_workers=4,
+    collate_fn=utils.collate_fn)
+
+data_loader_test = torch.utils.data.DataLoader(
+    dataset_test, batch_size=1, shuffle=False, num_workers=4,
+    collate_fn=utils.collate_fn)
+
+
+
+# to train on gpu if selected.
+device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+
+num_classes = 12
+
+# get the model using our helper function
+model = get_object_detection_model(num_classes)
+
+# move model to the right device
+model.to(device)
+
+# Define the hyperparameters
+lr = 0.005
+momentum = 0.9
+weight_decay = 0.0005
+step_size = 3
+gamma = 0.1
+
+# construct an optimizer
+params = [p for p in model.parameters() if p.requires_grad]
+optimizer = torch.optim.SGD(params, lr, momentum, weight_decay)
+
+# and a learning rate scheduler which decreases the learning rate by
+# 10x every 3 epochs
+lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer,step_size,gamma)
+
+
+
+
+import matplotlib.pyplot as plt
+
+# initialize lists to store the metrics
+train_losses = []
+train_accuracies = []
+test_losses = []
+test_accuracies = []
+
+# training for 2 epochs
+num_epochs = 20
+
+# initialize variables for early stopping
+best_test_loss = float('inf')
+patience = 5
+counter = 0
+
+for epoch in range(num_epochs):
+    # training for one epoch
+    metric_logger = train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq=10)
+    train_loss = metric_logger.meters['loss'].avg
+    train_accuracy = metric_logger.meters['accuracy'].avg
+    train_losses.append(train_loss)
+    train_accuracies.append(train_accuracy)
+    
+    # update the learning rate
+    lr_scheduler.step()
+
+     # evaluate on the test dataset after each epoch
+    coco_evaluator = evaluate(model, data_loader_test, device=device)
+    test_loss = coco_evaluator.coco_eval['bbox'].stats[0]
+    test_accuracy = coco_evaluator.coco_eval['bbox'].stats[1]
+    test_losses.append(test_loss)
+    test_accuracies.append(test_accuracy)
+    
+    # check if the current test loss is the best so far
+    if test_loss < best_test_loss:
+        best_test_loss = test_loss
+        counter = 0
+    else:
+        counter += 1
+    
+    # check if we should stop training early
+    if counter >= patience:
+        print(f"Early stopping at epoch {epoch}")
+        break
+
+
+
+
+plt.plot(train_losses, label='Loss')
+plt.legend()
+plt.title('Training and Testing Loss')
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
+plt.show()
+
+plt.plot(test_accuracies, label='Accuracy')
+plt.legend()
+plt.title('Training and Testing Accuracy')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.show()
+
+
+
+
+def apply_nms(orig_prediction, iou_thresh=0.1):   
+    boxes = torch.Tensor(orig_prediction['boxes'])
+    scores = torch.Tensor(orig_prediction['scores'])
+    # torchvision returns the indices of the bboxes to keep
+    keep = torchvision.ops.nms(boxes, scores, iou_thresh)
+    
+    final_prediction = orig_prediction
+    final_prediction['boxes'] = final_prediction['boxes'][keep]
+    final_prediction['scores'] = final_prediction['scores'][keep]
+    final_prediction['labels'] = final_prediction['labels'][keep]
+    
+    return final_prediction
+
+# function to convert a torchtensor back to PIL image
+def torch_to_pil(img):
+    return torchtrans.ToPILImage()(img).convert('RGB')
+
+
+
+
+img_tensor = torch.from_numpy(img).to(device)
+
+
+
+model.eval()
+with torch.no_grad():
+    img_tensor = torch.from_numpy(img).to(device)
+    img_tensor = img_tensor.permute(2, 0, 1)  # Permute the dimensions
+    prediction = model([img_tensor])[0]
+    
+print('predicted #boxes: ', len(prediction['labels']))
+print('real #boxes: ', len(target['labels']))
+
+
+def calculate_iou(box1, box2):
+
+    # Calculate the coordinates of the intersection rectangle
+    x1 = max(box1[0], box2[0])
+    y1 = max(box1[1], box2[1])
+    x2 = min(box1[2], box2[2])
+    y2 = min(box1[3], box2[3])
+
+    # If the intersection is empty, return 0
+    if x2 <= x1 or y2 <= y1:
+        return 0.0
+
+    # Calculate the area of intersection rectangle
+    intersection_area = (x2 - x1) * (y2 - y1)
+
+    # Calculate the area of both bounding boxes
+    box1_area = (box1[2] - box1[0]) * (box1[3] - box1[1])
+    box2_area = (box2[2] - box2[0]) * (box2[3] - box2[1])
+
+    # Calculate the union area by subtracting the intersection area
+    # and adding the areas of both bounding boxes
+    union_area = box1_area + box2_area - intersection_area
+
+    # Calculate the IoU by dividing the intersection area by the union area
+    iou = intersection_area / union_area
+    return iou
+
+
+
+def calculate_map(prediction, target, iou_threshold=0.5):
+    pred_labels = prediction['labels']
+    true_labels = target['labels']
+    matched_true_boxes = np.zeros(len(true_labels))
+    matched_scores = np.zeros(len(pred_labels))
+    for i, pred_box in enumerate(prediction['boxes']):
+        for j, true_box in enumerate(target['boxes']):
+            iou = calculate_iou(pred_box, true_box)
+            if iou > iou_threshold and true_labels[j] == pred_labels[i]:
+                matched_true_boxes[j] = 1
+                matched_scores[i] = prediction['scores'][i]
+    accuracy = np.sum(matched_true_boxes) / len(true_labels)
+    return accuracy
+
+
+print('EXPECTED OUTPUT ====> ')
+plot_bbox(torch_to_pil(img_tensor), target)
+
+
+print('MODEL OUTPUT ====> ')
+prediction_cpu = {k: v.cpu() for k, v in prediction.items()}
+plot_bbox(torch_to_pil(img_tensor.cpu()), prediction_cpu)
+
+
+
+nms_prediction = apply_nms(prediction, iou_thresh=0.5)
+nms_prediction_tensors = {k: torch.tensor(v) for k, v in nms_prediction.items()}
+nms_prediction_cpu = {k: v.cpu().numpy() for k, v in nms_prediction_tensors.items()}
+print('NMS APPLIED OUTPUT ====> ')
+plot_bbox(torch_to_pil(img_tensor), nms_prediction_cpu)
+
+
+
+val_dataset = VisDroneDataset('/content/images','/content/annotations', 480, 480, transforms= get_transform(train=True))
+# pick randome image from the val set
+img, target = val_dataset[random.randint(0, len(val_dataset) - 1)]
+# put the model in evaluation mode
+model.eval()
+with torch.no_grad():
+    prediction = model([img.to(device)])[0]
+    
+print('EXPECTED OUTPUT ====> \n')
+plot_bbox(torch_to_pil(img), target)
+
+print('MODEL OUTPUT ====> \n')
+nms_prediction = apply_nms(prediction, iou_thresh=0.01)
+nms_prediction_cpu = nms_prediction['boxes'].cpu().numpy()  # transfer the boxes tensor to CPU and convert it to a numpy array
+nms_prediction['boxes'] = nms_prediction_cpu  # update the dictionary with the new numpy array
+
+plot_bbox(torch_to_pil(img), nms_prediction)
+
+mAP = calculate_map(nms_prediction, target, iou_threshold=0.5)
+print('mAP ====> ', mAP)
