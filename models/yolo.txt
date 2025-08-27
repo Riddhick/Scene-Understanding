@@ -1,0 +1,62 @@
+from ultralytics import YOLO
+model = YOLO("/kaggle/input/yolo_visdrone_960/pytorch/default/1/best_46eps_l.pt")  
+results = model.train(data="/kaggle/input/new-yaml/visdrone.yaml",
+    epochs=50,
+    imgsz=960,
+    batch=8,
+    patience=20,   # 🔥 Early stopping if no improvement for 20 epochs
+    optimizer="Adam",  # better for small object learning sometimes
+    lr0=1e-2,
+    device = "0,1",# initial learning rate
+    cos_lr=True,  # cosine learning rate schedule
+    val=True,  # ensures validation is run
+    plots=True,  # saves loss curves
+    save=True ,
+    resume =True)
+
+import cv2
+from matplotlib import pyplot as plt
+
+# Load your checkpoint (last or best)
+model = YOLO("/kaggle/working/runs/detect/train2/weights/last.pt")  # or last.pt
+
+# Path to your test image
+img_path = "/kaggle/input/visdrone-dataset/VisDrone_Dataset/VisDrone2019-DET-test-challenge/images/0000067_01852_d_0000003.jpg"
+
+# Run inference
+results = model.predict(img_path, imgsz=640, conf=0.25)  # adjust confidence threshold
+
+# results is a list; first element corresponds to the image
+r = results[0]
+
+# Print detected objects
+print("Detected classes:", r.names)
+print("Boxes:", r.boxes.xyxy)
+print("Scores:", r.boxes.conf)
+
+# Visualize
+annotated_img = r.plot()  # returns image with boxes drawn
+plt.imshow(cv2.cvtColor(annotated_img, cv2.COLOR_BGR2RGB))
+plt.axis("off")
+plt.show()
+
+
+
+
+
+##yaml
+train: /kaggle/input/visdrone-dataset/VisDrone_Dataset/VisDrone2019-DET-train/images
+val:   /kaggle/input/visdrone-dataset/VisDrone_Dataset/VisDrone2019-DET-val/images
+
+nc: 10
+names:
+  - pedestrian
+  - people
+  - bicycle
+  - car
+  - van
+  - truck
+  - tricycle
+  - awning-tricycle
+  - bus
+  - motor
