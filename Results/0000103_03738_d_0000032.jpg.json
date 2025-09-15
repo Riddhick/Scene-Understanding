@@ -1,0 +1,98 @@
+{
+    "objects": [
+        {
+            "id": 1,
+            "class": "pedestrian",
+            "confidence": 0.7090675234794617,
+            "bbox": [
+                262,
+                219,
+                340,
+                424
+            ],
+            "center": [
+                301,
+                321
+            ]
+        },
+        {
+            "id": 2,
+            "class": "pedestrian",
+            "confidence": 0.5869757533073425,
+            "bbox": [
+                174,
+                355,
+                309,
+                622
+            ],
+            "center": [
+                241,
+                488
+            ]
+        },
+        {
+            "id": 1,
+            "class": "truck",
+            "confidence": 0.5062958598136902,
+            "bbox": [
+                943,
+                17,
+                1360,
+                372
+            ],
+            "center": [
+                1151,
+                194
+            ]
+        }
+    ],
+    "distances": [
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian2",
+            "distance_px": 177.45
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "truck1",
+            "distance_px": 859.44
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "truck1",
+            "distance_px": 956.31
+        }
+    ],
+    "relationships": [
+        {
+            "subject": "pedestrian 1",
+            "predicate": "right of",
+            "object": "pedestrian 2"
+        },
+        {
+            "subject": "pedestrian 1",
+            "predicate": "left of",
+            "object": "truck 1"
+        },
+        {
+            "subject": "pedestrian 2",
+            "predicate": "left of",
+            "object": "pedestrian 1"
+        },
+        {
+            "subject": "pedestrian 2",
+            "predicate": "left of",
+            "object": "truck 1"
+        },
+        {
+            "subject": "truck 1",
+            "predicate": "right of",
+            "object": "pedestrian 1"
+        },
+        {
+            "subject": "truck 1",
+            "predicate": "right of",
+            "object": "pedestrian 2"
+        }
+    ]
+}

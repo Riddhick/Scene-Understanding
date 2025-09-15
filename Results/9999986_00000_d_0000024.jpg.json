@@ -1,0 +1,258 @@
+{
+    "objects": [
+        {
+            "id": 1,
+            "class": "car",
+            "confidence": 0.8407385945320129,
+            "bbox": [
+                811,
+                332,
+                871,
+                384
+            ],
+            "center": [
+                841,
+                358
+            ]
+        },
+        {
+            "id": 1,
+            "class": "pedestrian",
+            "confidence": 0.816541850566864,
+            "bbox": [
+                790,
+                784,
+                821,
+                838
+            ],
+            "center": [
+                805,
+                811
+            ]
+        },
+        {
+            "id": 2,
+            "class": "pedestrian",
+            "confidence": 0.697238564491272,
+            "bbox": [
+                993,
+                477,
+                1010,
+                508
+            ],
+            "center": [
+                1001,
+                492
+            ]
+        },
+        {
+            "id": 3,
+            "class": "pedestrian",
+            "confidence": 0.5730472207069397,
+            "bbox": [
+                587,
+                276,
+                597,
+                302
+            ],
+            "center": [
+                592,
+                289
+            ]
+        },
+        {
+            "id": 1,
+            "class": "motor",
+            "confidence": 0.5494419932365417,
+            "bbox": [
+                962,
+                381,
+                990,
+                417
+            ],
+            "center": [
+                976,
+                399
+            ]
+        },
+        {
+            "id": 4,
+            "class": "pedestrian",
+            "confidence": 0.5316272974014282,
+            "bbox": [
+                645,
+                281,
+                657,
+                306
+            ],
+            "center": [
+                651,
+                293
+            ]
+        },
+        {
+            "id": 5,
+            "class": "pedestrian",
+            "confidence": 0.4313923120498657,
+            "bbox": [
+                589,
+                279,
+                600,
+                307
+            ],
+            "center": [
+                594,
+                293
+            ]
+        }
+    ],
+    "distances": [
+        {
+            "object1": "car1",
+            "object2": "pedestrian1",
+            "distance_px": 454.43
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian2",
+            "distance_px": 208.7
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian3",
+            "distance_px": 258.38
+        },
+        {
+            "object1": "car1",
+            "object2": "motor1",
+            "distance_px": 141.09
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian4",
+            "distance_px": 200.81
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian5",
+            "distance_px": 255.41
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian2",
+            "distance_px": 374.4
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian3",
+            "distance_px": 563.78
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "motor1",
+            "distance_px": 446.08
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian4",
+            "distance_px": 540.41
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian5",
+            "distance_px": 559.33
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "pedestrian3",
+            "distance_px": 456.61
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "motor1",
+            "distance_px": 96.3
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "pedestrian4",
+            "distance_px": 402.62
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "pedestrian5",
+            "distance_px": 453.05
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "motor1",
+            "distance_px": 399.44
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "pedestrian4",
+            "distance_px": 59.14
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "pedestrian5",
+            "distance_px": 4.47
+        },
+        {
+            "object1": "motor1",
+            "object2": "pedestrian4",
+            "distance_px": 341.85
+        },
+        {
+            "object1": "motor1",
+            "object2": "pedestrian5",
+            "distance_px": 396.43
+        },
+        {
+            "object1": "pedestrian4",
+            "object2": "pedestrian5",
+            "distance_px": 57.0
+        }
+    ],
+    "relationships": [
+        {
+            "subject": "car 1",
+            "predicate": "left of",
+            "object": "motor 1"
+        },
+        {
+            "subject": "pedestrian 3",
+            "predicate": "left of",
+            "object": "pedestrian 4"
+        },
+        {
+            "subject": "pedestrian 3",
+            "predicate": "left of",
+            "object": "pedestrian 5"
+        },
+        {
+            "subject": "motor 1",
+            "predicate": "right of",
+            "object": "car 1"
+        },
+        {
+            "subject": "pedestrian 4",
+            "predicate": "right of",
+            "object": "pedestrian 3"
+        },
+        {
+            "subject": "pedestrian 4",
+            "predicate": "right of",
+            "object": "pedestrian 5"
+        },
+        {
+            "subject": "pedestrian 5",
+            "predicate": "right of",
+            "object": "pedestrian 3"
+        },
+        {
+            "subject": "pedestrian 5",
+            "predicate": "left of",
+            "object": "pedestrian 4"
+        }
+    ]
+}

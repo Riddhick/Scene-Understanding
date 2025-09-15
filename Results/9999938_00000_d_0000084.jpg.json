@@ -1,0 +1,2463 @@
+{
+    "objects": [
+        {
+            "id": 1,
+            "class": "car",
+            "confidence": 0.8167200088500977,
+            "bbox": [
+                860,
+                117,
+                937,
+                194
+            ],
+            "center": [
+                898,
+                155
+            ]
+        },
+        {
+            "id": 1,
+            "class": "bus",
+            "confidence": 0.8092164993286133,
+            "bbox": [
+                239,
+                448,
+                500,
+                588
+            ],
+            "center": [
+                369,
+                518
+            ]
+        },
+        {
+            "id": 2,
+            "class": "car",
+            "confidence": 0.7969302535057068,
+            "bbox": [
+                609,
+                376,
+                696,
+                462
+            ],
+            "center": [
+                652,
+                419
+            ]
+        },
+        {
+            "id": 1,
+            "class": "pedestrian",
+            "confidence": 0.7659719586372375,
+            "bbox": [
+                788,
+                448,
+                804,
+                465
+            ],
+            "center": [
+                796,
+                456
+            ]
+        },
+        {
+            "id": 2,
+            "class": "pedestrian",
+            "confidence": 0.7407008409500122,
+            "bbox": [
+                466,
+                302,
+                480,
+                325
+            ],
+            "center": [
+                473,
+                313
+            ]
+        },
+        {
+            "id": 1,
+            "class": "van",
+            "confidence": 0.7400816679000854,
+            "bbox": [
+                188,
+                661,
+                315,
+                777
+            ],
+            "center": [
+                251,
+                719
+            ]
+        },
+        {
+            "id": 3,
+            "class": "pedestrian",
+            "confidence": 0.7372159957885742,
+            "bbox": [
+                763,
+                598,
+                779,
+                615
+            ],
+            "center": [
+                771,
+                606
+            ]
+        },
+        {
+            "id": 2,
+            "class": "bus",
+            "confidence": 0.7341247200965881,
+            "bbox": [
+                0,
+                586,
+                277,
+                788
+            ],
+            "center": [
+                138,
+                687
+            ]
+        },
+        {
+            "id": 4,
+            "class": "pedestrian",
+            "confidence": 0.7321162819862366,
+            "bbox": [
+                512,
+                294,
+                527,
+                314
+            ],
+            "center": [
+                519,
+                304
+            ]
+        },
+        {
+            "id": 5,
+            "class": "pedestrian",
+            "confidence": 0.6643428206443787,
+            "bbox": [
+                625,
+                110,
+                638,
+                134
+            ],
+            "center": [
+                631,
+                122
+            ]
+        },
+        {
+            "id": 6,
+            "class": "pedestrian",
+            "confidence": 0.6546767354011536,
+            "bbox": [
+                639,
+                113,
+                649,
+                133
+            ],
+            "center": [
+                644,
+                123
+            ]
+        },
+        {
+            "id": 7,
+            "class": "pedestrian",
+            "confidence": 0.6344215273857117,
+            "bbox": [
+                707,
+                594,
+                723,
+                613
+            ],
+            "center": [
+                715,
+                603
+            ]
+        },
+        {
+            "id": 8,
+            "class": "pedestrian",
+            "confidence": 0.6252917647361755,
+            "bbox": [
+                494,
+                315,
+                510,
+                334
+            ],
+            "center": [
+                502,
+                324
+            ]
+        },
+        {
+            "id": 9,
+            "class": "pedestrian",
+            "confidence": 0.6117497682571411,
+            "bbox": [
+                573,
+                201,
+                585,
+                222
+            ],
+            "center": [
+                579,
+                211
+            ]
+        },
+        {
+            "id": 10,
+            "class": "pedestrian",
+            "confidence": 0.6058168411254883,
+            "bbox": [
+                639,
+                150,
+                650,
+                173
+            ],
+            "center": [
+                644,
+                161
+            ]
+        },
+        {
+            "id": 11,
+            "class": "pedestrian",
+            "confidence": 0.5758460760116577,
+            "bbox": [
+                551,
+                204,
+                564,
+                224
+            ],
+            "center": [
+                557,
+                214
+            ]
+        },
+        {
+            "id": 12,
+            "class": "pedestrian",
+            "confidence": 0.5217320919036865,
+            "bbox": [
+                499,
+                302,
+                512,
+                318
+            ],
+            "center": [
+                505,
+                310
+            ]
+        },
+        {
+            "id": 1,
+            "class": "motor",
+            "confidence": 0.5007901191711426,
+            "bbox": [
+                81,
+                119,
+                116,
+                143
+            ],
+            "center": [
+                98,
+                131
+            ]
+        },
+        {
+            "id": 13,
+            "class": "pedestrian",
+            "confidence": 0.4949895739555359,
+            "bbox": [
+                641,
+                131,
+                651,
+                152
+            ],
+            "center": [
+                646,
+                141
+            ]
+        },
+        {
+            "id": 14,
+            "class": "pedestrian",
+            "confidence": 0.49158090353012085,
+            "bbox": [
+                580,
+                200,
+                595,
+                221
+            ],
+            "center": [
+                587,
+                210
+            ]
+        },
+        {
+            "id": 15,
+            "class": "pedestrian",
+            "confidence": 0.47649505734443665,
+            "bbox": [
+                649,
+                146,
+                661,
+                165
+            ],
+            "center": [
+                655,
+                155
+            ]
+        },
+        {
+            "id": 16,
+            "class": "pedestrian",
+            "confidence": 0.363333523273468,
+            "bbox": [
+                864,
+                536,
+                880,
+                552
+            ],
+            "center": [
+                872,
+                544
+            ]
+        },
+        {
+            "id": 17,
+            "class": "pedestrian",
+            "confidence": 0.337057888507843,
+            "bbox": [
+                584,
+                206,
+                601,
+                227
+            ],
+            "center": [
+                592,
+                216
+            ]
+        },
+        {
+            "id": 18,
+            "class": "pedestrian",
+            "confidence": 0.3023238480091095,
+            "bbox": [
+                650,
+                153,
+                661,
+                174
+            ],
+            "center": [
+                655,
+                163
+            ]
+        },
+        {
+            "id": 19,
+            "class": "pedestrian",
+            "confidence": 0.2986008822917938,
+            "bbox": [
+                818,
+                426,
+                834,
+                448
+            ],
+            "center": [
+                826,
+                437
+            ]
+        },
+        {
+            "id": 2,
+            "class": "van",
+            "confidence": 0.25301334261894226,
+            "bbox": [
+                750,
+                590,
+                855,
+                726
+            ],
+            "center": [
+                802,
+                658
+            ]
+        }
+    ],
+    "distances": [
+        {
+            "object1": "car1",
+            "object2": "bus1",
+            "distance_px": 641.57
+        },
+        {
+            "object1": "car1",
+            "object2": "car2",
+            "distance_px": 360.85
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian1",
+            "distance_px": 317.81
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian2",
+            "distance_px": 453.42
+        },
+        {
+            "object1": "car1",
+            "object2": "van1",
+            "distance_px": 858.32
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian3",
+            "distance_px": 468.54
+        },
+        {
+            "object1": "car1",
+            "object2": "bus2",
+            "distance_px": 927.7
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian4",
+            "distance_px": 407.24
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian5",
+            "distance_px": 269.03
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian6",
+            "distance_px": 256.01
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian7",
+            "distance_px": 483.93
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian8",
+            "distance_px": 430.55
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian9",
+            "distance_px": 323.88
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian10",
+            "distance_px": 254.07
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian11",
+            "distance_px": 346.07
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian12",
+            "distance_px": 422.46
+        },
+        {
+            "object1": "car1",
+            "object2": "motor1",
+            "distance_px": 800.36
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian13",
+            "distance_px": 252.39
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian14",
+            "distance_px": 315.83
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian15",
+            "distance_px": 243.0
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian16",
+            "distance_px": 389.87
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian17",
+            "distance_px": 312.02
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian18",
+            "distance_px": 243.13
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian19",
+            "distance_px": 291.05
+        },
+        {
+            "object1": "car1",
+            "object2": "van2",
+            "distance_px": 512.08
+        },
+        {
+            "object1": "bus1",
+            "object2": "car2",
+            "distance_px": 299.82
+        },
+        {
+            "object1": "bus1",
+            "object2": "pedestrian1",
+            "distance_px": 431.48
+        },
+        {
+            "object1": "bus1",
+            "object2": "pedestrian2",
+            "distance_px": 229.87
+        },
+        {
+            "object1": "bus1",
+            "object2": "van1",
+            "distance_px": 233.08
+        },
+        {
+            "object1": "bus1",
+            "object2": "pedestrian3",
+            "distance_px": 411.52
+        },
+        {
+            "object1": "bus1",
+            "object2": "bus2",
+            "distance_px": 286.22
+        },
+        {
+            "object1": "bus1",
+            "object2": "pedestrian4",
+            "distance_px": 261.34
+        },
+        {
+            "object1": "bus1",
+            "object2": "pedestrian5",
+            "distance_px": 474.83
+        },
+        {
+            "object1": "bus1",
+            "object2": "pedestrian6",
+            "distance_px": 481.3
+        },
+        {
+            "object1": "bus1",
+            "object2": "pedestrian7",
+            "distance_px": 356.29
+        },
+        {
+            "object1": "bus1",
+            "object2": "pedestrian8",
+            "distance_px": 235.21
+        },
+        {
+            "object1": "bus1",
+            "object2": "pedestrian9",
+            "distance_px": 371.95
+        },
+        {
+            "object1": "bus1",
+            "object2": "pedestrian10",
+            "distance_px": 450.64
+        },
+        {
+            "object1": "bus1",
+            "object2": "pedestrian11",
+            "distance_px": 357.44
+        },
+        {
+            "object1": "bus1",
+            "object2": "pedestrian12",
+            "distance_px": 248.52
+        },
+        {
+            "object1": "bus1",
+            "object2": "motor1",
+            "distance_px": 472.45
+        },
+        {
+            "object1": "bus1",
+            "object2": "pedestrian13",
+            "distance_px": 467.82
+        },
+        {
+            "object1": "bus1",
+            "object2": "pedestrian14",
+            "distance_px": 377.34
+        },
+        {
+            "object1": "bus1",
+            "object2": "pedestrian15",
+            "distance_px": 462.13
+        },
+        {
+            "object1": "bus1",
+            "object2": "pedestrian16",
+            "distance_px": 503.67
+        },
+        {
+            "object1": "bus1",
+            "object2": "pedestrian17",
+            "distance_px": 375.41
+        },
+        {
+            "object1": "bus1",
+            "object2": "pedestrian18",
+            "distance_px": 455.87
+        },
+        {
+            "object1": "bus1",
+            "object2": "pedestrian19",
+            "distance_px": 464.12
+        },
+        {
+            "object1": "bus1",
+            "object2": "van2",
+            "distance_px": 455.07
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian1",
+            "distance_px": 148.68
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian2",
+            "distance_px": 208.03
+        },
+        {
+            "object1": "car2",
+            "object2": "van1",
+            "distance_px": 500.8
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian3",
+            "distance_px": 221.65
+        },
+        {
+            "object1": "car2",
+            "object2": "bus2",
+            "distance_px": 579.67
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian4",
+            "distance_px": 175.82
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian5",
+            "distance_px": 297.74
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian6",
+            "distance_px": 296.11
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian7",
+            "distance_px": 194.49
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian8",
+            "distance_px": 177.55
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian9",
+            "distance_px": 220.44
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian10",
+            "distance_px": 258.12
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian11",
+            "distance_px": 225.94
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian12",
+            "distance_px": 183.0
+        },
+        {
+            "object1": "car2",
+            "object2": "motor1",
+            "distance_px": 624.39
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian13",
+            "distance_px": 278.06
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian14",
+            "distance_px": 218.87
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian15",
+            "distance_px": 264.02
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian16",
+            "distance_px": 253.03
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian17",
+            "distance_px": 211.68
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian18",
+            "distance_px": 256.02
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian19",
+            "distance_px": 174.93
+        },
+        {
+            "object1": "car2",
+            "object2": "van2",
+            "distance_px": 282.17
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian2",
+            "distance_px": 353.24
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "van1",
+            "distance_px": 605.14
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian3",
+            "distance_px": 152.07
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "bus2",
+            "distance_px": 697.37
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian4",
+            "distance_px": 315.96
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian5",
+            "distance_px": 372.53
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian6",
+            "distance_px": 366.05
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian7",
+            "distance_px": 167.84
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian8",
+            "distance_px": 322.27
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian9",
+            "distance_px": 327.28
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian10",
+            "distance_px": 331.86
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian11",
+            "distance_px": 340.12
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian12",
+            "distance_px": 325.57
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "motor1",
+            "distance_px": 769.95
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian13",
+            "distance_px": 348.89
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian14",
+            "distance_px": 322.8
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian15",
+            "distance_px": 332.39
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian16",
+            "distance_px": 116.28
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian17",
+            "distance_px": 314.99
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian18",
+            "distance_px": 325.16
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "pedestrian19",
+            "distance_px": 35.51
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "van2",
+            "distance_px": 202.09
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "van1",
+            "distance_px": 462.73
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "pedestrian3",
+            "distance_px": 417.92
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "bus2",
+            "distance_px": 502.1
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "pedestrian4",
+            "distance_px": 46.87
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "pedestrian5",
+            "distance_px": 247.88
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "pedestrian6",
+            "distance_px": 255.62
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "pedestrian7",
+            "distance_px": 377.71
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "pedestrian8",
+            "distance_px": 31.02
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "pedestrian9",
+            "distance_px": 147.11
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "pedestrian10",
+            "distance_px": 228.79
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "pedestrian11",
+            "distance_px": 129.83
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "pedestrian12",
+            "distance_px": 32.14
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "motor1",
+            "distance_px": 416.83
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "pedestrian13",
+            "distance_px": 243.95
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "pedestrian14",
+            "distance_px": 153.64
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "pedestrian15",
+            "distance_px": 241.01
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "pedestrian16",
+            "distance_px": 461.04
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "pedestrian17",
+            "distance_px": 153.53
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "pedestrian18",
+            "distance_px": 235.85
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "pedestrian19",
+            "distance_px": 374.15
+        },
+        {
+            "object1": "pedestrian2",
+            "object2": "van2",
+            "distance_px": 476.72
+        },
+        {
+            "object1": "van1",
+            "object2": "pedestrian3",
+            "distance_px": 532.14
+        },
+        {
+            "object1": "van1",
+            "object2": "bus2",
+            "distance_px": 117.44
+        },
+        {
+            "object1": "van1",
+            "object2": "pedestrian4",
+            "distance_px": 494.01
+        },
+        {
+            "object1": "van1",
+            "object2": "pedestrian5",
+            "distance_px": 707.68
+        },
+        {
+            "object1": "van1",
+            "object2": "pedestrian6",
+            "distance_px": 713.91
+        },
+        {
+            "object1": "van1",
+            "object2": "pedestrian7",
+            "distance_px": 478.28
+        },
+        {
+            "object1": "van1",
+            "object2": "pedestrian8",
+            "distance_px": 468.0
+        },
+        {
+            "object1": "van1",
+            "object2": "pedestrian9",
+            "distance_px": 604.69
+        },
+        {
+            "object1": "van1",
+            "object2": "pedestrian10",
+            "distance_px": 682.5
+        },
+        {
+            "object1": "van1",
+            "object2": "pedestrian11",
+            "distance_px": 590.48
+        },
+        {
+            "object1": "van1",
+            "object2": "pedestrian12",
+            "distance_px": 481.45
+        },
+        {
+            "object1": "van1",
+            "object2": "motor1",
+            "distance_px": 607.58
+        },
+        {
+            "object1": "van1",
+            "object2": "pedestrian13",
+            "distance_px": 700.08
+        },
+        {
+            "object1": "van1",
+            "object2": "pedestrian14",
+            "distance_px": 609.9
+        },
+        {
+            "object1": "van1",
+            "object2": "pedestrian15",
+            "distance_px": 693.77
+        },
+        {
+            "object1": "van1",
+            "object2": "pedestrian16",
+            "distance_px": 645.19
+        },
+        {
+            "object1": "van1",
+            "object2": "pedestrian17",
+            "distance_px": 607.69
+        },
+        {
+            "object1": "van1",
+            "object2": "pedestrian18",
+            "distance_px": 687.28
+        },
+        {
+            "object1": "van1",
+            "object2": "pedestrian19",
+            "distance_px": 640.43
+        },
+        {
+            "object1": "van1",
+            "object2": "van2",
+            "distance_px": 554.37
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "bus2",
+            "distance_px": 638.16
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "pedestrian4",
+            "distance_px": 393.33
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "pedestrian5",
+            "distance_px": 503.84
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "pedestrian6",
+            "distance_px": 499.42
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "pedestrian7",
+            "distance_px": 56.08
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "pedestrian8",
+            "distance_px": 389.72
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "pedestrian9",
+            "distance_px": 439.19
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "pedestrian10",
+            "distance_px": 462.77
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "pedestrian11",
+            "distance_px": 446.61
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "pedestrian12",
+            "distance_px": 397.96
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "motor1",
+            "distance_px": 823.74
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "pedestrian13",
+            "distance_px": 481.51
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "pedestrian14",
+            "distance_px": 436.66
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "pedestrian15",
+            "distance_px": 465.68
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "pedestrian16",
+            "distance_px": 118.51
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "pedestrian17",
+            "distance_px": 429.12
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "pedestrian18",
+            "distance_px": 457.94
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "pedestrian19",
+            "distance_px": 177.72
+        },
+        {
+            "object1": "pedestrian3",
+            "object2": "van2",
+            "distance_px": 60.54
+        },
+        {
+            "object1": "bus2",
+            "object2": "pedestrian4",
+            "distance_px": 540.23
+        },
+        {
+            "object1": "bus2",
+            "object2": "pedestrian5",
+            "distance_px": 749.85
+        },
+        {
+            "object1": "bus2",
+            "object2": "pedestrian6",
+            "distance_px": 757.71
+        },
+        {
+            "object1": "bus2",
+            "object2": "pedestrian7",
+            "distance_px": 583.08
+        },
+        {
+            "object1": "bus2",
+            "object2": "pedestrian8",
+            "distance_px": 514.07
+        },
+        {
+            "object1": "bus2",
+            "object2": "pedestrian9",
+            "distance_px": 648.89
+        },
+        {
+            "object1": "bus2",
+            "object2": "pedestrian10",
+            "distance_px": 729.87
+        },
+        {
+            "object1": "bus2",
+            "object2": "pedestrian11",
+            "distance_px": 631.89
+        },
+        {
+            "object1": "bus2",
+            "object2": "pedestrian12",
+            "distance_px": 526.13
+        },
+        {
+            "object1": "bus2",
+            "object2": "motor1",
+            "distance_px": 557.44
+        },
+        {
+            "object1": "bus2",
+            "object2": "pedestrian13",
+            "distance_px": 745.77
+        },
+        {
+            "object1": "bus2",
+            "object2": "pedestrian14",
+            "distance_px": 655.08
+        },
+        {
+            "object1": "bus2",
+            "object2": "pedestrian15",
+            "distance_px": 741.83
+        },
+        {
+            "object1": "bus2",
+            "object2": "pedestrian16",
+            "distance_px": 747.8
+        },
+        {
+            "object1": "bus2",
+            "object2": "pedestrian17",
+            "distance_px": 654.18
+        },
+        {
+            "object1": "bus2",
+            "object2": "pedestrian18",
+            "distance_px": 736.11
+        },
+        {
+            "object1": "bus2",
+            "object2": "pedestrian19",
+            "distance_px": 732.01
+        },
+        {
+            "object1": "bus2",
+            "object2": "van2",
+            "distance_px": 664.63
+        },
+        {
+            "object1": "pedestrian4",
+            "object2": "pedestrian5",
+            "distance_px": 213.7
+        },
+        {
+            "object1": "pedestrian4",
+            "object2": "pedestrian6",
+            "distance_px": 219.97
+        },
+        {
+            "object1": "pedestrian4",
+            "object2": "pedestrian7",
+            "distance_px": 357.52
+        },
+        {
+            "object1": "pedestrian4",
+            "object2": "pedestrian8",
+            "distance_px": 26.25
+        },
+        {
+            "object1": "pedestrian4",
+            "object2": "pedestrian9",
+            "distance_px": 110.68
+        },
+        {
+            "object1": "pedestrian4",
+            "object2": "pedestrian10",
+            "distance_px": 189.93
+        },
+        {
+            "object1": "pedestrian4",
+            "object2": "pedestrian11",
+            "distance_px": 97.69
+        },
+        {
+            "object1": "pedestrian4",
+            "object2": "pedestrian12",
+            "distance_px": 15.23
+        },
+        {
+            "object1": "pedestrian4",
+            "object2": "motor1",
+            "distance_px": 455.16
+        },
+        {
+            "object1": "pedestrian4",
+            "object2": "pedestrian13",
+            "distance_px": 206.63
+        },
+        {
+            "object1": "pedestrian4",
+            "object2": "pedestrian14",
+            "distance_px": 116.02
+        },
+        {
+            "object1": "pedestrian4",
+            "object2": "pedestrian15",
+            "distance_px": 201.73
+        },
+        {
+            "object1": "pedestrian4",
+            "object2": "pedestrian16",
+            "distance_px": 426.86
+        },
+        {
+            "object1": "pedestrian4",
+            "object2": "pedestrian17",
+            "distance_px": 114.34
+        },
+        {
+            "object1": "pedestrian4",
+            "object2": "pedestrian18",
+            "distance_px": 195.9
+        },
+        {
+            "object1": "pedestrian4",
+            "object2": "pedestrian19",
+            "distance_px": 334.57
+        },
+        {
+            "object1": "pedestrian4",
+            "object2": "van2",
+            "distance_px": 453.22
+        },
+        {
+            "object1": "pedestrian5",
+            "object2": "pedestrian6",
+            "distance_px": 13.04
+        },
+        {
+            "object1": "pedestrian5",
+            "object2": "pedestrian7",
+            "distance_px": 488.28
+        },
+        {
+            "object1": "pedestrian5",
+            "object2": "pedestrian8",
+            "distance_px": 239.68
+        },
+        {
+            "object1": "pedestrian5",
+            "object2": "pedestrian9",
+            "distance_px": 103.08
+        },
+        {
+            "object1": "pedestrian5",
+            "object2": "pedestrian10",
+            "distance_px": 41.11
+        },
+        {
+            "object1": "pedestrian5",
+            "object2": "pedestrian11",
+            "distance_px": 118.07
+        },
+        {
+            "object1": "pedestrian5",
+            "object2": "pedestrian12",
+            "distance_px": 226.32
+        },
+        {
+            "object1": "pedestrian5",
+            "object2": "motor1",
+            "distance_px": 533.08
+        },
+        {
+            "object1": "pedestrian5",
+            "object2": "pedestrian13",
+            "distance_px": 24.21
+        },
+        {
+            "object1": "pedestrian5",
+            "object2": "pedestrian14",
+            "distance_px": 98.39
+        },
+        {
+            "object1": "pedestrian5",
+            "object2": "pedestrian15",
+            "distance_px": 40.8
+        },
+        {
+            "object1": "pedestrian5",
+            "object2": "pedestrian16",
+            "distance_px": 485.97
+        },
+        {
+            "object1": "pedestrian5",
+            "object2": "pedestrian17",
+            "distance_px": 101.77
+        },
+        {
+            "object1": "pedestrian5",
+            "object2": "pedestrian18",
+            "distance_px": 47.51
+        },
+        {
+            "object1": "pedestrian5",
+            "object2": "pedestrian19",
+            "distance_px": 370.47
+        },
+        {
+            "object1": "pedestrian5",
+            "object2": "van2",
+            "distance_px": 562.62
+        },
+        {
+            "object1": "pedestrian6",
+            "object2": "pedestrian7",
+            "distance_px": 485.22
+        },
+        {
+            "object1": "pedestrian6",
+            "object2": "pedestrian8",
+            "distance_px": 246.1
+        },
+        {
+            "object1": "pedestrian6",
+            "object2": "pedestrian9",
+            "distance_px": 109.4
+        },
+        {
+            "object1": "pedestrian6",
+            "object2": "pedestrian10",
+            "distance_px": 38.0
+        },
+        {
+            "object1": "pedestrian6",
+            "object2": "pedestrian11",
+            "distance_px": 125.9
+        },
+        {
+            "object1": "pedestrian6",
+            "object2": "pedestrian12",
+            "distance_px": 233.0
+        },
+        {
+            "object1": "pedestrian6",
+            "object2": "motor1",
+            "distance_px": 546.06
+        },
+        {
+            "object1": "pedestrian6",
+            "object2": "pedestrian13",
+            "distance_px": 18.11
+        },
+        {
+            "object1": "pedestrian6",
+            "object2": "pedestrian14",
+            "distance_px": 104.01
+        },
+        {
+            "object1": "pedestrian6",
+            "object2": "pedestrian15",
+            "distance_px": 33.84
+        },
+        {
+            "object1": "pedestrian6",
+            "object2": "pedestrian16",
+            "distance_px": 478.77
+        },
+        {
+            "object1": "pedestrian6",
+            "object2": "pedestrian17",
+            "distance_px": 106.55
+        },
+        {
+            "object1": "pedestrian6",
+            "object2": "pedestrian18",
+            "distance_px": 41.48
+        },
+        {
+            "object1": "pedestrian6",
+            "object2": "pedestrian19",
+            "distance_px": 362.93
+        },
+        {
+            "object1": "pedestrian6",
+            "object2": "van2",
+            "distance_px": 557.84
+        },
+        {
+            "object1": "pedestrian7",
+            "object2": "pedestrian8",
+            "distance_px": 351.01
+        },
+        {
+            "object1": "pedestrian7",
+            "object2": "pedestrian9",
+            "distance_px": 414.92
+        },
+        {
+            "object1": "pedestrian7",
+            "object2": "pedestrian10",
+            "distance_px": 447.67
+        },
+        {
+            "object1": "pedestrian7",
+            "object2": "pedestrian11",
+            "distance_px": 419.86
+        },
+        {
+            "object1": "pedestrian7",
+            "object2": "pedestrian12",
+            "distance_px": 360.48
+        },
+        {
+            "object1": "pedestrian7",
+            "object2": "motor1",
+            "distance_px": 776.84
+        },
+        {
+            "object1": "pedestrian7",
+            "object2": "pedestrian13",
+            "distance_px": 467.12
+        },
+        {
+            "object1": "pedestrian7",
+            "object2": "pedestrian14",
+            "distance_px": 413.32
+        },
+        {
+            "object1": "pedestrian7",
+            "object2": "pedestrian15",
+            "distance_px": 452.0
+        },
+        {
+            "object1": "pedestrian7",
+            "object2": "pedestrian16",
+            "distance_px": 167.72
+        },
+        {
+            "object1": "pedestrian7",
+            "object2": "pedestrian17",
+            "distance_px": 406.08
+        },
+        {
+            "object1": "pedestrian7",
+            "object2": "pedestrian18",
+            "distance_px": 444.07
+        },
+        {
+            "object1": "pedestrian7",
+            "object2": "pedestrian19",
+            "distance_px": 199.69
+        },
+        {
+            "object1": "pedestrian7",
+            "object2": "van2",
+            "distance_px": 102.93
+        },
+        {
+            "object1": "pedestrian8",
+            "object2": "pedestrian9",
+            "distance_px": 136.74
+        },
+        {
+            "object1": "pedestrian8",
+            "object2": "pedestrian10",
+            "distance_px": 216.18
+        },
+        {
+            "object1": "pedestrian8",
+            "object2": "pedestrian11",
+            "distance_px": 122.98
+        },
+        {
+            "object1": "pedestrian8",
+            "object2": "pedestrian12",
+            "distance_px": 14.32
+        },
+        {
+            "object1": "pedestrian8",
+            "object2": "motor1",
+            "distance_px": 447.73
+        },
+        {
+            "object1": "pedestrian8",
+            "object2": "pedestrian13",
+            "distance_px": 232.86
+        },
+        {
+            "object1": "pedestrian8",
+            "object2": "pedestrian14",
+            "distance_px": 142.2
+        },
+        {
+            "object1": "pedestrian8",
+            "object2": "pedestrian15",
+            "distance_px": 227.97
+        },
+        {
+            "object1": "pedestrian8",
+            "object2": "pedestrian16",
+            "distance_px": 430.46
+        },
+        {
+            "object1": "pedestrian8",
+            "object2": "pedestrian17",
+            "distance_px": 140.58
+        },
+        {
+            "object1": "pedestrian8",
+            "object2": "pedestrian18",
+            "distance_px": 222.1
+        },
+        {
+            "object1": "pedestrian8",
+            "object2": "pedestrian19",
+            "distance_px": 343.14
+        },
+        {
+            "object1": "pedestrian8",
+            "object2": "van2",
+            "distance_px": 448.95
+        },
+        {
+            "object1": "pedestrian9",
+            "object2": "pedestrian10",
+            "distance_px": 82.01
+        },
+        {
+            "object1": "pedestrian9",
+            "object2": "pedestrian11",
+            "distance_px": 22.2
+        },
+        {
+            "object1": "pedestrian9",
+            "object2": "pedestrian12",
+            "distance_px": 123.6
+        },
+        {
+            "object1": "pedestrian9",
+            "object2": "motor1",
+            "distance_px": 487.61
+        },
+        {
+            "object1": "pedestrian9",
+            "object2": "pedestrian13",
+            "distance_px": 96.9
+        },
+        {
+            "object1": "pedestrian9",
+            "object2": "pedestrian14",
+            "distance_px": 8.06
+        },
+        {
+            "object1": "pedestrian9",
+            "object2": "pedestrian15",
+            "distance_px": 94.4
+        },
+        {
+            "object1": "pedestrian9",
+            "object2": "pedestrian16",
+            "distance_px": 443.55
+        },
+        {
+            "object1": "pedestrian9",
+            "object2": "pedestrian17",
+            "distance_px": 13.93
+        },
+        {
+            "object1": "pedestrian9",
+            "object2": "pedestrian18",
+            "distance_px": 89.89
+        },
+        {
+            "object1": "pedestrian9",
+            "object2": "pedestrian19",
+            "distance_px": 334.79
+        },
+        {
+            "object1": "pedestrian9",
+            "object2": "van2",
+            "distance_px": 499.54
+        },
+        {
+            "object1": "pedestrian10",
+            "object2": "pedestrian11",
+            "distance_px": 101.87
+        },
+        {
+            "object1": "pedestrian10",
+            "object2": "pedestrian12",
+            "distance_px": 203.77
+        },
+        {
+            "object1": "pedestrian10",
+            "object2": "motor1",
+            "distance_px": 546.82
+        },
+        {
+            "object1": "pedestrian10",
+            "object2": "pedestrian13",
+            "distance_px": 20.1
+        },
+        {
+            "object1": "pedestrian10",
+            "object2": "pedestrian14",
+            "distance_px": 75.17
+        },
+        {
+            "object1": "pedestrian10",
+            "object2": "pedestrian15",
+            "distance_px": 12.53
+        },
+        {
+            "object1": "pedestrian10",
+            "object2": "pedestrian16",
+            "distance_px": 445.73
+        },
+        {
+            "object1": "pedestrian10",
+            "object2": "pedestrian17",
+            "distance_px": 75.69
+        },
+        {
+            "object1": "pedestrian10",
+            "object2": "pedestrian18",
+            "distance_px": 11.18
+        },
+        {
+            "object1": "pedestrian10",
+            "object2": "pedestrian19",
+            "distance_px": 330.61
+        },
+        {
+            "object1": "pedestrian10",
+            "object2": "van2",
+            "distance_px": 521.51
+        },
+        {
+            "object1": "pedestrian11",
+            "object2": "pedestrian12",
+            "distance_px": 109.18
+        },
+        {
+            "object1": "pedestrian11",
+            "object2": "motor1",
+            "distance_px": 466.44
+        },
+        {
+            "object1": "pedestrian11",
+            "object2": "pedestrian13",
+            "distance_px": 115.11
+        },
+        {
+            "object1": "pedestrian11",
+            "object2": "pedestrian14",
+            "distance_px": 30.27
+        },
+        {
+            "object1": "pedestrian11",
+            "object2": "pedestrian15",
+            "distance_px": 114.39
+        },
+        {
+            "object1": "pedestrian11",
+            "object2": "pedestrian16",
+            "distance_px": 456.21
+        },
+        {
+            "object1": "pedestrian11",
+            "object2": "pedestrian17",
+            "distance_px": 35.06
+        },
+        {
+            "object1": "pedestrian11",
+            "object2": "pedestrian18",
+            "distance_px": 110.48
+        },
+        {
+            "object1": "pedestrian11",
+            "object2": "pedestrian19",
+            "distance_px": 349.41
+        },
+        {
+            "object1": "pedestrian11",
+            "object2": "van2",
+            "distance_px": 507.11
+        },
+        {
+            "object1": "pedestrian12",
+            "object2": "motor1",
+            "distance_px": 444.62
+        },
+        {
+            "object1": "pedestrian12",
+            "object2": "pedestrian13",
+            "distance_px": 220.1
+        },
+        {
+            "object1": "pedestrian12",
+            "object2": "pedestrian14",
+            "distance_px": 129.32
+        },
+        {
+            "object1": "pedestrian12",
+            "object2": "pedestrian15",
+            "distance_px": 215.7
+        },
+        {
+            "object1": "pedestrian12",
+            "object2": "pedestrian16",
+            "distance_px": 435.25
+        },
+        {
+            "object1": "pedestrian12",
+            "object2": "pedestrian17",
+            "distance_px": 128.08
+        },
+        {
+            "object1": "pedestrian12",
+            "object2": "pedestrian18",
+            "distance_px": 210.02
+        },
+        {
+            "object1": "pedestrian12",
+            "object2": "pedestrian19",
+            "distance_px": 345.21
+        },
+        {
+            "object1": "pedestrian12",
+            "object2": "van2",
+            "distance_px": 457.51
+        },
+        {
+            "object1": "motor1",
+            "object2": "pedestrian13",
+            "distance_px": 548.09
+        },
+        {
+            "object1": "motor1",
+            "object2": "pedestrian14",
+            "distance_px": 495.34
+        },
+        {
+            "object1": "motor1",
+            "object2": "pedestrian15",
+            "distance_px": 557.52
+        },
+        {
+            "object1": "motor1",
+            "object2": "pedestrian16",
+            "distance_px": 877.29
+        },
+        {
+            "object1": "motor1",
+            "object2": "pedestrian17",
+            "distance_px": 501.26
+        },
+        {
+            "object1": "motor1",
+            "object2": "pedestrian18",
+            "distance_px": 557.92
+        },
+        {
+            "object1": "motor1",
+            "object2": "pedestrian19",
+            "distance_px": 789.7
+        },
+        {
+            "object1": "motor1",
+            "object2": "van2",
+            "distance_px": 879.4
+        },
+        {
+            "object1": "pedestrian13",
+            "object2": "pedestrian14",
+            "distance_px": 90.79
+        },
+        {
+            "object1": "pedestrian13",
+            "object2": "pedestrian15",
+            "distance_px": 16.64
+        },
+        {
+            "object1": "pedestrian13",
+            "object2": "pedestrian16",
+            "distance_px": 462.04
+        },
+        {
+            "object1": "pedestrian13",
+            "object2": "pedestrian17",
+            "distance_px": 92.42
+        },
+        {
+            "object1": "pedestrian13",
+            "object2": "pedestrian18",
+            "distance_px": 23.77
+        },
+        {
+            "object1": "pedestrian13",
+            "object2": "pedestrian19",
+            "distance_px": 346.43
+        },
+        {
+            "object1": "pedestrian13",
+            "object2": "van2",
+            "distance_px": 540.02
+        },
+        {
+            "object1": "pedestrian14",
+            "object2": "pedestrian15",
+            "distance_px": 87.46
+        },
+        {
+            "object1": "pedestrian14",
+            "object2": "pedestrian16",
+            "distance_px": 439.07
+        },
+        {
+            "object1": "pedestrian14",
+            "object2": "pedestrian17",
+            "distance_px": 7.81
+        },
+        {
+            "object1": "pedestrian14",
+            "object2": "pedestrian18",
+            "distance_px": 82.66
+        },
+        {
+            "object1": "pedestrian14",
+            "object2": "pedestrian19",
+            "distance_px": 329.62
+        },
+        {
+            "object1": "pedestrian14",
+            "object2": "van2",
+            "distance_px": 496.92
+        },
+        {
+            "object1": "pedestrian15",
+            "object2": "pedestrian16",
+            "distance_px": 445.43
+        },
+        {
+            "object1": "pedestrian15",
+            "object2": "pedestrian17",
+            "distance_px": 87.69
+        },
+        {
+            "object1": "pedestrian15",
+            "object2": "pedestrian18",
+            "distance_px": 8.0
+        },
+        {
+            "object1": "pedestrian15",
+            "object2": "pedestrian19",
+            "distance_px": 329.8
+        },
+        {
+            "object1": "pedestrian15",
+            "object2": "van2",
+            "distance_px": 524.04
+        },
+        {
+            "object1": "pedestrian16",
+            "object2": "pedestrian17",
+            "distance_px": 431.26
+        },
+        {
+            "object1": "pedestrian16",
+            "object2": "pedestrian18",
+            "distance_px": 438.46
+        },
+        {
+            "object1": "pedestrian16",
+            "object2": "pedestrian19",
+            "distance_px": 116.47
+        },
+        {
+            "object1": "pedestrian16",
+            "object2": "van2",
+            "distance_px": 133.78
+        },
+        {
+            "object1": "pedestrian17",
+            "object2": "pedestrian18",
+            "distance_px": 82.33
+        },
+        {
+            "object1": "pedestrian17",
+            "object2": "pedestrian19",
+            "distance_px": 321.86
+        },
+        {
+            "object1": "pedestrian17",
+            "object2": "van2",
+            "distance_px": 489.35
+        },
+        {
+            "object1": "pedestrian18",
+            "object2": "pedestrian19",
+            "distance_px": 322.98
+        },
+        {
+            "object1": "pedestrian18",
+            "object2": "van2",
+            "distance_px": 516.37
+        },
+        {
+            "object1": "pedestrian19",
+            "object2": "van2",
+            "distance_px": 222.3
+        }
+    ],
+    "relationships": [
+        {
+            "subject": "car 1",
+            "predicate": "right of",
+            "object": "pedestrian 5"
+        },
+        {
+            "subject": "car 1",
+            "predicate": "right of",
+            "object": "pedestrian 6"
+        },
+        {
+            "subject": "car 1",
+            "predicate": "right of",
+            "object": "pedestrian 10"
+        },
+        {
+            "subject": "car 1",
+            "predicate": "right of",
+            "object": "motor 1"
+        },
+        {
+            "subject": "car 1",
+            "predicate": "right of",
+            "object": "pedestrian 13"
+        },
+        {
+            "subject": "car 1",
+            "predicate": "right of",
+            "object": "pedestrian 15"
+        },
+        {
+            "subject": "car 1",
+            "predicate": "right of",
+            "object": "pedestrian 18"
+        },
+        {
+            "subject": "bus 1",
+            "predicate": "left of",
+            "object": "car 2"
+        },
+        {
+            "subject": "bus 1",
+            "predicate": "left of",
+            "object": "pedestrian 1"
+        },
+        {
+            "subject": "bus 1",
+            "predicate": "near_to",
+            "object": "van 1"
+        },
+        {
+            "subject": "bus 1",
+            "predicate": "right of",
+            "object": "bus 2"
+        },
+        {
+            "subject": "bus 1",
+            "predicate": "left of",
+            "object": "pedestrian 16"
+        },
+        {
+            "subject": "car 2",
+            "predicate": "right of",
+            "object": "bus 1"
+        },
+        {
+            "subject": "car 2",
+            "predicate": "left of",
+            "object": "pedestrian 1"
+        },
+        {
+            "subject": "car 2",
+            "predicate": "left of",
+            "object": "pedestrian 19"
+        },
+        {
+            "subject": "pedestrian 1",
+            "predicate": "right of",
+            "object": "bus 1"
+        },
+        {
+            "subject": "pedestrian 1",
+            "predicate": "right of",
+            "object": "car 2"
+        },
+        {
+            "subject": "pedestrian 2",
+            "predicate": "left of",
+            "object": "pedestrian 4"
+        },
+        {
+            "subject": "pedestrian 2",
+            "predicate": "left of",
+            "object": "pedestrian 8"
+        },
+        {
+            "subject": "pedestrian 2",
+            "predicate": "left of",
+            "object": "pedestrian 12"
+        },
+        {
+            "subject": "van 1",
+            "predicate": "near_to",
+            "object": "bus 1"
+        },
+        {
+            "subject": "van 1",
+            "predicate": "right of",
+            "object": "bus 2"
+        },
+        {
+            "subject": "van 1",
+            "predicate": "left of",
+            "object": "van 2"
+        },
+        {
+            "subject": "pedestrian 3",
+            "predicate": "right of",
+            "object": "bus 2"
+        },
+        {
+            "subject": "pedestrian 3",
+            "predicate": "right of",
+            "object": "pedestrian 7"
+        },
+        {
+            "subject": "pedestrian 3",
+            "predicate": "inside",
+            "object": "van 2"
+        },
+        {
+            "subject": "bus 2",
+            "predicate": "left of",
+            "object": "bus 1"
+        },
+        {
+            "subject": "bus 2",
+            "predicate": "left of",
+            "object": "van 1"
+        },
+        {
+            "subject": "bus 2",
+            "predicate": "left of",
+            "object": "pedestrian 3"
+        },
+        {
+            "subject": "bus 2",
+            "predicate": "left of",
+            "object": "pedestrian 7"
+        },
+        {
+            "subject": "bus 2",
+            "predicate": "left of",
+            "object": "van 2"
+        },
+        {
+            "subject": "pedestrian 4",
+            "predicate": "right of",
+            "object": "pedestrian 2"
+        },
+        {
+            "subject": "pedestrian 4",
+            "predicate": "right of",
+            "object": "pedestrian 12"
+        },
+        {
+            "subject": "pedestrian 5",
+            "predicate": "left of",
+            "object": "car 1"
+        },
+        {
+            "subject": "pedestrian 5",
+            "predicate": "left of",
+            "object": "pedestrian 6"
+        },
+        {
+            "subject": "pedestrian 5",
+            "predicate": "right of",
+            "object": "motor 1"
+        },
+        {
+            "subject": "pedestrian 5",
+            "predicate": "left of",
+            "object": "pedestrian 13"
+        },
+        {
+            "subject": "pedestrian 6",
+            "predicate": "left of",
+            "object": "car 1"
+        },
+        {
+            "subject": "pedestrian 6",
+            "predicate": "right of",
+            "object": "pedestrian 5"
+        },
+        {
+            "subject": "pedestrian 6",
+            "predicate": "right of",
+            "object": "motor 1"
+        },
+        {
+            "subject": "pedestrian 6",
+            "predicate": "left of",
+            "object": "pedestrian 13"
+        },
+        {
+            "subject": "pedestrian 7",
+            "predicate": "left of",
+            "object": "pedestrian 3"
+        },
+        {
+            "subject": "pedestrian 7",
+            "predicate": "right of",
+            "object": "bus 2"
+        },
+        {
+            "subject": "pedestrian 7",
+            "predicate": "left of",
+            "object": "van 2"
+        },
+        {
+            "subject": "pedestrian 8",
+            "predicate": "right of",
+            "object": "pedestrian 2"
+        },
+        {
+            "subject": "pedestrian 8",
+            "predicate": "left of",
+            "object": "pedestrian 12"
+        },
+        {
+            "subject": "pedestrian 9",
+            "predicate": "right of",
+            "object": "pedestrian 11"
+        },
+        {
+            "subject": "pedestrian 9",
+            "predicate": "left of",
+            "object": "pedestrian 14"
+        },
+        {
+            "subject": "pedestrian 9",
+            "predicate": "left of",
+            "object": "pedestrian 17"
+        },
+        {
+            "subject": "pedestrian 10",
+            "predicate": "left of",
+            "object": "car 1"
+        },
+        {
+            "subject": "pedestrian 10",
+            "predicate": "left of",
+            "object": "pedestrian 13"
+        },
+        {
+            "subject": "pedestrian 10",
+            "predicate": "left of",
+            "object": "pedestrian 15"
+        },
+        {
+            "subject": "pedestrian 10",
+            "predicate": "left of",
+            "object": "pedestrian 18"
+        },
+        {
+            "subject": "pedestrian 11",
+            "predicate": "left of",
+            "object": "pedestrian 9"
+        },
+        {
+            "subject": "pedestrian 11",
+            "predicate": "left of",
+            "object": "pedestrian 14"
+        },
+        {
+            "subject": "pedestrian 11",
+            "predicate": "left of",
+            "object": "pedestrian 17"
+        },
+        {
+            "subject": "pedestrian 12",
+            "predicate": "right of",
+            "object": "pedestrian 2"
+        },
+        {
+            "subject": "pedestrian 12",
+            "predicate": "left of",
+            "object": "pedestrian 4"
+        },
+        {
+            "subject": "pedestrian 12",
+            "predicate": "right of",
+            "object": "pedestrian 8"
+        },
+        {
+            "subject": "motor 1",
+            "predicate": "left of",
+            "object": "car 1"
+        },
+        {
+            "subject": "motor 1",
+            "predicate": "left of",
+            "object": "pedestrian 5"
+        },
+        {
+            "subject": "motor 1",
+            "predicate": "left of",
+            "object": "pedestrian 6"
+        },
+        {
+            "subject": "motor 1",
+            "predicate": "left of",
+            "object": "pedestrian 13"
+        },
+        {
+            "subject": "pedestrian 13",
+            "predicate": "left of",
+            "object": "car 1"
+        },
+        {
+            "subject": "pedestrian 13",
+            "predicate": "right of",
+            "object": "pedestrian 5"
+        },
+        {
+            "subject": "pedestrian 13",
+            "predicate": "right of",
+            "object": "pedestrian 6"
+        },
+        {
+            "subject": "pedestrian 13",
+            "predicate": "right of",
+            "object": "pedestrian 10"
+        },
+        {
+            "subject": "pedestrian 13",
+            "predicate": "right of",
+            "object": "motor 1"
+        },
+        {
+            "subject": "pedestrian 13",
+            "predicate": "left of",
+            "object": "pedestrian 15"
+        },
+        {
+            "subject": "pedestrian 14",
+            "predicate": "right of",
+            "object": "pedestrian 9"
+        },
+        {
+            "subject": "pedestrian 14",
+            "predicate": "right of",
+            "object": "pedestrian 11"
+        },
+        {
+            "subject": "pedestrian 14",
+            "predicate": "left of",
+            "object": "pedestrian 17"
+        },
+        {
+            "subject": "pedestrian 15",
+            "predicate": "left of",
+            "object": "car 1"
+        },
+        {
+            "subject": "pedestrian 15",
+            "predicate": "right of",
+            "object": "pedestrian 10"
+        },
+        {
+            "subject": "pedestrian 15",
+            "predicate": "right of",
+            "object": "pedestrian 13"
+        },
+        {
+            "subject": "pedestrian 15",
+            "predicate": "left of",
+            "object": "pedestrian 18"
+        },
+        {
+            "subject": "pedestrian 16",
+            "predicate": "right of",
+            "object": "bus 1"
+        },
+        {
+            "subject": "pedestrian 17",
+            "predicate": "right of",
+            "object": "pedestrian 9"
+        },
+        {
+            "subject": "pedestrian 17",
+            "predicate": "right of",
+            "object": "pedestrian 11"
+        },
+        {
+            "subject": "pedestrian 17",
+            "predicate": "right of",
+            "object": "pedestrian 14"
+        },
+        {
+            "subject": "pedestrian 18",
+            "predicate": "left of",
+            "object": "car 1"
+        },
+        {
+            "subject": "pedestrian 18",
+            "predicate": "right of",
+            "object": "pedestrian 10"
+        },
+        {
+            "subject": "pedestrian 18",
+            "predicate": "right of",
+            "object": "pedestrian 15"
+        },
+        {
+            "subject": "pedestrian 19",
+            "predicate": "right of",
+            "object": "car 2"
+        },
+        {
+            "subject": "van 2",
+            "predicate": "right of",
+            "object": "van 1"
+        },
+        {
+            "subject": "van 2",
+            "predicate": "right of",
+            "object": "pedestrian 3"
+        },
+        {
+            "subject": "van 2",
+            "predicate": "right of",
+            "object": "bus 2"
+        },
+        {
+            "subject": "van 2",
+            "predicate": "right of",
+            "object": "pedestrian 7"
+        }
+    ]
+}

@@ -1,0 +1,818 @@
+{
+    "objects": [
+        {
+            "id": 1,
+            "class": "car",
+            "confidence": 0.8867535591125488,
+            "bbox": [
+                961,
+                254,
+                1100,
+                326
+            ],
+            "center": [
+                1030,
+                290
+            ]
+        },
+        {
+            "id": 1,
+            "class": "truck",
+            "confidence": 0.8823394775390625,
+            "bbox": [
+                0,
+                336,
+                211,
+                501
+            ],
+            "center": [
+                105,
+                418
+            ]
+        },
+        {
+            "id": 2,
+            "class": "truck",
+            "confidence": 0.8792620897293091,
+            "bbox": [
+                793,
+                357,
+                1124,
+                571
+            ],
+            "center": [
+                958,
+                464
+            ]
+        },
+        {
+            "id": 2,
+            "class": "car",
+            "confidence": 0.7892805337905884,
+            "bbox": [
+                1259,
+                474,
+                1360,
+                659
+            ],
+            "center": [
+                1309,
+                566
+            ]
+        },
+        {
+            "id": 3,
+            "class": "truck",
+            "confidence": 0.6819010972976685,
+            "bbox": [
+                408,
+                632,
+                642,
+                765
+            ],
+            "center": [
+                525,
+                698
+            ]
+        },
+        {
+            "id": 1,
+            "class": "tricycle",
+            "confidence": 0.6301639080047607,
+            "bbox": [
+                409,
+                631,
+                640,
+                765
+            ],
+            "center": [
+                524,
+                698
+            ]
+        },
+        {
+            "id": 3,
+            "class": "car",
+            "confidence": 0.554293692111969,
+            "bbox": [
+                1151,
+                255,
+                1295,
+                357
+            ],
+            "center": [
+                1223,
+                306
+            ]
+        },
+        {
+            "id": 1,
+            "class": "van",
+            "confidence": 0.521725058555603,
+            "bbox": [
+                1151,
+                256,
+                1296,
+                358
+            ],
+            "center": [
+                1223,
+                307
+            ]
+        },
+        {
+            "id": 2,
+            "class": "van",
+            "confidence": 0.5136523246765137,
+            "bbox": [
+                1143,
+                185,
+                1276,
+                272
+            ],
+            "center": [
+                1209,
+                228
+            ]
+        },
+        {
+            "id": 1,
+            "class": "people",
+            "confidence": 0.5099482536315918,
+            "bbox": [
+                543,
+                613,
+                603,
+                707
+            ],
+            "center": [
+                573,
+                660
+            ]
+        },
+        {
+            "id": 4,
+            "class": "truck",
+            "confidence": 0.3664786219596863,
+            "bbox": [
+                990,
+                613,
+                1179,
+                765
+            ],
+            "center": [
+                1084,
+                689
+            ]
+        },
+        {
+            "id": 3,
+            "class": "van",
+            "confidence": 0.2682480216026306,
+            "bbox": [
+                990,
+                612,
+                1180,
+                765
+            ],
+            "center": [
+                1085,
+                688
+            ]
+        }
+    ],
+    "distances": [
+        {
+            "object1": "car1",
+            "object2": "truck1",
+            "distance_px": 933.81
+        },
+        {
+            "object1": "car1",
+            "object2": "truck2",
+            "distance_px": 188.31
+        },
+        {
+            "object1": "car1",
+            "object2": "car2",
+            "distance_px": 392.45
+        },
+        {
+            "object1": "car1",
+            "object2": "truck3",
+            "distance_px": 649.22
+        },
+        {
+            "object1": "car1",
+            "object2": "tricycle1",
+            "distance_px": 650.0
+        },
+        {
+            "object1": "car1",
+            "object2": "car3",
+            "distance_px": 193.66
+        },
+        {
+            "object1": "car1",
+            "object2": "van1",
+            "distance_px": 193.75
+        },
+        {
+            "object1": "car1",
+            "object2": "van2",
+            "distance_px": 189.43
+        },
+        {
+            "object1": "car1",
+            "object2": "people1",
+            "distance_px": 588.0
+        },
+        {
+            "object1": "car1",
+            "object2": "truck4",
+            "distance_px": 402.64
+        },
+        {
+            "object1": "car1",
+            "object2": "van3",
+            "distance_px": 401.78
+        },
+        {
+            "object1": "truck1",
+            "object2": "truck2",
+            "distance_px": 854.24
+        },
+        {
+            "object1": "truck1",
+            "object2": "car2",
+            "distance_px": 1213.06
+        },
+        {
+            "object1": "truck1",
+            "object2": "truck3",
+            "distance_px": 504.78
+        },
+        {
+            "object1": "truck1",
+            "object2": "tricycle1",
+            "distance_px": 503.95
+        },
+        {
+            "object1": "truck1",
+            "object2": "car3",
+            "distance_px": 1123.6
+        },
+        {
+            "object1": "truck1",
+            "object2": "van1",
+            "distance_px": 1123.5
+        },
+        {
+            "object1": "truck1",
+            "object2": "van2",
+            "distance_px": 1120.23
+        },
+        {
+            "object1": "truck1",
+            "object2": "people1",
+            "distance_px": 526.87
+        },
+        {
+            "object1": "truck1",
+            "object2": "truck4",
+            "distance_px": 1015.82
+        },
+        {
+            "object1": "truck1",
+            "object2": "van3",
+            "distance_px": 1016.51
+        },
+        {
+            "object1": "truck2",
+            "object2": "car2",
+            "distance_px": 365.52
+        },
+        {
+            "object1": "truck2",
+            "object2": "truck3",
+            "distance_px": 492.18
+        },
+        {
+            "object1": "truck2",
+            "object2": "tricycle1",
+            "distance_px": 493.06
+        },
+        {
+            "object1": "truck2",
+            "object2": "car3",
+            "distance_px": 308.53
+        },
+        {
+            "object1": "truck2",
+            "object2": "van1",
+            "distance_px": 308.02
+        },
+        {
+            "object1": "truck2",
+            "object2": "van2",
+            "distance_px": 344.52
+        },
+        {
+            "object1": "truck2",
+            "object2": "people1",
+            "distance_px": 432.02
+        },
+        {
+            "object1": "truck2",
+            "object2": "truck4",
+            "distance_px": 257.88
+        },
+        {
+            "object1": "truck2",
+            "object2": "van3",
+            "distance_px": 257.5
+        },
+        {
+            "object1": "car2",
+            "object2": "truck3",
+            "distance_px": 795.03
+        },
+        {
+            "object1": "car2",
+            "object2": "tricycle1",
+            "distance_px": 796.02
+        },
+        {
+            "object1": "car2",
+            "object2": "car3",
+            "distance_px": 273.85
+        },
+        {
+            "object1": "car2",
+            "object2": "van1",
+            "distance_px": 272.9
+        },
+        {
+            "object1": "car2",
+            "object2": "van2",
+            "distance_px": 352.48
+        },
+        {
+            "object1": "car2",
+            "object2": "people1",
+            "distance_px": 741.98
+        },
+        {
+            "object1": "car2",
+            "object2": "truck4",
+            "distance_px": 256.43
+        },
+        {
+            "object1": "car2",
+            "object2": "van3",
+            "distance_px": 255.07
+        },
+        {
+            "object1": "truck3",
+            "object2": "tricycle1",
+            "distance_px": 1.0
+        },
+        {
+            "object1": "truck3",
+            "object2": "car3",
+            "distance_px": 800.54
+        },
+        {
+            "object1": "truck3",
+            "object2": "van1",
+            "distance_px": 800.05
+        },
+        {
+            "object1": "truck3",
+            "object2": "van2",
+            "distance_px": 829.91
+        },
+        {
+            "object1": "truck3",
+            "object2": "people1",
+            "distance_px": 61.22
+        },
+        {
+            "object1": "truck3",
+            "object2": "truck4",
+            "distance_px": 559.07
+        },
+        {
+            "object1": "truck3",
+            "object2": "van3",
+            "distance_px": 560.09
+        },
+        {
+            "object1": "tricycle1",
+            "object2": "car3",
+            "distance_px": 801.41
+        },
+        {
+            "object1": "tricycle1",
+            "object2": "van1",
+            "distance_px": 800.93
+        },
+        {
+            "object1": "tricycle1",
+            "object2": "van2",
+            "distance_px": 830.74
+        },
+        {
+            "object1": "tricycle1",
+            "object2": "people1",
+            "distance_px": 62.01
+        },
+        {
+            "object1": "tricycle1",
+            "object2": "truck4",
+            "distance_px": 560.07
+        },
+        {
+            "object1": "tricycle1",
+            "object2": "van3",
+            "distance_px": 561.09
+        },
+        {
+            "object1": "car3",
+            "object2": "van1",
+            "distance_px": 1.0
+        },
+        {
+            "object1": "car3",
+            "object2": "van2",
+            "distance_px": 79.25
+        },
+        {
+            "object1": "car3",
+            "object2": "people1",
+            "distance_px": 740.15
+        },
+        {
+            "object1": "car3",
+            "object2": "truck4",
+            "distance_px": 407.44
+        },
+        {
+            "object1": "car3",
+            "object2": "van3",
+            "distance_px": 406.16
+        },
+        {
+            "object1": "van1",
+            "object2": "van2",
+            "distance_px": 80.23
+        },
+        {
+            "object1": "van1",
+            "object2": "people1",
+            "distance_px": 739.67
+        },
+        {
+            "object1": "van1",
+            "object2": "truck4",
+            "distance_px": 406.5
+        },
+        {
+            "object1": "van1",
+            "object2": "van3",
+            "distance_px": 405.22
+        },
+        {
+            "object1": "van2",
+            "object2": "people1",
+            "distance_px": 768.84
+        },
+        {
+            "object1": "van2",
+            "object2": "truck4",
+            "distance_px": 477.65
+        },
+        {
+            "object1": "van2",
+            "object2": "van3",
+            "distance_px": 476.42
+        },
+        {
+            "object1": "people1",
+            "object2": "truck4",
+            "distance_px": 511.82
+        },
+        {
+            "object1": "people1",
+            "object2": "van3",
+            "distance_px": 512.77
+        },
+        {
+            "object1": "truck4",
+            "object2": "van3",
+            "distance_px": 1.41
+        }
+    ],
+    "relationships": [
+        {
+            "subject": "car 1",
+            "predicate": "near_to",
+            "object": "truck 2"
+        },
+        {
+            "subject": "car 1",
+            "predicate": "left of",
+            "object": "car 3"
+        },
+        {
+            "subject": "car 1",
+            "predicate": "left of",
+            "object": "van 1"
+        },
+        {
+            "subject": "car 1",
+            "predicate": "left of",
+            "object": "van 2"
+        },
+        {
+            "subject": "truck 1",
+            "predicate": "left of",
+            "object": "truck 2"
+        },
+        {
+            "subject": "truck 1",
+            "predicate": "left of",
+            "object": "car 2"
+        },
+        {
+            "subject": "truck 1",
+            "predicate": "left of",
+            "object": "car 3"
+        },
+        {
+            "subject": "truck 1",
+            "predicate": "left of",
+            "object": "van 1"
+        },
+        {
+            "subject": "truck 2",
+            "predicate": "near_to",
+            "object": "car 1"
+        },
+        {
+            "subject": "truck 2",
+            "predicate": "right of",
+            "object": "truck 1"
+        },
+        {
+            "subject": "truck 2",
+            "predicate": "left of",
+            "object": "car 2"
+        },
+        {
+            "subject": "truck 2",
+            "predicate": "left of",
+            "object": "van 1"
+        },
+        {
+            "subject": "truck 2",
+            "predicate": "near_to",
+            "object": "truck 4"
+        },
+        {
+            "subject": "truck 2",
+            "predicate": "near_to",
+            "object": "van 3"
+        },
+        {
+            "subject": "car 2",
+            "predicate": "right of",
+            "object": "truck 1"
+        },
+        {
+            "subject": "car 2",
+            "predicate": "right of",
+            "object": "truck 2"
+        },
+        {
+            "subject": "car 2",
+            "predicate": "right of",
+            "object": "truck 3"
+        },
+        {
+            "subject": "car 2",
+            "predicate": "right of",
+            "object": "tricycle 1"
+        },
+        {
+            "subject": "car 2",
+            "predicate": "right of",
+            "object": "people 1"
+        },
+        {
+            "subject": "car 2",
+            "predicate": "right of",
+            "object": "truck 4"
+        },
+        {
+            "subject": "car 2",
+            "predicate": "right of",
+            "object": "van 3"
+        },
+        {
+            "subject": "truck 3",
+            "predicate": "left of",
+            "object": "car 2"
+        },
+        {
+            "subject": "truck 3",
+            "predicate": "right of",
+            "object": "tricycle 1"
+        },
+        {
+            "subject": "truck 3",
+            "predicate": "left of",
+            "object": "people 1"
+        },
+        {
+            "subject": "truck 3",
+            "predicate": "left of",
+            "object": "truck 4"
+        },
+        {
+            "subject": "truck 3",
+            "predicate": "left of",
+            "object": "van 3"
+        },
+        {
+            "subject": "tricycle 1",
+            "predicate": "left of",
+            "object": "car 2"
+        },
+        {
+            "subject": "tricycle 1",
+            "predicate": "left of",
+            "object": "truck 3"
+        },
+        {
+            "subject": "tricycle 1",
+            "predicate": "left of",
+            "object": "people 1"
+        },
+        {
+            "subject": "tricycle 1",
+            "predicate": "left of",
+            "object": "truck 4"
+        },
+        {
+            "subject": "tricycle 1",
+            "predicate": "left of",
+            "object": "van 3"
+        },
+        {
+            "subject": "car 3",
+            "predicate": "right of",
+            "object": "car 1"
+        },
+        {
+            "subject": "car 3",
+            "predicate": "right of",
+            "object": "truck 1"
+        },
+        {
+            "subject": "car 3",
+            "predicate": "left of",
+            "object": "van 1"
+        },
+        {
+            "subject": "car 3",
+            "predicate": "right of",
+            "object": "van 2"
+        },
+        {
+            "subject": "van 1",
+            "predicate": "right of",
+            "object": "car 1"
+        },
+        {
+            "subject": "van 1",
+            "predicate": "right of",
+            "object": "truck 1"
+        },
+        {
+            "subject": "van 1",
+            "predicate": "right of",
+            "object": "truck 2"
+        },
+        {
+            "subject": "van 1",
+            "predicate": "right of",
+            "object": "car 3"
+        },
+        {
+            "subject": "van 1",
+            "predicate": "right of",
+            "object": "van 2"
+        },
+        {
+            "subject": "van 2",
+            "predicate": "right of",
+            "object": "car 1"
+        },
+        {
+            "subject": "van 2",
+            "predicate": "left of",
+            "object": "car 3"
+        },
+        {
+            "subject": "van 2",
+            "predicate": "left of",
+            "object": "van 1"
+        },
+        {
+            "subject": "people 1",
+            "predicate": "left of",
+            "object": "car 2"
+        },
+        {
+            "subject": "people 1",
+            "predicate": "right of",
+            "object": "truck 3"
+        },
+        {
+            "subject": "people 1",
+            "predicate": "right of",
+            "object": "tricycle 1"
+        },
+        {
+            "subject": "people 1",
+            "predicate": "left of",
+            "object": "truck 4"
+        },
+        {
+            "subject": "people 1",
+            "predicate": "left of",
+            "object": "van 3"
+        },
+        {
+            "subject": "truck 4",
+            "predicate": "near_to",
+            "object": "truck 2"
+        },
+        {
+            "subject": "truck 4",
+            "predicate": "left of",
+            "object": "car 2"
+        },
+        {
+            "subject": "truck 4",
+            "predicate": "right of",
+            "object": "truck 3"
+        },
+        {
+            "subject": "truck 4",
+            "predicate": "right of",
+            "object": "tricycle 1"
+        },
+        {
+            "subject": "truck 4",
+            "predicate": "right of",
+            "object": "people 1"
+        },
+        {
+            "subject": "truck 4",
+            "predicate": "left of",
+            "object": "van 3"
+        },
+        {
+            "subject": "van 3",
+            "predicate": "near_to",
+            "object": "truck 2"
+        },
+        {
+            "subject": "van 3",
+            "predicate": "left of",
+            "object": "car 2"
+        },
+        {
+            "subject": "van 3",
+            "predicate": "right of",
+            "object": "truck 3"
+        },
+        {
+            "subject": "van 3",
+            "predicate": "right of",
+            "object": "tricycle 1"
+        },
+        {
+            "subject": "van 3",
+            "predicate": "right of",
+            "object": "people 1"
+        },
+        {
+            "subject": "van 3",
+            "predicate": "right of",
+            "object": "truck 4"
+        }
+    ]
+}

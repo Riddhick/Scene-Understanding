@@ -1,0 +1,547 @@
+import cv2
+import torch
+from ultralytics import YOLO
+from collections import defaultdict
+import matplotlib.pyplot as plt
+import random
+
+# -------------------------------
+# Load YOLO model
+# -------------------------------
+# NOTE: Make sure the path to your model is correct.
+model = YOLO("D:\Work\RCI\Code\models\weights\yolov11_trained.pt")
+
+# -------------------------------
+# Class-specific counters and color map
+# -------------------------------
+# A dictionary to store the running count of objects for each class, e.g., {'car': 1, 'person': 1, ...}
+class_id_counters = defaultdict(int)
+# A dictionary to map class names to unique BGR colors, e.g., {'car': (0, 255, 255), ...}
+class_colors = {}
+
+def get_class_color(class_name):
+    """
+    Assigns a unique and consistent color to each object class.
+    If a class is seen for the first time, a new random color is generated and stored.
+    """
+    if class_name not in class_colors:
+        # Generate a random BGR color for the new class
+        class_colors[class_name] = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+    return class_colors[class_name]
+
+# -------------------------------
+# Run Inference
+# -------------------------------
+# NOTE: Make sure the path to your image is correct.
+#img_path = "D:\Work\RCI\DOTA\\testing\P1911.png"
+#img_path ="D:\Work\RCI\Visdrone\\test\images\\0000347_00100_d_0000047.jpg"
+#img_path= "D:\Work\RCI\Visdrone\\test\images\9999952_00000_d_0000040.jpg"
+img_path ="D:\Work\RCI\Visdrone\\val\images\\0000283_00401_d_0000676.jpg"
+results = model(img_path)
+name_splits = img_path.split("\\")
+# Load original image using OpenCV
+img = cv2.imread(img_path)
+
+# -------------------------------
+# Process detections
+# -------------------------------
+detections = results[0].boxes
+class_counts = defaultdict(int)
+detected_objects = []
+
+for box in detections:
+    # Extract class ID, confidence, and bounding box coordinates
+    cls_id = int(box.cls.cpu().numpy()[0])
+    class_name = model.names[cls_id]
+    conf = float(box.conf.cpu().numpy()[0])
+    x1, y1, x2, y2 = map(int, box.xyxy[0].cpu().numpy())
+
+    # Assign a unique ID for the object within its class (e.g., car 1, car 2)
+    class_id_counters[class_name] += 1
+    obj_id = class_id_counters[class_name]
+
+    # Save detection details for the summary printout
+    detected_objects.append({
+        "id": obj_id,
+        "class": class_name,
+        "confidence": conf,
+        "bbox": (x1, y1, x2, y2)
+    })
+    class_counts[class_name] += 1
+
+    # Get a unique color for the current object's class
+    bbox_color = get_class_color(class_name)
+
+    # Draw the bounding box on the image
+    cv2.rectangle(img, (x1, y1), (x2, y2), bbox_color, 2)
+
+    # Create the label text with class name and its new ID
+    label = f"{class_name} {obj_id}"
+
+    # Put the label above the bounding box
+    cv2.putText(img, label,
+                (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX,
+                0.6, bbox_color, 2)
+
+# -------------------------------
+# Print statistics
+# -------------------------------
+print("\n--- DETECTED OBJECTS ---")
+# Sort objects by class then ID for a more organized output
+detected_objects.sort(key=lambda x: (x['class'], x['id']))
+for obj in detected_objects:
+    print(f"Class: {obj['class']} | ID: {obj['id']} | Conf: {obj['confidence']:.2f} | BBox: {obj['bbox']}")
+
+print("\n--- SUMMARY ---")
+print(f"Total objects detected: {len(detected_objects)}")
+print("Objects per class:")
+for cls, count in sorted(class_counts.items()):
+    print(f"  {cls}: {count}")
+
+# -------------------------------
+# Save / Show image
+# -------------------------------
+# Convert the image from BGR (OpenCV's default) to RGB for Matplotlib
+frame_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+# Display the final image with detections
+plt.figure(figsize=(12, 8))
+plt.imshow(frame_rgb)
+plt.title("Object Detection Results")
+plt.axis("off")
+plt.show()
+
+import cv2
+import torch
+from ultralytics import YOLO
+from collections import defaultdict
+import matplotlib.pyplot as plt
+import random
+import numpy as np
+
+# -------------------------------
+# Load YOLO model
+# ------------------------------- # Using a standard pre-trained model for demonstration
+
+# -------------------------------
+# Helper Functions for Colors
+# -------------------------------
+class_colors = {}
+relation_colors = {
+    "left of": (255, 0, 0),   # Blue
+    "right of": (0, 255, 0),     # Green
+    "near_to": (0, 0, 255),     # Red
+    "inside": (255, 255, 0),  # Cyan
+}
+
+def get_class_color(class_name):
+    """Assigns a unique and consistent color to each object class."""
+    if class_name not in class_colors:
+        class_colors[class_name] = (random.randint(50, 255), random.randint(50, 255), random.randint(50, 255))
+    return class_colors[class_name]
+
+# -------------------------------
+# Function to Determine Spatial Relationships
+# -------------------------------
+def determine_spatial_relationship(box1, box2):
+    """
+    Determines the spatial relationship between two bounding boxes.
+    Args:
+        box1: Bounding box of the subject object (x1, y1, x2, y2).
+        box2: Bounding box of the object object (x1, y1, x2, y2).
+    Returns:
+        A string describing the relationship (e.g., "left of", "right of", "near_to", "inside") or None.
+    """
+    x1_1, y1_1, x2_1, y2_1 = box1
+    x1_2, y1_2, x2_2, y2_2 = box2
+
+    center_x1, center_y1 = (x1_1 + x2_1) / 2, (y1_1 + y2_1) / 2
+    center_x2, center_y2 = (x1_2 + x2_2) / 2, (y1_2 + y2_2) / 2
+
+    width1, height1 = x2_1 - x1_1, y2_1 - y1_1
+    width2, height2 = x2_2 - x1_2, y2_2 - y1_2
+
+    # Check for "inside" relationship first as it's the most specific
+    if x1_1 > x1_2 and y1_1 > y1_2 and x2_1 < x2_2 and y2_1 < y2_2:
+        return "inside"
+
+    # Horizontal relationships: "left of" / "right of"
+    # Requires a significant vertical overlap to be considered horizontally aligned
+    y_overlap = max(0, min(y2_1, y2_2) - max(y1_1, y1_2))
+    # Using min(height1, height2) ensures even a small object next to a large one is counted
+    if y_overlap / min(height1, height2) if min(height1, height2) > 0 else 0 > 0.4:
+        if center_x1 < center_x2:
+            return "left of"
+        else:
+            return "right of"
+
+    # General proximity: "near_to"
+    # This is a fallback for objects that are close but not perfectly aligned.
+    distance = np.sqrt((center_x1 - center_x2)**2 + (center_y1 - center_y2)**2)
+    # Threshold is based on the average size of the two objects
+    nearness_threshold = ((width1 + width2 + height1 + height2) / 4) * 1.5
+    if distance < nearness_threshold:
+        return "near_to"
+
+    return None
+
+# -------------------------------
+# Run Inference
+# -------------------------------
+# NOTE: Make sure the path to your test image is correct.
+#img_path = "zidane.jpg"  # A standard test image
+results = model(img_path)
+
+# Load original image
+img = cv2.imread(img_path)
+
+# -------------------------------
+# 1. Process Detections and Draw Bounding Boxes
+# -------------------------------
+detections = results[0].boxes
+class_id_counters = defaultdict(int)
+detected_objects = []
+
+for box in detections:
+    # Extract detection details
+    cls_id = int(box.cls.cpu().numpy()[0])
+    class_name = model.names[cls_id]
+    conf = float(box.conf.cpu().numpy()[0])
+    x1, y1, x2, y2 = map(int, box.xyxy[0].cpu().numpy())
+
+    # Assign a unique ID within the class
+    class_id_counters[class_name] += 1
+    obj_id = class_id_counters[class_name]
+    unique_name = f"{class_name} {obj_id}"
+
+    # Store object info
+    detected_objects.append({
+        "name": unique_name,
+        "class": class_name,
+        "bbox": (x1, y1, x2, y2),
+        "center": ((x1 + x2) // 2, (y1 + y2) // 2)
+    })
+
+    # Draw bounding box and label for each object
+    bbox_color = get_class_color(class_name)
+    cv2.rectangle(img, (x1, y1), (x2, y2), bbox_color, 2)
+    cv2.putText(img, unique_name, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, bbox_color, 2)
+
+# -------------------------------
+# 2. Generate Scene Graph
+# -------------------------------
+scene_graph = []
+for i in range(len(detected_objects)):
+    for j in range(len(detected_objects)):
+        if i == j:
+            continue
+
+        subject = detected_objects[i]
+        obj = detected_objects[j]
+
+        relationship = determine_spatial_relationship(subject['bbox'], obj['bbox'])
+        if relationship:
+            scene_graph.append({
+                "subject": subject,
+                "predicate": relationship,
+                "object": obj
+            })
+
+# -------------------------------
+# 3. Visualize Scene Graph on Image
+# -------------------------------
+for rel in scene_graph:
+    subject = rel['subject']
+    obj = rel['object']
+    predicate = rel['predicate']
+
+    # Get color for the relationship
+    color = relation_colors.get(predicate, (255, 255, 255)) # Default to white
+
+    # Draw a line between the centers of the two objects
+    cv2.line(img, subject['center'], obj['center'], color, 2)
+
+    # Calculate the midpoint of the line to place the label
+    mid_point = ((subject['center'][0] + obj['center'][0]) // 2,
+                 (subject['center'][1] + obj['center'][1]) // 2)
+
+    # Add a solid background for the text for better readability
+    (text_width, text_height), _ = cv2.getTextSize(predicate, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 2)
+    text_origin = (mid_point[0] - text_width // 2, mid_point[1] + text_height // 2)
+    box_coords = ((text_origin[0] - 2, text_origin[1] + 2), (text_origin[0] + text_width + 2, text_origin[1] - text_height - 2))
+    cv2.rectangle(img, box_coords[0], box_coords[1], color, cv2.FILLED)
+
+    # Draw the relationship text
+    cv2.putText(img, predicate, text_origin, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 2)
+
+
+# -------------------------------
+# Print statistics
+# -------------------------------
+print("\n--- DETECTED OBJECTS ---")
+for obj in detected_objects:
+    print(f"  - {obj['name']} at {obj['bbox']}")
+
+print("\n--- SCENE GRAPH RELATIONSHIPS ---")
+if not scene_graph:
+    print("No spatial relationships were detected.")
+else:
+    for rel in scene_graph:
+        print(f"  - {rel['subject']['name']} is {rel['predicate']} {rel['object']['name']}")
+
+# -------------------------------
+# Show Final Image
+# -------------------------------
+frame_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+plt.figure(figsize=(15, 10))
+plt.imshow(frame_rgb)
+plt.title("Scene Graph Visualization")
+plt.axis("off")
+plt.show()
+
+
+import math
+
+def calculate_pixel_distances(detected_objects):
+    """
+    Calculates pixel distances between each pair of detected objects.
+    
+    Args:
+        detected_objects (list): A list of detected objects where each object
+                                 has a 'name' and 'center' (x, y).
+    
+    Returns:
+        distances (dict): A dictionary where keys are tuples (obj1_name, obj2_name),
+                          and values are the Euclidean pixel distances.
+    """
+    distances = {}
+    for i in range(len(detected_objects)):
+        for j in range(i + 1, len(detected_objects)):  # Avoid duplicate pairs
+            obj1 = detected_objects[i]
+            obj2 = detected_objects[j]
+            
+            # Extract centers
+            x1, y1 = obj1["center"]
+            x2, y2 = obj2["center"]
+            
+            # Euclidean distance
+            dist = math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
+            
+            distances[(obj1["name"], obj2["name"])] = dist
+    return distances
+
+
+pixel_distances = calculate_pixel_distances(detected_objects)
+
+print("\n--- PIXEL DISTANCES BETWEEN OBJECTS ---")
+for pair, dist in pixel_distances.items():
+    print(f"Distance between {pair[0]} and {pair[1]}: {dist:.2f} pixels")
+
+
+
+import cv2
+import torch
+from ultralytics import YOLO
+from collections import defaultdict
+import matplotlib.pyplot as plt
+import random
+import math
+
+# -------------------------------
+# Class-specific counters and color map
+# -------------------------------
+class_id_counters = defaultdict(int)
+class_colors = {}
+
+def get_class_color(class_name):
+    if class_name not in class_colors:
+        class_colors[class_name] = (
+            random.randint(0, 255),
+            random.randint(0, 255),
+            random.randint(0, 255)
+        )
+    return class_colors[class_name]
+
+# -------------------------------
+# Function to draw pixel distances
+# -------------------------------
+def draw_pixel_distances(image, detected_objects):
+    annotated_img = image.copy()
+    
+    for i in range(len(detected_objects)):
+        for j in range(i + 1, len(detected_objects)):
+            obj1 = detected_objects[i]
+            obj2 = detected_objects[j]
+            
+            (x1, y1) = obj1["center"]
+            (x2, y2) = obj2["center"]
+            
+            # Euclidean distance
+            dist = math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
+            
+            # Midpoint for placing text
+            mid_x, mid_y = (x1 + x2) // 2, (y1 + y2) // 2
+            
+            # Draw line between objects
+            cv2.line(annotated_img, (x1, y1), (x2, y2), (0, 255, 0), 2)
+            
+            # Draw distance text
+            cv2.putText(
+                annotated_img,
+                f"{dist:.1f}px",
+                (mid_x, mid_y),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.6,
+                (0, 0, 255),
+                2
+            )
+    
+    return annotated_img
+
+
+img = cv2.imread(img_path)
+
+# -------------------------------
+# Process detections
+# -------------------------------
+detections = results[0].boxes
+class_counts = defaultdict(int)
+detected_objects = []
+
+for box in detections:
+    cls_id = int(box.cls.cpu().numpy()[0])
+    class_name = model.names[cls_id]
+    conf = float(box.conf.cpu().numpy()[0])
+    x1, y1, x2, y2 = map(int, box.xyxy[0].cpu().numpy())
+
+    class_id_counters[class_name] += 1
+    obj_id = class_id_counters[class_name]
+
+    # Compute object center
+    cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
+
+    detected_objects.append({
+        "id": obj_id,
+        "class": class_name,
+        "confidence": conf,
+        "bbox": (x1, y1, x2, y2),
+        "center": (cx, cy)
+    })
+    class_counts[class_name] += 1
+
+    bbox_color = get_class_color(class_name)
+
+    # Draw bounding box
+    cv2.rectangle(img, (x1, y1), (x2, y2), bbox_color, 2)
+
+    # Draw label
+    label = f"{class_name} {obj_id}"
+    cv2.putText(img, label, (x1, y1 - 10),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.6, bbox_color, 2)
+
+# -------------------------------
+# Print statistics
+# -------------------------------
+
+# Draw distances between objects
+# -------------------------------
+img_with_distances = draw_pixel_distances(img, detected_objects)
+
+# Convert BGR to RGB for matplotlib
+frame_rgb = cv2.cvtColor(img_with_distances, cv2.COLOR_BGR2RGB)
+
+plt.figure(figsize=(12, 8))
+plt.imshow(frame_rgb)
+plt.title("Object Detection with Pixel Distances")
+plt.axis("off")
+plt.show()
+
+
+import json
+import math
+
+def build_scene_json(detected_objects, scene_graph):
+    """
+    Build JSON with object detection details, distances, and spatial relationships.
+
+    Args:
+        detected_objects (list): List of detected objects with:
+            - id (int)
+            - name (str)      e.g., "car 1"
+            - class (str)
+            - bbox (tuple)    (x1, y1, x2, y2)
+            - center (tuple)  (cx, cy)
+            - confidence (float)
+        scene_graph (list): List of relationships with subject, predicate, object.
+
+    Returns:
+        dict: JSON-compatible structure.
+    """
+    # -------------------------------
+    # 1️⃣ Objects
+    # -------------------------------
+    objects = []
+    for obj in detected_objects:
+        objects.append({
+            "id": obj["id"],                # numeric id (per class)
+            #"name": obj["name"],            # e.g., "car 1"
+            "class": obj["class"],
+            "confidence": obj.get("confidence"),
+            "bbox": obj["bbox"],            # (x1, y1, x2, y2)
+            "center": obj["center"]         # (cx, cy)
+        })
+
+    # -------------------------------
+    # 2️⃣ Distances (pixel distances between centers)
+    # -------------------------------
+    distances = []
+    for i in range(len(detected_objects)):
+        for j in range(i + 1, len(detected_objects)):
+            o1 = detected_objects[i]
+            o2 = detected_objects[j]
+
+            (x1, y1) = o1["center"]
+            (x2, y2) = o2["center"]
+            dist = math.hypot(x1 - x2, y1 - y2)
+
+            distances.append({
+                "object1": o1["class"]+str(o1["id"]),
+                "object2": o2["class"]+str(o2["id"]),
+                "distance_px": round(dist, 2)
+            })
+
+    # -------------------------------
+    # 3️⃣ Spatial relationships (from scene graph)
+    # -------------------------------
+    relationships = []
+    for rel in scene_graph:
+        relationships.append({
+            "subject": rel.get("subject", {}).get("name"),
+            "predicate": rel.get("predicate"),
+            "object": rel.get("object", {}).get("name")
+        })
+
+    return {
+        "objects": objects,
+        "distances": distances,
+        "relationships": relationships
+    }
+
+
+# -------------------------------
+# Example usage after detection
+# -------------------------------
+
+# `detected_objects` is produced by your YOLO script (with "name" & "center" added)
+# `scene_graph` is your list of relations (or [] if none)
+
+scene_json = build_scene_json(detected_objects, scene_graph)
+
+# Save to file
+with open(name_splits[-1] + ".json", "w") as f:
+    json.dump(scene_json, f, indent=4)
+
+# Print to console
+print("\n--- JSON OUTPUT ---")
+print(json.dumps(scene_json, indent=4))

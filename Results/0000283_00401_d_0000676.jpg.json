@@ -1,0 +1,153 @@
+{
+    "objects": [
+        {
+            "id": 1,
+            "class": "car",
+            "confidence": 0.8599556684494019,
+            "bbox": [
+                1024,
+                560,
+                1158,
+                619
+            ],
+            "center": [
+                1091,
+                589
+            ]
+        },
+        {
+            "id": 2,
+            "class": "car",
+            "confidence": 0.8463178873062134,
+            "bbox": [
+                1782,
+                709,
+                1920,
+                989
+            ],
+            "center": [
+                1851,
+                849
+            ]
+        },
+        {
+            "id": 3,
+            "class": "car",
+            "confidence": 0.706731379032135,
+            "bbox": [
+                865,
+                569,
+                1006,
+                629
+            ],
+            "center": [
+                935,
+                599
+            ]
+        },
+        {
+            "id": 4,
+            "class": "car",
+            "confidence": 0.615108072757721,
+            "bbox": [
+                1004,
+                114,
+                1025,
+                131
+            ],
+            "center": [
+                1014,
+                122
+            ]
+        },
+        {
+            "id": 1,
+            "class": "pedestrian",
+            "confidence": 0.3199237287044525,
+            "bbox": [
+                1149,
+                982,
+                1178,
+                1048
+            ],
+            "center": [
+                1163,
+                1015
+            ]
+        }
+    ],
+    "distances": [
+        {
+            "object1": "car1",
+            "object2": "car2",
+            "distance_px": 803.24
+        },
+        {
+            "object1": "car1",
+            "object2": "car3",
+            "distance_px": 156.32
+        },
+        {
+            "object1": "car1",
+            "object2": "car4",
+            "distance_px": 473.31
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian1",
+            "distance_px": 432.04
+        },
+        {
+            "object1": "car2",
+            "object2": "car3",
+            "distance_px": 949.5
+        },
+        {
+            "object1": "car2",
+            "object2": "car4",
+            "distance_px": 1108.65
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian1",
+            "distance_px": 707.74
+        },
+        {
+            "object1": "car3",
+            "object2": "car4",
+            "distance_px": 483.5
+        },
+        {
+            "object1": "car3",
+            "object2": "pedestrian1",
+            "distance_px": 474.38
+        },
+        {
+            "object1": "car4",
+            "object2": "pedestrian1",
+            "distance_px": 905.35
+        }
+    ],
+    "relationships": [
+        {
+            "subject": "car 1",
+            "predicate": "right of",
+            "object": "car 3"
+        },
+        {
+            "subject": "car 2",
+            "predicate": "right of",
+            "object": "pedestrian 1"
+        },
+        {
+            "subject": "car 3",
+            "predicate": "left of",
+            "object": "car 1"
+        },
+        {
+            "subject": "pedestrian 1",
+            "predicate": "left of",
+            "object": "car 2"
+        }
+    ]
+}

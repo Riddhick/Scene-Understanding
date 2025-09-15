@@ -1,0 +1,423 @@
+{
+    "objects": [
+        {
+            "id": 1,
+            "class": "car",
+            "confidence": 0.7279258370399475,
+            "bbox": [
+                0,
+                0,
+                99,
+                110
+            ],
+            "center": [
+                49,
+                55
+            ]
+        },
+        {
+            "id": 2,
+            "class": "car",
+            "confidence": 0.7191087007522583,
+            "bbox": [
+                1250,
+                274,
+                1359,
+                414
+            ],
+            "center": [
+                1304,
+                344
+            ]
+        },
+        {
+            "id": 1,
+            "class": "people",
+            "confidence": 0.6691723465919495,
+            "bbox": [
+                692,
+                188,
+                730,
+                249
+            ],
+            "center": [
+                711,
+                218
+            ]
+        },
+        {
+            "id": 1,
+            "class": "motor",
+            "confidence": 0.6469424962997437,
+            "bbox": [
+                1095,
+                150,
+                1149,
+                211
+            ],
+            "center": [
+                1122,
+                180
+            ]
+        },
+        {
+            "id": 2,
+            "class": "motor",
+            "confidence": 0.6407257318496704,
+            "bbox": [
+                597,
+                293,
+                681,
+                342
+            ],
+            "center": [
+                639,
+                317
+            ]
+        },
+        {
+            "id": 1,
+            "class": "bicycle",
+            "confidence": 0.5423696041107178,
+            "bbox": [
+                667,
+                204,
+                742,
+                253
+            ],
+            "center": [
+                704,
+                228
+            ]
+        },
+        {
+            "id": 1,
+            "class": "pedestrian",
+            "confidence": 0.4423867464065552,
+            "bbox": [
+                146,
+                0,
+                178,
+                25
+            ],
+            "center": [
+                162,
+                12
+            ]
+        },
+        {
+            "id": 2,
+            "class": "people",
+            "confidence": 0.3615871071815491,
+            "bbox": [
+                618,
+                278,
+                655,
+                335
+            ],
+            "center": [
+                636,
+                306
+            ]
+        },
+        {
+            "id": 2,
+            "class": "bicycle",
+            "confidence": 0.30703362822532654,
+            "bbox": [
+                1095,
+                152,
+                1149,
+                212
+            ],
+            "center": [
+                1122,
+                182
+            ]
+        }
+    ],
+    "distances": [
+        {
+            "object1": "car1",
+            "object2": "car2",
+            "distance_px": 1287.85
+        },
+        {
+            "object1": "car1",
+            "object2": "people1",
+            "distance_px": 681.77
+        },
+        {
+            "object1": "car1",
+            "object2": "motor1",
+            "distance_px": 1080.26
+        },
+        {
+            "object1": "car1",
+            "object2": "motor2",
+            "distance_px": 645.56
+        },
+        {
+            "object1": "car1",
+            "object2": "bicycle1",
+            "distance_px": 677.46
+        },
+        {
+            "object1": "car1",
+            "object2": "pedestrian1",
+            "distance_px": 120.9
+        },
+        {
+            "object1": "car1",
+            "object2": "people2",
+            "distance_px": 638.41
+        },
+        {
+            "object1": "car1",
+            "object2": "bicycle2",
+            "distance_px": 1080.49
+        },
+        {
+            "object1": "car2",
+            "object2": "people1",
+            "distance_px": 606.24
+        },
+        {
+            "object1": "car2",
+            "object2": "motor1",
+            "distance_px": 244.99
+        },
+        {
+            "object1": "car2",
+            "object2": "motor2",
+            "distance_px": 665.55
+        },
+        {
+            "object1": "car2",
+            "object2": "bicycle1",
+            "distance_px": 611.11
+        },
+        {
+            "object1": "car2",
+            "object2": "pedestrian1",
+            "distance_px": 1189.28
+        },
+        {
+            "object1": "car2",
+            "object2": "people2",
+            "distance_px": 669.08
+        },
+        {
+            "object1": "car2",
+            "object2": "bicycle2",
+            "distance_px": 243.66
+        },
+        {
+            "object1": "people1",
+            "object2": "motor1",
+            "distance_px": 412.75
+        },
+        {
+            "object1": "people1",
+            "object2": "motor2",
+            "distance_px": 122.41
+        },
+        {
+            "object1": "people1",
+            "object2": "bicycle1",
+            "distance_px": 12.21
+        },
+        {
+            "object1": "people1",
+            "object2": "pedestrian1",
+            "distance_px": 586.38
+        },
+        {
+            "object1": "people1",
+            "object2": "people2",
+            "distance_px": 115.62
+        },
+        {
+            "object1": "people1",
+            "object2": "bicycle2",
+            "distance_px": 412.57
+        },
+        {
+            "object1": "motor1",
+            "object2": "motor2",
+            "distance_px": 502.05
+        },
+        {
+            "object1": "motor1",
+            "object2": "bicycle1",
+            "distance_px": 420.75
+        },
+        {
+            "object1": "motor1",
+            "object2": "pedestrian1",
+            "distance_px": 974.59
+        },
+        {
+            "object1": "motor1",
+            "object2": "people2",
+            "distance_px": 502.07
+        },
+        {
+            "object1": "motor1",
+            "object2": "bicycle2",
+            "distance_px": 2.0
+        },
+        {
+            "object1": "motor2",
+            "object2": "bicycle1",
+            "distance_px": 110.21
+        },
+        {
+            "object1": "motor2",
+            "object2": "pedestrian1",
+            "distance_px": 566.17
+        },
+        {
+            "object1": "motor2",
+            "object2": "people2",
+            "distance_px": 11.4
+        },
+        {
+            "object1": "motor2",
+            "object2": "bicycle2",
+            "distance_px": 501.51
+        },
+        {
+            "object1": "bicycle1",
+            "object2": "pedestrian1",
+            "distance_px": 583.46
+        },
+        {
+            "object1": "bicycle1",
+            "object2": "people2",
+            "distance_px": 103.48
+        },
+        {
+            "object1": "bicycle1",
+            "object2": "bicycle2",
+            "distance_px": 420.52
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "people2",
+            "distance_px": 557.77
+        },
+        {
+            "object1": "pedestrian1",
+            "object2": "bicycle2",
+            "distance_px": 974.94
+        },
+        {
+            "object1": "people2",
+            "object2": "bicycle2",
+            "distance_px": 501.57
+        }
+    ],
+    "relationships": [
+        {
+            "subject": "car 1",
+            "predicate": "left of",
+            "object": "pedestrian 1"
+        },
+        {
+            "subject": "car 2",
+            "predicate": "right of",
+            "object": "motor 2"
+        },
+        {
+            "subject": "car 2",
+            "predicate": "right of",
+            "object": "people 2"
+        },
+        {
+            "subject": "people 1",
+            "predicate": "left of",
+            "object": "motor 1"
+        },
+        {
+            "subject": "people 1",
+            "predicate": "right of",
+            "object": "bicycle 1"
+        },
+        {
+            "subject": "people 1",
+            "predicate": "left of",
+            "object": "bicycle 2"
+        },
+        {
+            "subject": "motor 1",
+            "predicate": "right of",
+            "object": "people 1"
+        },
+        {
+            "subject": "motor 1",
+            "predicate": "right of",
+            "object": "bicycle 1"
+        },
+        {
+            "subject": "motor 1",
+            "predicate": "right of",
+            "object": "bicycle 2"
+        },
+        {
+            "subject": "motor 2",
+            "predicate": "left of",
+            "object": "car 2"
+        },
+        {
+            "subject": "motor 2",
+            "predicate": "right of",
+            "object": "people 2"
+        },
+        {
+            "subject": "bicycle 1",
+            "predicate": "left of",
+            "object": "people 1"
+        },
+        {
+            "subject": "bicycle 1",
+            "predicate": "left of",
+            "object": "motor 1"
+        },
+        {
+            "subject": "bicycle 1",
+            "predicate": "left of",
+            "object": "bicycle 2"
+        },
+        {
+            "subject": "pedestrian 1",
+            "predicate": "right of",
+            "object": "car 1"
+        },
+        {
+            "subject": "people 2",
+            "predicate": "left of",
+            "object": "car 2"
+        },
+        {
+            "subject": "people 2",
+            "predicate": "left of",
+            "object": "motor 2"
+        },
+        {
+            "subject": "bicycle 2",
+            "predicate": "right of",
+            "object": "people 1"
+        },
+        {
+            "subject": "bicycle 2",
+            "predicate": "right of",
+            "object": "motor 1"
+        },
+        {
+            "subject": "bicycle 2",
+            "predicate": "right of",
+            "object": "bicycle 1"
+        }
+    ]
+}
