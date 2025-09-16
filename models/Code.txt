@@ -545,3 +545,81 @@ with open(name_splits[-1] + ".json", "w") as f:
 # Print to console
 print("\n--- JSON OUTPUT ---")
 print(json.dumps(scene_json, indent=4))
+
+
+import cv2
+import math
+from typing import List, Dict, Tuple
+
+def measure_distances(
+    image_path: str,
+    detections: List[Dict],
+    draw: bool = True,
+    output_path: str = "distance_visualized.jpg"
+) -> List[Tuple[int, float, float]]:
+    """
+    Measure distance (in pixels) and angle (0–360 degrees) of each detected object 
+    from the center of the image.
+
+    Args:
+        image_path: Path to the image.
+        detections: List of dicts with keys: id, bbox [x1, y1, x2, y2].
+        draw: If True, draw lines & labels on the image.
+        output_path: Where to save visualization if draw=True.
+
+    Returns:
+        List of tuples: (obj_id, distance_in_pixels, angle_in_degrees)
+    """
+    img = cv2.imread(image_path)
+    if img is None:
+        raise FileNotFoundError(f"Cannot read image: {image_path}")
+
+    h, w = img.shape[:2]
+    cx, cy = w / 2, h / 2
+
+    results = []
+
+    for det in detections:
+        obj_id = det.get("id")
+        x1, y1, x2, y2 = det["bbox"]
+        obj_cx = (x1 + x2) / 2
+        obj_cy = (y1 + y2) / 2
+
+        dx = obj_cx - cx
+        dy = obj_cy - cy
+
+        distance = math.sqrt(dx ** 2 + dy ** 2)
+        angle_rad = math.atan2(dy, dx)   # radians (-pi to pi)
+        angle_deg = (math.degrees(angle_rad) + 360) % 360
+
+        results.append((obj_id, distance, angle_deg))
+
+        if draw:
+            cv2.circle(img, (int(obj_cx), int(obj_cy)), 5, (0, 0, 255), -1)
+            cv2.line(img, (int(cx), int(cy)), (int(obj_cx), int(obj_cy)), (255, 0, 0), 2)
+            cv2.putText(
+                img,
+                f"ID:{obj_id} D:{distance:.1f}px A:{angle_deg:.1f}",
+                (int(obj_cx)+5, int(obj_cy)-5),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.5,
+                (0, 255, 0),
+                1
+            )
+
+    if draw:
+        cv2.circle(img, (int(cx), int(cy)), 6, (0, 255, 255), -1)
+        cv2.imwrite(output_path, img)
+
+    return results
+
+
+# Example usage (assuming you have YOLO detections):
+if __name__ == "__main__":
+    detections = [
+        {"id": 1, "class": "car", "bbox": [100, 120, 200, 220]},
+        {"id": 2, "class": "truck", "bbox": [300, 250, 400, 360]},
+    ]
+    data = measure_distances("input.jpg", detections, draw=True)
+    for obj_id, dist, ang in data:
+        print(f"Object {obj_id}: distance={dist:.2f}px, angle={ang:.2f}°")
