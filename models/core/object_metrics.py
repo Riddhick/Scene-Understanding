@@ -1,5 +1,6 @@
 import math
 import cv2
+import numpy as np
 
 def compute_object_metrics(image, detected_objects):
     """
@@ -54,3 +55,23 @@ def draw_object_metrics(image, metrics, detected_objects):
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
         
     return annotated
+
+
+def normalize_distance(metrics, detected_objects):
+    distances=[]
+    for m in metrics:
+        distances.append(m['distance_px'])
+    max_dist = max(distances)
+    min_dist = min(distances)
+    distances = np.array(distances)
+    distances = distances-min_dist
+    distances = distances/(max_dist-min_dist)
+    normalized_distance = []
+    for d, obj,metric in zip(distances, detected_objects,metrics):
+        normalized_distance.append({
+            "object": obj["name"],
+            "normalized_distance" : round(d,2),
+            "angle_deg": metric["angle_deg"]
+        })
+    return normalized_distance
+

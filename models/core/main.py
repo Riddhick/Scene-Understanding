@@ -2,11 +2,11 @@ from detection import load_model, run_detection
 from relationships import build_scene_graph
 from distances import draw_pixel_distances
 from visualization import draw_scene_graph, show_image
-from object_metrics import compute_object_metrics, draw_object_metrics
+from object_metrics import compute_object_metrics, draw_object_metrics, normalize_distance
 from scene_json import build_scene_json, save_scene_json
 
 def main():
-    img_path = "D:\Work\RCI\Code\Sample\\0000103_03738_d_0000032.jpg"
+    img_path = "D:\Work\RCI\Code\Sample\9999986_00000_d_0000024.jpg"
     model = load_model()
 
     # Detection
@@ -26,9 +26,11 @@ def main():
     metrics = compute_object_metrics(img, detected_objects)
     for m in metrics:
         print(m)  # optional: see values in console
-
+    normalized_metric = normalize_distance(metrics,detected_objects)
+    for m in normalized_metric:
+        print(m)
 # Draw metrics on image
-    img_with_metrics = draw_object_metrics(img_with_distances, metrics, detected_objects)
+    img_with_metrics = draw_object_metrics(img, metrics, detected_objects)
 
 # Show annotated result
     show_image(img_with_metrics, "Scene Graph + Object Metrics")
