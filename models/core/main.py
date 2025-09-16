@@ -2,6 +2,7 @@ from detection import load_model, run_detection
 from relationships import build_scene_graph
 from distances import draw_pixel_distances
 from visualization import draw_scene_graph, show_image
+from object_metrics import compute_object_metrics, draw_object_metrics
 from scene_json import build_scene_json, save_scene_json
 
 def main():
@@ -21,8 +22,16 @@ def main():
     img_with_graph = draw_scene_graph(img_with_distances, scene_graph)
 
     # Show result
-    show_image(img_with_graph, "Scene Graph Visualization")
+    #show_image(img_with_graph, "Scene Graph Visualization")
+    metrics = compute_object_metrics(img, detected_objects)
+    for m in metrics:
+        print(m)  # optional: see values in console
 
+# Draw metrics on image
+    img_with_metrics = draw_object_metrics(img_with_distances, metrics, detected_objects)
+
+# Show annotated result
+    show_image(img_with_metrics, "Scene Graph + Object Metrics")
     # Save JSON
     scene_json = build_scene_json(detected_objects, scene_graph)
     print(scene_json)
