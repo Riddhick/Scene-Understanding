@@ -14,7 +14,9 @@ def build_scene_json(detected_objects, scene_graph):
     relationships = [{
         "subject": rel["subject"]["name"],
         "predicate": rel["predicate"],
-        "object": rel["object"]["name"]
+        "object": rel["object"]["name"],
+        "angle": rel["angle"],
+        "description" : rel["description"]
     } for rel in scene_graph]
 
     return {
