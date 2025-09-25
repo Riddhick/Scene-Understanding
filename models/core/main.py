@@ -6,7 +6,7 @@ from object_metrics import compute_object_metrics, draw_object_metrics, normaliz
 from scene_json import build_scene_json, save_scene_json
 
 def main():
-    img_path = "D:\Work\RCI\Code\Sample\\0000103_03738_d_0000032.jpg"
+    img_path = "D:\Work\RCI\Code\Sample\9999938_00000_d_0000084.jpg"
     model = load_model()
 
     # Detection
