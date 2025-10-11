@@ -22,7 +22,7 @@ def run_detection(model, img_path):
         conf = float(box.conf.cpu().numpy()[0])
         x1, y1, x2, y2 = map(int, box.xyxy[0].cpu().numpy())
 
-        if conf < 0.60:
+        if conf < 0.40:
             continue
 
         # Assign unique ID per class

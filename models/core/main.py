@@ -6,7 +6,7 @@ from object_metrics import compute_object_metrics, draw_object_metrics, normaliz
 from scene_json import build_scene_json, save_scene_json
 
 def main():
-    img_path = "D:\Work\RCI\Code\Sample\9999938_00000_d_0000084.jpg"
+    img_path = "D:\Work\VisDrone2019-VID-val\VisDrone2019-VID-val\\sequences\\uav0000137_00458_v\\0000001.jpg"
     model = load_model()
 
     # Detection
