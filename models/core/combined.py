@@ -233,7 +233,7 @@ def run_detection_on_frame(model, frame, persist_tracking=True):
         - Class smoothing via history majority voting
         - Per-class ID numbering starting from 1
     """
-    results = model.track(frame, persist=persist_tracking, verbose=False)
+    results = model.track(frame, persist=True, tracker="botsort.yaml", verbose=False)
     
     if results[0].boxes is None or results[0].boxes.id is None:
         return frame.copy(), []
@@ -300,83 +300,143 @@ def run_detection_on_frame(model, frame, persist_tracking=True):
 # -----------------------------------------------------------------------------
 # VIDEO PROCESSING (from video_processing.py)
 # -----------------------------------------------------------------------------
-def process_video(video_path, model, output_json_path="video_output.json",
-                  save_output=True, store_every_n_frames=30):
-    """Processes a video with tracking on all frames, stores JSON every N frames,
-    and fits display window to screen while maintaining aspect ratio."""
+def compute_direction(start, end):
+    """Returns dominant direction (up/down/left/right or stationary)."""
+    dx, dy = end[0] - start[0], end[1] - start[1]
+    dist = math.hypot(dx, dy)
+    if dist < 5:
+        return "stationary"
+    angle = (math.degrees(math.atan2(-dy, dx)) + 360) % 360
+    if 45 <= angle < 135:
+        return "up"
+    elif 135 <= angle < 225:
+        return "left"
+    elif 225 <= angle < 315:
+        return "down"
+    else:
+        return "right"
+
+def process_video(video_path, model, output_json_path="video_temporal_output.json",
+                  save_output=True, trajectory_sample_n=10):
+    """Processes a video, maintaining compact temporal info for each tracked object."""
     
     cap = cv2.VideoCapture(video_path)
     if not cap.isOpened():
         print(f"Error: Could not open video file {video_path}")
         return
 
-    # --- Video writer setup ---
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    duration_sec = total_frames / fps
+
+    # --- Video writer ---
     out_writer = None
     if save_output:
         fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-        fps = cap.get(cv2.CAP_PROP_FPS)
-        width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-        height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         out_writer = cv2.VideoWriter("annotated_output.mp4", fourcc, fps, (width, height))
 
-    # --- Get screen size for scaling ---
-    screen_w = 1280
-    screen_h = 720
-
-    all_frames_data = []
+    screen_w, screen_h = 1280, 720
     frame_count = 0
 
-    print("\n--- Starting video processing ---")
+    # --- Track object histories ---
+    object_tracks = {}  # key: unique_name, value: list of (frame, center)
+    class_map = {}      # unique_name -> class
+    print("\n--- Starting video processing (temporal mode) ---")
+
     while True:
         ret, frame = cap.read()
         if not ret:
             break
 
-        # Run detection + tracking
         annotated_frame, detected_objects = run_detection_on_frame(model, frame)
 
-        # Build scene graph
-        scene_graph = build_scene_graph(detected_objects)
-        frame_with_relations = draw_scene_graph(annotated_frame, scene_graph)
+        for obj in detected_objects:
+            name = obj["name"]
+            center = obj["center"]
+            if name not in object_tracks:
+                object_tracks[name] = []
+                class_map[name] = obj["class"]
+            if frame_count % trajectory_sample_n == 0:
+                object_tracks[name].append((frame_count, center))
 
-        # --- Resize for display (fit-to-screen) ---
-        h, w = frame_with_relations.shape[:2]
+        # Visualization (optional live)
+        h, w = annotated_frame.shape[:2]
         scale = min(screen_w / w, screen_h / h)
         disp_w, disp_h = int(w * scale), int(h * scale)
-        frame_display = cv2.resize(frame_with_relations, (disp_w, disp_h))
+        frame_display = cv2.resize(annotated_frame, (disp_w, disp_h))
 
-        # --- Show live video ---
         cv2.imshow("Scene Understanding - Video", frame_display)
-
-        # --- Save annotated video ---
         if save_output:
-            out_writer.write(frame_with_relations)
-
-        # --- Store JSON every N frames ---
-        if frame_count % store_every_n_frames == 0:
-            scene_json = build_scene_json(detected_objects, scene_graph)
-            scene_json['frame_number'] = frame_count
-            all_frames_data.append(scene_json)
+            out_writer.write(annotated_frame)
 
         frame_count += 1
-        print(f"Processed frame {frame_count}", end="\r")
+        print(f"Processed frame {frame_count}/{total_frames}", end="\r")
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
-    # --- Cleanup ---
+    # --- Post-process: summarize trajectories ---
+    summarized_objects = []
+    for name, trajectory in object_tracks.items():
+        if len(trajectory) < 2:
+            continue
+        entry_frame = trajectory[0][0]
+        exit_frame = trajectory[-1][0]
+        duration_sec_obj = (exit_frame - entry_frame) / fps
+
+        # Compute avg speed in px/sec
+        total_dist = 0
+        for i in range(1, len(trajectory)):
+            p1, p2 = trajectory[i - 1][1], trajectory[i][1]
+            total_dist += math.hypot(p2[0] - p1[0], p2[1] - p1[1])
+        avg_speed = total_dist / duration_sec_obj if duration_sec_obj > 0 else 0
+
+        direction = compute_direction(trajectory[0][1], trajectory[-1][1])
+        stationary = direction == "stationary"
+
+        summarized_objects.append({
+            "id": name,
+            "class": class_map[name],
+            "entry_frame": entry_frame,
+            "exit_frame": exit_frame,
+            "entry_time_sec": round(entry_frame / fps, 2),
+            "exit_time_sec": round(exit_frame / fps, 2),
+            "duration_sec": round(duration_sec_obj, 2),
+            "trajectory": [
+                {"frame": f, "x": c[0], "y": c[1]} for f, c in trajectory
+            ],
+            "avg_speed_px_per_sec": round(avg_speed, 2),
+            "direction": direction,
+            "stationary": stationary
+        })
+
+    # --- Save compact JSON ---
+    video_summary = {
+        "video_metadata": {
+            "video_name": video_path.split("\\")[-1],
+            "fps": fps,
+            "frame_width": width,
+            "frame_height": height,
+            "total_frames": total_frames,
+            "duration_sec": round(duration_sec, 2)
+        },
+        "objects": summarized_objects
+    }
+
+    with open(output_json_path, "w") as f:
+        json.dump(video_summary, f, indent=4)
+
     cap.release()
     if save_output:
         out_writer.release()
     cv2.destroyAllWindows()
 
-    # --- Save JSON ---
-    with open(output_json_path, "w") as f:
-        json.dump(all_frames_data, f, indent=4)
-
     print(f"\n✅ Video processing complete.")
     print(f"➡ Annotated video saved as 'annotated_output.mp4'")
-    print(f"➡ JSON saved as '{output_json_path}'")
+    print(f"➡ JSON summary saved as '{output_json_path}'")
+
 
 # -----------------------------------------------------------------------------
 # MAIN
@@ -384,7 +444,7 @@ def process_video(video_path, model, output_json_path="video_output.json",
 def main_image():
     """Defines and runs the pipeline for a single image."""
     # !!! IMPORTANT: Update this path to your image file !!!
-    img_path = "D:\Work\VisDrone2019-VID-val\\VisDrone2019-VID-val\\sequences\\uav0000137_00458_v\0000001.jpg"
+    img_path = "D:\Work\RCI\Code\Sample\\0000103_03738_d_0000032.jpg"
     model = load_model()
 
     img, detected_objects = run_detection(model, img_path)
@@ -403,7 +463,7 @@ def main_image():
 def main_video():
     """Defines and runs the pipeline for a video file."""
     # !!! IMPORTANT: Update this path to your video file !!!
-    video_path = "D:\Work\RCI\Code\output_video.mp4" 
+    video_path = "c:\\Users\\Riddhick\\Downloads\\cropped.mp4" 
     model = load_model()
     
     process_video(video_path, model, "video_scene_output.json")

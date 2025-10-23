@@ -1,0 +1,1112 @@
+{
+    "video_metadata": {
+        "video_name": "output_video.mp4",
+        "fps": 30.0,
+        "frame_width": 2688,
+        "frame_height": 1512,
+        "total_frames": 225,
+        "duration_sec": 7.5
+    },
+    "objects": [
+        {
+            "id": "car 1",
+            "class": "car",
+            "entry_frame": 0,
+            "exit_frame": 10,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.33,
+            "duration_sec": 0.33,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 1220,
+                    "y": 329
+                },
+                {
+                    "frame": 10,
+                    "x": 1839,
+                    "y": 993
+                }
+            ],
+            "avg_speed_px_per_sec": 2723.33,
+            "direction": "down",
+            "stationary": false
+        },
+        {
+            "id": "car 3",
+            "class": "car",
+            "entry_frame": 10,
+            "exit_frame": 80,
+            "entry_time_sec": 0.33,
+            "exit_time_sec": 2.67,
+            "duration_sec": 2.33,
+            "trajectory": [
+                {
+                    "frame": 10,
+                    "x": 1782,
+                    "y": 572
+                },
+                {
+                    "frame": 20,
+                    "x": 1412,
+                    "y": 477
+                },
+                {
+                    "frame": 40,
+                    "x": 1021,
+                    "y": 468
+                },
+                {
+                    "frame": 50,
+                    "x": 904,
+                    "y": 440
+                },
+                {
+                    "frame": 60,
+                    "x": 818,
+                    "y": 421
+                },
+                {
+                    "frame": 70,
+                    "x": 754,
+                    "y": 404
+                },
+                {
+                    "frame": 80,
+                    "x": 692,
+                    "y": 398
+                }
+            ],
+            "avg_speed_px_per_sec": 475.71,
+            "direction": "left",
+            "stationary": false
+        },
+        {
+            "id": "car 4",
+            "class": "car",
+            "entry_frame": 10,
+            "exit_frame": 60,
+            "entry_time_sec": 0.33,
+            "exit_time_sec": 2.0,
+            "duration_sec": 1.67,
+            "trajectory": [
+                {
+                    "frame": 10,
+                    "x": 360,
+                    "y": 317
+                },
+                {
+                    "frame": 20,
+                    "x": 406,
+                    "y": 337
+                },
+                {
+                    "frame": 30,
+                    "x": 478,
+                    "y": 377
+                },
+                {
+                    "frame": 40,
+                    "x": 596,
+                    "y": 531
+                },
+                {
+                    "frame": 50,
+                    "x": 819,
+                    "y": 669
+                },
+                {
+                    "frame": 60,
+                    "x": 1434,
+                    "y": 1068
+                }
+            ],
+            "avg_speed_px_per_sec": 793.12,
+            "direction": "right",
+            "stationary": false
+        },
+        {
+            "id": "car 5",
+            "class": "car",
+            "entry_frame": 10,
+            "exit_frame": 80,
+            "entry_time_sec": 0.33,
+            "exit_time_sec": 2.67,
+            "duration_sec": 2.33,
+            "trajectory": [
+                {
+                    "frame": 10,
+                    "x": 394,
+                    "y": 300
+                },
+                {
+                    "frame": 20,
+                    "x": 430,
+                    "y": 309
+                },
+                {
+                    "frame": 30,
+                    "x": 473,
+                    "y": 329
+                },
+                {
+                    "frame": 40,
+                    "x": 536,
+                    "y": 442
+                },
+                {
+                    "frame": 50,
+                    "x": 621,
+                    "y": 481
+                },
+                {
+                    "frame": 60,
+                    "x": 753,
+                    "y": 545
+                },
+                {
+                    "frame": 70,
+                    "x": 983,
+                    "y": 655
+                },
+                {
+                    "frame": 80,
+                    "x": 1470,
+                    "y": 895
+                }
+            ],
+            "avg_speed_px_per_sec": 536.57,
+            "direction": "right",
+            "stationary": false
+        },
+        {
+            "id": "car 6",
+            "class": "car",
+            "entry_frame": 10,
+            "exit_frame": 80,
+            "entry_time_sec": 0.33,
+            "exit_time_sec": 2.67,
+            "duration_sec": 2.33,
+            "trajectory": [
+                {
+                    "frame": 10,
+                    "x": 236,
+                    "y": 281
+                },
+                {
+                    "frame": 20,
+                    "x": 243,
+                    "y": 284
+                },
+                {
+                    "frame": 30,
+                    "x": 250,
+                    "y": 290
+                },
+                {
+                    "frame": 40,
+                    "x": 266,
+                    "y": 383
+                },
+                {
+                    "frame": 50,
+                    "x": 278,
+                    "y": 391
+                },
+                {
+                    "frame": 60,
+                    "x": 290,
+                    "y": 402
+                },
+                {
+                    "frame": 70,
+                    "x": 305,
+                    "y": 414
+                },
+                {
+                    "frame": 80,
+                    "x": 324,
+                    "y": 430
+                }
+            ],
+            "avg_speed_px_per_sec": 79.69,
+            "direction": "down",
+            "stationary": false
+        },
+        {
+            "id": "car 7",
+            "class": "car",
+            "entry_frame": 20,
+            "exit_frame": 60,
+            "entry_time_sec": 0.67,
+            "exit_time_sec": 2.0,
+            "duration_sec": 1.33,
+            "trajectory": [
+                {
+                    "frame": 20,
+                    "x": 1961,
+                    "y": 567
+                },
+                {
+                    "frame": 30,
+                    "x": 1454,
+                    "y": 455
+                },
+                {
+                    "frame": 40,
+                    "x": 1168,
+                    "y": 477
+                },
+                {
+                    "frame": 50,
+                    "x": 985,
+                    "y": 438
+                },
+                {
+                    "frame": 60,
+                    "x": 858,
+                    "y": 414
+                }
+            ],
+            "avg_speed_px_per_sec": 841.82,
+            "direction": "left",
+            "stationary": false
+        },
+        {
+            "id": "truck 1",
+            "class": "truck",
+            "entry_frame": 60,
+            "exit_frame": 80,
+            "entry_time_sec": 2.0,
+            "exit_time_sec": 2.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 60,
+                    "x": 2535,
+                    "y": 614
+                },
+                {
+                    "frame": 80,
+                    "x": 2537,
+                    "y": 612
+                }
+            ],
+            "avg_speed_px_per_sec": 4.24,
+            "direction": "stationary",
+            "stationary": true
+        },
+        {
+            "id": "car 9",
+            "class": "car",
+            "entry_frame": 50,
+            "exit_frame": 80,
+            "entry_time_sec": 1.67,
+            "exit_time_sec": 2.67,
+            "duration_sec": 1.0,
+            "trajectory": [
+                {
+                    "frame": 50,
+                    "x": 254,
+                    "y": 344
+                },
+                {
+                    "frame": 70,
+                    "x": 263,
+                    "y": 356
+                },
+                {
+                    "frame": 80,
+                    "x": 271,
+                    "y": 362
+                }
+            ],
+            "avg_speed_px_per_sec": 25.0,
+            "direction": "down",
+            "stationary": false
+        }
+    ]
+}
+
+
+Mistral-7B Instruct : 
+This 7.5-second video captures a dynamic urban intersection from a high vantage point, featuring multiple vehicles moving through the frame. At the very start, a car (car 1) quickly enters from the top and exits toward the bottom in just a third of a second. Almost immediately, three cars (car 3, car 4, and car 5) appear from different edges—one moving left, another right, and the third also right—each following distinct trajectories and speeds, with car 4 accelerating rapidly toward the bottom right. Meanwhile, car 6 and car 9 move slowly downward, barely changing position, while car 7 enters from the right and moves leftward at a moderate pace. Around the 2-second mark, a truck (truck 1) appears near the right edge but remains almost stationary until the video ends. The scene is characterized by a mix of fast and slow movements, with cars crossing paths and changing directions, illustrating the complexity and flow of traffic at this location.
+
+Deepseek :
+This 7.5-second video shows a busy traffic scene with multiple vehicles moving simultaneously. Initially, car 1 moves downward quickly before exiting, while several cars enter at frame 10: car 3 travels steadily leftward across the frame, car 4 and car 5 both move rightward at moderate speeds with car 5 following a similar path to car 4, and car 6 creeps slowly downward. At frame 20, car 7 enters moving rapidly leftward. By frame 50, car 9 appears moving slowly downward, and finally, a truck becomes visible at frame 60, remaining essentially stationary on the right side until the video ends. The scene captures complex multi-directional movement with cars traveling left, right, and down at varying speeds while one truck remains parked.
+
+GPT-4:
+The video, titled output_video.mp4, is a short 7.5-second clip with a resolution of 2688×1512 pixels at 30 frames per second, depicting a busy scene with multiple vehicles moving in different directions. A car enters from the top-left and quickly moves diagonally down-right before exiting within the first 0.33 seconds, while several cars, including cars 3, 4, 5, 6, and 7, traverse the scene over the next few seconds, moving left, right, or downward at varying speeds, with some accelerating sharply and others moving more gradually. Car 3 glides steadily leftward across the center, while car 4 dramatically shifts from the left side toward the right with a noticeable diagonal trajectory, passing through increasing vertical coordinates. Car 5 and car 6 also move rightward, with car 5 taking a more dynamic path and car 6 moving slowly downward. Car 7 moves left across the upper portion, while car 9 progresses slowly downward on the lower-left, and a stationary truck occupies the right side of the frame for a brief interval, barely moving. Overall, the video captures a dynamic traffic scenario with multiple interacting vehicles exhibiting distinct speeds, directions, and trajectories, providing rich spatial and temporal information for scene understanding.
+
+
+Sonet - 3.5:
+This 7.5-second traffic surveillance video captures a busy intersection with multiple vehicles moving in different directions. The scene opens with a car rapidly exiting downward through the frame within the first third of a second, followed by several vehicles entering simultaneously around the 0.3-second mark. Throughout the sequence, there's significant bi-directional traffic flow: multiple cars travel from right to left across the upper portion of the frame at varying speeds, with one car moving particularly fast at over 800 pixels per second, while other vehicles move from left to right through the lower section, accelerating as they progress through the intersection with speeds ranging from moderate to fast (500-800 pixels per second). Two slower-moving vehicles traverse downward along the left edge of the frame at considerably reduced speeds. Notably, a truck remains stationary near the right edge of the frame during the final portion of the video, likely parked or stopped in traffic. The overall scene depicts typical intersection dynamics with vehicles entering, crossing, and exiting at different velocities and trajectories, creating a complex pattern of urban traffic flow captured at 30 frames per second in high resolution.
+
+
+
+{
+    "video_metadata": {
+        "video_name": "output_video.mp4",
+        "fps": 30.0,
+        "frame_width": 1904,
+        "frame_height": 1070,
+        "total_frames": 275,
+        "duration_sec": 9.17
+    },
+    "objects": [
+        {
+            "id": "car 1",
+            "class": "car",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 883,
+                    "y": 836
+                },
+                {
+                    "frame": 10,
+                    "x": 908,
+                    "y": 723
+                },
+                {
+                    "frame": 20,
+                    "x": 918,
+                    "y": 646
+                }
+            ],
+            "avg_speed_px_per_sec": 290.07,
+            "direction": "up",
+            "stationary": false
+        },
+        {
+            "id": "car 2",
+            "class": "car",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 687,
+                    "y": 654
+                },
+                {
+                    "frame": 10,
+                    "x": 655,
+                    "y": 707
+                },
+                {
+                    "frame": 20,
+                    "x": 633,
+                    "y": 781
+                }
+            ],
+            "avg_speed_px_per_sec": 208.67,
+            "direction": "down",
+            "stationary": false
+        },
+        {
+            "id": "car 3",
+            "class": "car",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 1631,
+                    "y": 900
+                },
+                {
+                    "frame": 10,
+                    "x": 1339,
+                    "y": 808
+                },
+                {
+                    "frame": 20,
+                    "x": 1155,
+                    "y": 731
+                }
+            ],
+            "avg_speed_px_per_sec": 758.42,
+            "direction": "left",
+            "stationary": false
+        },
+        {
+            "id": "car 4",
+            "class": "car",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 817,
+                    "y": 511
+                },
+                {
+                    "frame": 10,
+                    "x": 800,
+                    "y": 534
+                },
+                {
+                    "frame": 20,
+                    "x": 778,
+                    "y": 561
+                }
+            ],
+            "avg_speed_px_per_sec": 95.14,
+            "direction": "down",
+            "stationary": false
+        },
+        {
+            "id": "van 1",
+            "class": "van",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 676,
+                    "y": 547
+                },
+                {
+                    "frame": 10,
+                    "x": 631,
+                    "y": 577
+                },
+                {
+                    "frame": 20,
+                    "x": 571,
+                    "y": 616
+                }
+            ],
+            "avg_speed_px_per_sec": 188.47,
+            "direction": "left",
+            "stationary": false
+        },
+        {
+            "id": "car 5",
+            "class": "car",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 1553,
+                    "y": 577
+                },
+                {
+                    "frame": 10,
+                    "x": 1553,
+                    "y": 580
+                },
+                {
+                    "frame": 20,
+                    "x": 1553,
+                    "y": 582
+                }
+            ],
+            "avg_speed_px_per_sec": 7.5,
+            "direction": "down",
+            "stationary": false
+        },
+        {
+            "id": "pedestrian 1",
+            "class": "pedestrian",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 170,
+                    "y": 634
+                },
+                {
+                    "frame": 10,
+                    "x": 175,
+                    "y": 640
+                },
+                {
+                    "frame": 20,
+                    "x": 171,
+                    "y": 646
+                }
+            ],
+            "avg_speed_px_per_sec": 22.53,
+            "direction": "down",
+            "stationary": false
+        },
+        {
+            "id": "truck 1",
+            "class": "truck",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 996,
+                    "y": 635
+                },
+                {
+                    "frame": 10,
+                    "x": 997,
+                    "y": 582
+                },
+                {
+                    "frame": 20,
+                    "x": 993,
+                    "y": 542
+                }
+            ],
+            "avg_speed_px_per_sec": 139.81,
+            "direction": "up",
+            "stationary": false
+        },
+        {
+            "id": "car 6",
+            "class": "car",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 818,
+                    "y": 432
+                },
+                {
+                    "frame": 10,
+                    "x": 804,
+                    "y": 445
+                },
+                {
+                    "frame": 20,
+                    "x": 790,
+                    "y": 460
+                }
+            ],
+            "avg_speed_px_per_sec": 59.43,
+            "direction": "down",
+            "stationary": false
+        },
+        {
+            "id": "pedestrian 2",
+            "class": "pedestrian",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 1666,
+                    "y": 678
+                },
+                {
+                    "frame": 10,
+                    "x": 1664,
+                    "y": 680
+                },
+                {
+                    "frame": 20,
+                    "x": 1654,
+                    "y": 681
+                }
+            ],
+            "avg_speed_px_per_sec": 19.32,
+            "direction": "left",
+            "stationary": false
+        },
+        {
+            "id": "pedestrian 3",
+            "class": "pedestrian",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 355,
+                    "y": 580
+                },
+                {
+                    "frame": 10,
+                    "x": 337,
+                    "y": 591
+                },
+                {
+                    "frame": 20,
+                    "x": 312,
+                    "y": 598
+                }
+            ],
+            "avg_speed_px_per_sec": 70.58,
+            "direction": "left",
+            "stationary": false
+        },
+        {
+            "id": "people 1",
+            "class": "people",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 571,
+                    "y": 719
+                },
+                {
+                    "frame": 10,
+                    "x": 546,
+                    "y": 812
+                },
+                {
+                    "frame": 20,
+                    "x": 494,
+                    "y": 939
+                }
+            ],
+            "avg_speed_px_per_sec": 350.3,
+            "direction": "down",
+            "stationary": false
+        },
+        {
+            "id": "van 2",
+            "class": "van",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 758,
+                    "y": 467
+                },
+                {
+                    "frame": 10,
+                    "x": 737,
+                    "y": 486
+                },
+                {
+                    "frame": 20,
+                    "x": 712,
+                    "y": 507
+                }
+            ],
+            "avg_speed_px_per_sec": 91.45,
+            "direction": "left",
+            "stationary": false
+        },
+        {
+            "id": "tricycle 1",
+            "class": "tricycle",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 771,
+                    "y": 664
+                },
+                {
+                    "frame": 10,
+                    "x": 768,
+                    "y": 681
+                },
+                {
+                    "frame": 20,
+                    "x": 765,
+                    "y": 695
+                }
+            ],
+            "avg_speed_px_per_sec": 47.37,
+            "direction": "down",
+            "stationary": false
+        },
+        {
+            "id": "people 2",
+            "class": "people",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 1633,
+                    "y": 740
+                },
+                {
+                    "frame": 10,
+                    "x": 1632,
+                    "y": 752
+                },
+                {
+                    "frame": 20,
+                    "x": 1624,
+                    "y": 764
+                }
+            ],
+            "avg_speed_px_per_sec": 39.7,
+            "direction": "down",
+            "stationary": false
+        },
+        {
+            "id": "pedestrian 4",
+            "class": "pedestrian",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 375,
+                    "y": 582
+                },
+                {
+                    "frame": 10,
+                    "x": 352,
+                    "y": 595
+                },
+                {
+                    "frame": 20,
+                    "x": 326,
+                    "y": 603
+                }
+            ],
+            "avg_speed_px_per_sec": 80.43,
+            "direction": "left",
+            "stationary": false
+        },
+        {
+            "id": "car 7",
+            "class": "car",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 386,
+                    "y": 459
+                },
+                {
+                    "frame": 10,
+                    "x": 382,
+                    "y": 459
+                },
+                {
+                    "frame": 20,
+                    "x": 383,
+                    "y": 459
+                }
+            ],
+            "avg_speed_px_per_sec": 7.5,
+            "direction": "stationary",
+            "stationary": true
+        },
+        {
+            "id": "motor 1",
+            "class": "motor",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 571,
+                    "y": 740
+                },
+                {
+                    "frame": 10,
+                    "x": 547,
+                    "y": 840
+                },
+                {
+                    "frame": 20,
+                    "x": 493,
+                    "y": 974
+                }
+            ],
+            "avg_speed_px_per_sec": 370.97,
+            "direction": "down",
+            "stationary": false
+        },
+        {
+            "id": "car 8",
+            "class": "car",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 360,
+                    "y": 475
+                },
+                {
+                    "frame": 10,
+                    "x": 361,
+                    "y": 475
+                },
+                {
+                    "frame": 20,
+                    "x": 360,
+                    "y": 477
+                }
+            ],
+            "avg_speed_px_per_sec": 4.85,
+            "direction": "stationary",
+            "stationary": true
+        },
+        {
+            "id": "bicycle 1",
+            "class": "bicycle",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 1121,
+                    "y": 575
+                },
+                {
+                    "frame": 20,
+                    "x": 1103,
+                    "y": 539
+                }
+            ],
+            "avg_speed_px_per_sec": 60.37,
+            "direction": "up",
+            "stationary": false
+        },
+        {
+            "id": "van 3",
+            "class": "van",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 442,
+                    "y": 441
+                },
+                {
+                    "frame": 10,
+                    "x": 440,
+                    "y": 444
+                },
+                {
+                    "frame": 20,
+                    "x": 440,
+                    "y": 445
+                }
+            ],
+            "avg_speed_px_per_sec": 6.91,
+            "direction": "stationary",
+            "stationary": true
+        },
+        {
+            "id": "tricycle 2",
+            "class": "tricycle",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 1483,
+                    "y": 620
+                },
+                {
+                    "frame": 10,
+                    "x": 1484,
+                    "y": 620
+                },
+                {
+                    "frame": 20,
+                    "x": 1485,
+                    "y": 622
+                }
+            ],
+            "avg_speed_px_per_sec": 4.85,
+            "direction": "stationary",
+            "stationary": true
+        },
+        {
+            "id": "motor 2",
+            "class": "motor",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 460,
+                    "y": 513
+                },
+                {
+                    "frame": 10,
+                    "x": 461,
+                    "y": 513
+                },
+                {
+                    "frame": 20,
+                    "x": 465,
+                    "y": 517
+                }
+            ],
+            "avg_speed_px_per_sec": 9.99,
+            "direction": "right",
+            "stationary": false
+        },
+        {
+            "id": "pedestrian 5",
+            "class": "pedestrian",
+            "entry_frame": 0,
+            "exit_frame": 20,
+            "entry_time_sec": 0.0,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.67,
+            "trajectory": [
+                {
+                    "frame": 0,
+                    "x": 1221,
+                    "y": 483
+                },
+                {
+                    "frame": 10,
+                    "x": 1225,
+                    "y": 487
+                },
+                {
+                    "frame": 20,
+                    "x": 1228,
+                    "y": 491
+                }
+            ],
+            "avg_speed_px_per_sec": 15.99,
+            "direction": "down",
+            "stationary": false
+        },
+        {
+            "id": "car 10",
+            "class": "car",
+            "entry_frame": 10,
+            "exit_frame": 20,
+            "entry_time_sec": 0.33,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.33,
+            "trajectory": [
+                {
+                    "frame": 10,
+                    "x": 942,
+                    "y": 351
+                },
+                {
+                    "frame": 20,
+                    "x": 937,
+                    "y": 353
+                }
+            ],
+            "avg_speed_px_per_sec": 16.16,
+            "direction": "left",
+            "stationary": false
+        },
+        {
+            "id": "tricycle 3",
+            "class": "tricycle",
+            "entry_frame": 10,
+            "exit_frame": 20,
+            "entry_time_sec": 0.33,
+            "exit_time_sec": 0.67,
+            "duration_sec": 0.33,
+            "trajectory": [
+                {
+                    "frame": 10,
+                    "x": 1589,
+                    "y": 659
+                },
+                {
+                    "frame": 20,
+                    "x": 1586,
+                    "y": 659
+                }
+            ],
+            "avg_speed_px_per_sec": 9.0,
+            "direction": "stationary",
+            "stationary": true
+        }
+    ]
+}
+Use the given JSON to describe a video in natural language for scene understanding. Make only one single paragraph
+
+
+Mistral-7B Instruct :
+This 9.17-second video clip captures a bustling street scene from an elevated perspective, teeming with a variety of vehicles and pedestrians all moving simultaneously within the first two-thirds of a second. At the outset, several cars, vans, a truck, and even a tricycle and bicycle enter the frame from different directions: one car (car 3) swiftly crosses from right to left at high speed, while another (car 1) moves upward and a truck (truck 1) ascends more slowly. Pedestrians and groups of people are scattered throughout, some walking left or down, with one group (people 1) moving rapidly downward, possibly crossing the street. A motorbike (motor 1) accelerates downward, and a bicycle (bicycle 1) travels upward, adding to the scene’s dynamism. Meanwhile, a few vehicles—such as car 7, car 8, van 3, and tricycle 2—remain almost stationary, suggesting either parked positions or minimal movement. The scene is a snapshot of urban life, with diverse movement patterns and interactions among cars, pedestrians, and two-wheelers, all contributing to the lively atmosphere of a busy intersection.
+
+Deepseek:
+This 9.17-second video depicts a densely populated urban scene with diverse traffic and pedestrian activity, where multiple vehicles and people move in various directions while others remain stationary. Cars, vans, a truck, a bicycle, motorcycles, tricycles, and pedestrians are all present, creating a complex dynamic: some vehicles move upward and downward, others travel leftward, while a group of people and a motorcycle move rapidly downward together. Notably, several vehicles including cars, a van, and tricycles remain essentially parked, and a late-entering car and tricycle join the scene, with the tricycle also stopping, all amidst slower-moving pedestrians wandering through the frame.
+
+GPT-4:
+The video *output_video.mp4* is a 9.17-second clip at 1904×1070 resolution and 30 fps, depicting a densely populated urban scene with a mix of vehicles and pedestrians moving simultaneously. Multiple cars, vans, trucks, motorcycles, tricycles, bicycles, and groups of people traverse the scene in varying directions and speeds, creating a dynamic traffic flow. Some vehicles, like car 1, move upward rapidly, while car 2 and car 4 move downward, and car 3 moves swiftly to the left, illustrating diverse trajectories across the frame. Vans and smaller vehicles also shift leftward or downward, while a few vehicles such as car 5, car 7, van 3, and tricycle 2 remain mostly stationary, providing contrast to the moving traffic. Pedestrians and people clusters walk slowly in multiple directions, occasionally intersecting vehicle paths, and motorbikes move faster along clear lanes. The interactions between different vehicle types, stationary and moving objects, and pedestrians highlight a complex urban traffic environment, capturing detailed spatial and temporal dynamics essential for scene understanding.
+
+
+Sonet-4.5:
+This 9.17-second urban street scene captures a complex intersection teeming with diverse traffic and pedestrian activity during what appears to be a busy period. The video opens with a crowded tableau of vehicles moving in multiple directions: cars travel upward and downward through the frame at varying speeds, with one vehicle moving left at a notably brisk pace of over 750 pixels per second, while several others navigate more cautiously at slower speeds. A truck and multiple vans weave through the traffic, some moving diagonally across the intersection while others progress more steadily in cardinal directions. Numerous pedestrians populate the scene, moving slowly along sidewalks and crossing areas at walking pace, with several individuals clustered together appearing as groups. Mixed among the motor vehicles are smaller modes of transport including a motorcycle moving rapidly downward at over 370 pixels per second, a bicycle traveling upward, and multiple tricycles positioned throughout the scene. Several vehicles remain stationary or nearly motionless, including two cars and a van that appear to be stopped or parked, suggesting either traffic congestion or designated stopping areas. The scene exemplifies the characteristic density and variety of Asian urban traffic, where cars, trucks, vans, motorcycles, bicycles, tricycles, and pedestrians all share the same road space in a dynamic, multi-layered flow of movement captured at 30 frames per second.

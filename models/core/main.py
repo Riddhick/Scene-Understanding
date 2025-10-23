@@ -1,12 +1,12 @@
 from detection import load_model, run_detection
 from spatialrel import build_scene_graph
 from distances import draw_pixel_distances
-from visualization import draw_scene_graph, show_image
+from visualization import draw_scene_graph, show_image, draw_object_angles
 from object_metrics import compute_object_metrics, draw_object_metrics, normalize_distance
 from scene_json import build_scene_json, save_scene_json
 
 def main():
-    img_path = "D:\Work\VisDrone2019-VID-val\VisDrone2019-VID-val\\sequences\\uav0000137_00458_v\\0000001.jpg"
+    img_path = "Sample/0000120_01535_d_0000095.jpg"
     model = load_model()
 
     # Detection
@@ -19,8 +19,10 @@ def main():
     img_with_distances = draw_pixel_distances(img, detected_objects)
 
     # Draw scene graph
-    img_with_graph = draw_scene_graph(img_with_distances, scene_graph)
-
+    img_with_graph = draw_scene_graph(img, scene_graph)
+    img_with_angles = draw_object_angles(img, detected_objects, scene_graph)
+    # Show the new visualization
+    #show_image(img_with_angles, "Object Angles Visualization")
     # Show result
     show_image(img_with_graph, "Scene Graph Visualization")
     #metrics = compute_object_metrics(img, detected_objects)
@@ -37,7 +39,7 @@ def main():
     # Save JSON
     scene_json = build_scene_json(detected_objects, scene_graph)
     print(scene_json)
-    #save_scene_json(scene_json)
+    save_scene_json(scene_json)
 
 if __name__ == "__main__":
     main()

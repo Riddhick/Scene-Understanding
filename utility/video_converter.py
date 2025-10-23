@@ -2,7 +2,7 @@ import cv2
 import os
 
 # === Configuration ===
-image_folder = 'D:\Work\VisDrone2019\VisDrone2019-MOT-train\sequences\\uav0000218_00001_v'   # Folder containing images
+image_folder = 'D:\Work\VisDrone2019\VisDrone2019-MOT-train\\sequences\\uav0000263_03289_v'   # Folder containing images
 output_video = 'output_video.mp4'              # Output video file name
 fps = 30                                       # Frames per second
 
