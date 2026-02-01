@@ -5,6 +5,8 @@ from visualization import draw_scene_graph, show_image, draw_object_angles, save
 from object_metrics import compute_object_metrics, draw_object_metrics, normalize_distance
 from scene_json import build_scene_json, save_scene_json
 from semantic_feature import add_semantic_features
+from semantic_feature_parallel import add_semantic_features_hybrid
+import cv2
 
 
 def main():
@@ -13,7 +15,8 @@ def main():
 
     # Detection
     img, detected_objects = run_detection(model, img_path)
-    detected_objects = add_semantic_features(img, detected_objects,debug=True)
+    #detected_objects = add_semantic_features(img, detected_objects,debug=True)
+    detected_objects  = add_semantic_features_hybrid(img, detected_objects,debug = True)
     # Scene graph
     scene_graph = build_scene_graph(detected_objects)
 

@@ -1,0 +1,224 @@
+{
+    "objects": [
+        {
+            "id": "pedestrian 1",
+            "class": "pedestrian",
+            "bbox": [
+                262,
+                219,
+                340,
+                424
+            ],
+            "center": [
+                301,
+                321
+            ],
+            "semantic": {
+                "rel_area": 0.0154,
+                "aspect_ratio": 0.38,
+                "brightness": 108.17,
+                "saturation": 96.03,
+                "edge_density": 0.1415,
+                "texture_var": 2587.04,
+                "lbp": [
+                    0.027,
+                    0.047,
+                    0.033,
+                    0.102,
+                    0.154,
+                    0.204,
+                    0.072,
+                    0.082,
+                    0.186,
+                    0.093
+                ],
+                "color_palette": [
+                    {
+                        "hsv": [
+                            102,
+                            52,
+                            110
+                        ],
+                        "percent": 0.675
+                    },
+                    {
+                        "hsv": [
+                            141,
+                            184,
+                            57
+                        ],
+                        "percent": 0.241
+                    },
+                    {
+                        "hsv": [
+                            83,
+                            195,
+                            239
+                        ],
+                        "percent": 0.084
+                    }
+                ]
+            }
+        },
+        {
+            "id": "pedestrian 2",
+            "class": "pedestrian",
+            "bbox": [
+                174,
+                355,
+                309,
+                622
+            ],
+            "center": [
+                241,
+                488
+            ],
+            "semantic": {
+                "rel_area": 0.0346,
+                "aspect_ratio": 0.506,
+                "brightness": 100.88,
+                "saturation": 63.23,
+                "edge_density": 0.0528,
+                "texture_var": 1566.5,
+                "lbp": [
+                    0.007,
+                    0.03,
+                    0.015,
+                    0.097,
+                    0.202,
+                    0.25,
+                    0.069,
+                    0.066,
+                    0.212,
+                    0.052
+                ],
+                "color_palette": [
+                    {
+                        "hsv": [
+                            92,
+                            42,
+                            105
+                        ],
+                        "percent": 0.843
+                    },
+                    {
+                        "hsv": [
+                            105,
+                            169,
+                            17
+                        ],
+                        "percent": 0.113
+                    },
+                    {
+                        "hsv": [
+                            83,
+                            196,
+                            241
+                        ],
+                        "percent": 0.044
+                    }
+                ]
+            }
+        },
+        {
+            "id": "truck 1",
+            "class": "truck",
+            "bbox": [
+                943,
+                17,
+                1360,
+                372
+            ],
+            "center": [
+                1151,
+                194
+            ],
+            "semantic": {
+                "rel_area": 0.1423,
+                "aspect_ratio": 1.175,
+                "brightness": 91.55,
+                "saturation": 93.88,
+                "edge_density": 0.0506,
+                "texture_var": 1801.56,
+                "lbp": [
+                    0.015,
+                    0.037,
+                    0.024,
+                    0.117,
+                    0.238,
+                    0.226,
+                    0.085,
+                    0.069,
+                    0.127,
+                    0.063
+                ],
+                "color_palette": [
+                    {
+                        "hsv": [
+                            69,
+                            62,
+                            35
+                        ],
+                        "percent": 0.407
+                    },
+                    {
+                        "hsv": [
+                            73,
+                            37,
+                            127
+                        ],
+                        "percent": 0.307
+                    },
+                    {
+                        "hsv": [
+                            110,
+                            195,
+                            130
+                        ],
+                        "percent": 0.286
+                    }
+                ]
+            }
+        }
+    ],
+    "distances": [
+        {
+            "object1": "pedestrian 1",
+            "object2": "pedestrian 2",
+            "distance_px": 177.45
+        },
+        {
+            "object1": "pedestrian 1",
+            "object2": "truck 1",
+            "distance_px": 859.44
+        },
+        {
+            "object1": "pedestrian 2",
+            "object2": "truck 1",
+            "distance_px": 956.31
+        }
+    ],
+    "relationships": [
+        {
+            "subject": "pedestrian 1",
+            "predicate": "down",
+            "object": "pedestrian 2",
+            "angle": 250.39,
+            "description": "pedestrian 2 is down (250.39\u00b0) relative to pedestrian 1"
+        },
+        {
+            "subject": "pedestrian 1",
+            "predicate": "right",
+            "object": "truck 1",
+            "angle": 8.49,
+            "description": "truck 1 is right (8.49\u00b0) relative to pedestrian 1"
+        },
+        {
+            "subject": "pedestrian 2",
+            "predicate": "right",
+            "object": "truck 1",
+            "angle": 17.9,
+            "description": "truck 1 is right (17.9\u00b0) relative to pedestrian 2"
+        }
+    ]
+}
