@@ -6,7 +6,8 @@ def build_scene_json(detected_objects, scene_graph):
         "id": obj["name"],
         "class": obj["class"],
         "bbox": obj["bbox"],
-        "center": obj["center"]
+        "center": obj["center"],
+        "semantic": obj.get("semantic", {})
     } for obj in detected_objects]
 
     distances = calculate_pixel_distances(detected_objects)

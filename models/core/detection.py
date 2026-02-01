@@ -4,7 +4,7 @@ import torch
 from ultralytics import YOLO
 from utils import get_class_color
 
-def load_model(model_name="D:\Work\RCI\Code\models\weights\yolov11_trained.pt"):
+def load_model(model_name="models/weights/yolov11_trained.pt"):
     return YOLO(model_name)
 
 def run_detection(model, img_path):
@@ -22,7 +22,7 @@ def run_detection(model, img_path):
         conf = float(box.conf.cpu().numpy()[0])
         x1, y1, x2, y2 = map(int, box.xyxy[0].cpu().numpy())
 
-        if conf < 0.35:
+        if conf < 0.4:
             continue
 
         # Assign unique ID per class

@@ -1,0 +1,982 @@
+﻿# -----------------------------------------------------------------------------
+#
+#           Combined Computer Vision Pipeline with BoxMot + OSNet ReID
+#           - Embeddings only for YOLO-detected objects
+#           - Per-class ID numbering starting from 1
+#
+# -----------------------------------------------------------------------------
+
+
+# -----------------------------------------------------------------------------
+# IMPORTS
+# -----------------------------------------------------------------------------
+import cv2
+import json
+import math
+import random
+import numpy as np
+from collections import defaultdict
+from PIL import Image
+import torch
+import torchvision.transforms as T
+from ultralytics import YOLO
+from matplotlib import pyplot as plt
+from boxmot import BoxMot
+from torchreid.models.osnet import osnet_x0_25
+
+
+# -----------------------------------------------------------------------------
+# CONFIG
+# -----------------------------------------------------------------------------
+RELATION_COLORS = {
+        "left of": (255, 0, 0),
+        "right of": (0, 255, 0),
+        "near_to": (0, 0, 255),
+        "inside": (255, 255, 0),
+        "up": (255, 0, 255),
+        "down": (0, 255, 255),
+}
+
+
+# -----------------------------------------------------------------------------
+# UTILS
+# -----------------------------------------------------------------------------
+class_colors = {}
+def get_class_color(class_name: str):
+        if class_name not in class_colors:
+            class_colors[class_name] = (
+                random.randint(50, 255),
+                random.randint(50, 255),
+                random.randint(50, 255),
+            )
+        return class_colors[class_name]
+
+
+# -----------------------------------------------------------------------------
+# DISTANCES
+# -----------------------------------------------------------------------------
+def calculate_pixel_distances(detected_objects):
+        distances = []
+        for i in range(len(detected_objects)):
+            for j in range(i + 1, len(detected_objects)):
+                obj1, obj2 = detected_objects[i], detected_objects[j]
+                (x1, y1), (x2, y2) = obj1["center"], obj2["center"]
+                dist = math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
+                distances.append({
+                    "object1": obj1["name"],
+                    "object2": obj2["name"],
+                    "distance_px": round(dist, 2)
+                })
+        return distances
+
+
+def draw_pixel_distances(image, detected_objects):
+        annotated = image.copy()
+        for i in range(len(detected_objects)):
+            for j in range(i + 1, len(detected_objects)):
+                obj1, obj2 = detected_objects[i], detected_objects[j]
+                (x1, y1), (x2, y2) = obj1["center"], obj2["center"]
+                dist = math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
+                mid_x, mid_y = (x1 + x2) // 2, (y1 + y2) // 2
+                cv2.line(annotated, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                cv2.putText(annotated, f"{dist:.1f}px", (mid_x, mid_y),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
+        return annotated
+
+
+# -----------------------------------------------------------------------------
+# SPATIAL RELATIONSHIPS
+# -----------------------------------------------------------------------------
+def determine_spatial_relationship(box1, box2):
+        x1a, y1a, x2a, y2a = box1
+        x1b, y1b, x2b, y2b = box2
+        cx1, cy1 = (x1a + x2a)/2, (y1a + y2a)/2
+        cx2, cy2 = (x1b + x2b)/2, (y1b + y2b)/2
+        w1, h1 = x2a - x1a, y2a - y1a
+        w2, h2 = x2b - x1b, y2b - y1b
+        dx, dy = cx2 - cx1, cy2 - cy1
+        angle = (np.degrees(np.arctan2(-dy, dx)) + 360) % 360
+        y_overlap = max(0, min(y2a, y2b) - max(y1a, y1b))
+        y_overlap_ratio = (y_overlap / min(h1,h2)) if min(h1,h2)>0 else 0
+        dist = np.hypot(dx, dy)
+        near_threshold = ((w1 + w2 + h1 + h2)/4)*1.5
+
+
+        if x1b>x1a and y1b>y1a and x2b<x2a and y2b<y2a:
+            return "inside", angle
+        if y_overlap_ratio > 0.4:
+            return ("left of" if dx<0 else "right of"), angle
+        if abs(dx) < max(w1,w2)*0.5:
+            return ("up" if dy<0 else "down"), angle
+        if dist < near_threshold:
+            return "near_to", angle
+        return None, angle
+
+
+def build_scene_graph(detected_objects):
+        scene_graph = []
+        for i, subj in enumerate(detected_objects):
+            for j, obj in enumerate(detected_objects):
+                if i==j:
+                    continue
+                pred, ang = determine_spatial_relationship(subj["bbox"], obj["bbox"])
+                if pred:
+                    scene_graph.append({
+                        "subject": subj,
+                        "predicate": pred,
+                        "object": obj,
+                        "angle": round(ang,2),
+                        "description": f'{obj.get("name","obj")} is at {round(ang,1)}° {pred} {subj.get("name","obj")}'
+                    })
+        return scene_graph
+
+
+# -----------------------------------------------------------------------------
+# JSON
+# -----------------------------------------------------------------------------
+def build_scene_json(detected_objects, scene_graph):
+        objects = [{"id":obj["name"], "class":obj["class"], "bbox":obj["bbox"], "center":obj["center"]} for obj in detected_objects]
+        distances = calculate_pixel_distances(detected_objects)
+        relationships = [{"subject":rel["subject"]["name"], "predicate":rel["predicate"], "object":rel["object"]["name"], "angle":rel["angle"], "description":rel["description"]} for rel in scene_graph]
+        return {"objects":objects, "distances":distances, "relationships":relationships}
+
+
+def save_scene_json(scene_json, filename="scene_output.json"):
+        with open(filename,"w") as f:
+            json.dump(scene_json, f, indent=4)
+
+
+# -----------------------------------------------------------------------------
+# VISUALIZATION
+# -----------------------------------------------------------------------------
+def draw_scene_graph(image, scene_graph):
+        img = image.copy()
+        for rel in scene_graph:
+            subject, obj, predicate = rel["subject"], rel["object"], rel["predicate"]
+            color = RELATION_COLORS.get(predicate,(255,255,255))
+            cv2.line(img, subject["center"], obj["center"], color, 2)
+            mid = ((subject["center"][0]+obj["center"][0])//2,(subject["center"][1]+obj["center"][1])//2)
+            cv2.putText(img, predicate, mid, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0),2,cv2.LINE_AA)
+        return img
+
+
+def show_image(img, title="Output"):
+        plt.figure(figsize=(12,8))
+        plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+        plt.title(title)
+        plt.axis("off")
+        plt.show()
+
+
+# -----------------------------------------------------------------------------
+# DETECTION + TRACKING (YOLOv11 + BoxMot + OSNet ReID)
+# -----------------------------------------------------------------------------
+tracker = BoxMot(max_age=30, min_hits=3, iou_threshold=0.3, use_embedding=True)
+reid_model = osnet_x0_25(pretrained=True)
+reid_model.eval()
+device = "cuda" if torch.cuda.is_available() else "cpu"
+reid_model.to(device)
+reid_transform = T.Compose([T.Resize((256,128)), T.ToTensor(), T.Normalize([0.485,0.456,0.406],[0.229,0.224,0.225])])
+
+
+# Per-class ID mapping
+id_remap = defaultdict(dict)
+next_id_counter = defaultdict(int)
+
+
+def load_model(model_path="yolov11_trained.pt"):
+        print(f"Loading YOLOv11 model: {model_path}")
+        return YOLO(model_path)
+
+
+def run_detection_on_frame(model, frame):
+        results = model(frame)
+        img = frame.copy()
+        detected_objects = []
+
+
+        if results[0].boxes is None:
+            return img, detected_objects
+
+
+        detections = []
+        embeddings = []
+
+
+        for box in results[0].boxes:
+            x1, y1, x2, y2 = map(int, box.xyxy[0].cpu().numpy())
+            conf = float(box.conf.cpu().numpy()[0])
+            cls_id = int(box.cls.cpu().numpy()[0])
+            if conf < 0.4:
+                continue
+            detections.append([x1, y1, x2, y2, conf, cls_id])
+
+
+            # --- Embedding only for detected objects ---
+            crop = frame[y1:y2, x1:x2]
+            if crop.size==0:
+                embedding = np.zeros(512, dtype=np.float32)
+            else:
+                img_pil = Image.fromarray(cv2.cvtColor(crop, cv2.COLOR_BGR2RGB))
+                inp = reid_transform(img_pil).unsqueeze(0).to(device)
+                with torch.no_grad():
+                    embedding = reid_model(inp).cpu().numpy().flatten()
+            embeddings.append(embedding)
+
+
+        tracked_objects = tracker.update(detections, embeddings=embeddings)
+
+
+        for trk in tracked_objects:
+            x1, y1, x2, y2, track_id, cls_id = trk
+            class_name = model.names[int(cls_id)]
+
+
+            # --- Per-class ID remapping starting from 1 ---
+            if track_id not in id_remap[class_name]:
+                next_id_counter[class_name] += 1
+                id_remap[class_name][track_id] = next_id_counter[class_name]
+
+
+            new_id = id_remap[class_name][track_id]
+            unique_name = f"{class_name} {new_id}"
+
+
+            detected_objects.append({
+                "name": unique_name,
+                "class": class_name,
+                "confidence": float(detections[0][4]),
+                "bbox": (x1, y1, x2, y2),
+                "center": ((x1+x2)//2, (y1+y2)//2)
+            })
+
+
+            color = get_class_color(class_name)
+            cv2.rectangle(img,(x1,y1),(x2,y2),color,2)
+            cv2.putText(img, unique_name,(x1,y1-10),cv2.FONT_HERSHEY_SIMPLEX,0.6,color,2)
+
+
+        return img, detected_objects
+
+
+# -----------------------------------------------------------------------------
+# VIDEO PROCESSING
+# -----------------------------------------------------------------------------
+def compute_direction(start,end):
+        dx,dy = end[0]-start[0], end[1]-start[1]
+        dist = math.hypot(dx,dy)
+        if dist<5: return "stationary"
+        angle = (math.degrees(math.atan2(-dy,dx))+360)%360
+        if 45<=angle<135: return "up"
+        elif 135<=angle<225: return "left"
+        elif 225<=angle<315: return "down"
+        else: return "right"
+
+
+def process_video(video_path, model, output_json_path="video_output.json", save_output=True, trajectory_sample_n=10):
+        cap = cv2.VideoCapture(video_path)
+        if not cap.isOpened():
+            print(f"Error: Cannot open video {video_path}")
+            return
+
+
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        out_writer = None
+        if save_output:
+            fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+            out_writer = cv2.VideoWriter("annotated_output.mp4", fourcc, fps, (width,height))
+
+
+        object_tracks = {}
+        class_map = {}
+        frame_count=0
+
+
+        print("\n--- Starting video processing ---")
+        while True:
+            ret, frame = cap.read()
+            if not ret: break
+            annotated_frame, detected_objects = run_detection_on_frame(model, frame)
+            for obj in detected_objects:
+                name = obj["name"]
+                center = obj["center"]
+                if name not in object_tracks:
+                    object_tracks[name] = []
+                    class_map[name] = obj["class"]
+                if frame_count%trajectory_sample_n==0:
+                    object_tracks[name].append((frame_count, center))
+
+
+            if save_output: out_writer.write(annotated_frame)
+            frame_count+=1
+            print(f"Processed frame {frame_count}/{total_frames}", end="\r")
+
+
+        summarized_objects = []
+        for name, trajectory in object_tracks.items():
+            if len(trajectory)<2: continue
+            entry_frame = trajectory[0][0]
+            exit_frame = trajectory[-1][0]
+            duration_sec_obj = (exit_frame-entry_frame)/fps
+            total_dist=0
+            for i in range(1,len(trajectory)):
+                p1,p2 = trajectory[i-1][1], trajectory[i][1]
+                total_dist += math.hypot(p2[0]-p1[0],p2[1]-p1[1])
+            avg_speed = total_dist/duration_sec_obj if duration_sec_obj>0 else 0
+            direction = compute_direction(trajectory[0][1],trajectory[-1][1])
+            summarized_objects.append({
+                "id": name,
+                "class": class_map[name],
+                "entry_frame": entry_frame,
+                "exit_frame": exit_frame,
+                "entry_time_sec": round(entry_frame/fps,2),
+                "exit_time_sec": round(exit_frame/fps,2),
+                "duration_sec": round(duration_sec_obj,2),
+                "trajectory":[{"frame":f,"x":c[0],"y":c[1]} for f,c in trajectory],
+                "avg_speed_px_per_sec": round(avg_speed,2),
+                "direction":direction,
+                "stationary":direction=="stationary"
+            })
+
+
+        video_summary = {
+            "video_metadata":{
+                "video_name":video_path.split("\\")[-1],
+                "fps":fps,"frame_width":width,"frame_height":height,"total_frames":total_frames,
+                "duration_sec":round(total_frames/fps,2)
+            },
+            "objects":summarized_objects
+        }
+
+
+        with open(output_json_path,"w") as f:
+            json.dump(video_summary,f,indent=4)
+
+
+        cap.release()
+        if save_output: out_writer.release()
+        print(f"\n✅ Video processed. JSON: {output_json_path}, Annotated video: annotated_output.mp4")
+
+
+# -----------------------------------------------------------------------------
+# MAIN
+# -----------------------------------------------------------------------------
+def main_image():
+        img_path = "sample_image.jpg"  # Update path
+        model = load_model()
+        img, detected_objects = run_detection_on_frame(model, cv2.imread(img_path))
+        if img is None: return
+        scene_graph = build_scene_graph(detected_objects)
+        img_with_graph = draw_scene_graph(img, scene_graph)
+        show_image(img_with_graph,"Scene Graph Visualization")
+        scene_json = build_scene_json(detected_objects, scene_graph)
+        save_scene_json(scene_json,"single_image_output.json")
+        print(json.dumps(scene_json,indent=4))
+
+
+def main_video():
+        video_path = "sample_video.mp4"  # Update path
+        model = load_model()
+        process_video(video_path, model, "video_scene_output.json")
+
+
+if __name__=="__main__":
+        #main_image()
+        main_video()
+
+
+
+
+
+
+# -----------------------------------------------------------------------------
+#
+#           Video Computer Vision Pipeline with YOLO + BoxMot + OSNet ReID
+#           - Embeddings only for YOLO-detected objects
+#           - Per-class ID numbering starting from 1
+#
+# -----------------------------------------------------------------------------
+
+
+# -----------------------------------------------------------------------------
+# IMPORTS
+# -----------------------------------------------------------------------------
+import cv2
+import json
+import math
+import random
+import numpy as np
+from collections import defaultdict
+from PIL import Image
+import torch
+import torchvision.transforms as T
+from ultralytics import YOLO
+from matplotlib import pyplot as plt
+from boxmot import BoxMot
+from torchreid.models.osnet import osnet_x0_25
+
+
+# -----------------------------------------------------------------------------
+# CONFIG
+# -----------------------------------------------------------------------------
+RELATION_COLORS = {
+        "left of": (255, 0, 0),
+        "right of": (0, 255, 0),
+        "near_to": (0, 0, 255),
+        "inside": (255, 255, 0),
+        "up": (255, 0, 255),
+        "down": (0, 255, 255),
+}
+
+
+# -----------------------------------------------------------------------------
+# UTILS
+# -----------------------------------------------------------------------------
+class_colors = {}
+def get_class_color(class_name: str):
+        if class_name not in class_colors:
+            class_colors[class_name] = (
+                random.randint(50, 255),
+                random.randint(50, 255),
+                random.randint(50, 255),
+            )
+        return class_colors[class_name]
+
+
+# -----------------------------------------------------------------------------
+# DISTANCES
+# -----------------------------------------------------------------------------
+def calculate_pixel_distances(detected_objects):
+        distances = []
+        for i in range(len(detected_objects)):
+            for j in range(i + 1, len(detected_objects)):
+                obj1, obj2 = detected_objects[i], detected_objects[j]
+                (x1, y1), (x2, y2) = obj1["center"], obj2["center"]
+                dist = math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
+                distances.append({
+                    "object1": obj1["name"],
+                    "object2": obj2["name"],
+                    "distance_px": round(dist, 2)
+                })
+        return distances
+
+
+# -----------------------------------------------------------------------------
+# SPATIAL RELATIONSHIPS
+# -----------------------------------------------------------------------------
+def determine_spatial_relationship(box1, box2):
+        x1a, y1a, x2a, y2a = box1
+        x1b, y1b, x2b, y2b = box2
+        cx1, cy1 = (x1a + x2a)/2, (y1a + y2a)/2
+        cx2, cy2 = (x1b + x2b)/2, (y1b + y2b)/2
+        w1, h1 = x2a - x1a, y2a - y1a
+        w2, h2 = x2b - x1b, y2b - y1b
+        dx, dy = cx2 - cx1, cy2 - cy1
+        angle = (np.degrees(np.arctan2(-dy, dx)) + 360) % 360
+        y_overlap = max(0, min(y2a, y2b) - max(y1a, y1b))
+        y_overlap_ratio = (y_overlap / min(h1,h2)) if min(h1,h2)>0 else 0
+        dist = np.hypot(dx, dy)
+        near_threshold = ((w1 + w2 + h1 + h2)/4)*1.5
+
+
+        if x1b>x1a and y1b>y1a and x2b<x2a and y2b<y2a:
+            return "inside", angle
+        if y_overlap_ratio > 0.4:
+            return ("left of" if dx<0 else "right of"), angle
+        if abs(dx) < max(w1,w2)*0.5:
+            return ("up" if dy<0 else "down"), angle
+        if dist < near_threshold:
+            return "near_to", angle
+        return None, angle
+
+
+def build_scene_graph(detected_objects):
+        scene_graph = []
+        for i, subj in enumerate(detected_objects):
+            for j, obj in enumerate(detected_objects):
+                if i==j: continue
+                pred, ang = determine_spatial_relationship(subj["bbox"], obj["bbox"])
+                if pred:
+                    scene_graph.append({
+                        "subject": subj,
+                        "predicate": pred,
+                        "object": obj,
+                        "angle": round(ang,2),
+                        "description": f'{obj.get("name","obj")} is at {round(ang,1)}° {pred} {subj.get("name","obj")}'
+                    })
+        return scene_graph
+
+
+# -----------------------------------------------------------------------------
+# JSON
+# -----------------------------------------------------------------------------
+def build_scene_json(detected_objects, scene_graph):
+        objects = [{"id":obj["name"], "class":obj["class"], "bbox":obj["bbox"], "center":obj["center"]} for obj in detected_objects]
+        distances = calculate_pixel_distances(detected_objects)
+        relationships = [{"subject":rel["subject"]["name"], "predicate":rel["predicate"], "object":rel["object"]["name"], "angle":rel["angle"], "description":rel["description"]} for rel in scene_graph]
+        return {"objects":objects, "distances":distances, "relationships":relationships}
+
+
+def save_scene_json(scene_json, filename="scene_output.json"):
+        with open(filename,"w") as f:
+            json.dump(scene_json,f,indent=4)
+
+
+# -----------------------------------------------------------------------------
+# VISUALIZATION
+# -----------------------------------------------------------------------------
+def draw_scene_graph(image, scene_graph):
+        img = image.copy()
+        for rel in scene_graph:
+            subject, obj, predicate = rel["subject"], rel["object"], rel["predicate"]
+            color = RELATION_COLORS.get(predicate,(255,255,255))
+            cv2.line(img, subject["center"], obj["center"], color, 2)
+            mid = ((subject["center"][0]+obj["center"][0])//2,(subject["center"][1]+obj["center"][1])//2)
+            cv2.putText(img, predicate, mid, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0),2,cv2.LINE_AA)
+        return img
+
+
+# -----------------------------------------------------------------------------
+# DETECTION + TRACKING (Video only)
+# -----------------------------------------------------------------------------
+tracker = BoxMot(max_age=30, min_hits=3, iou_threshold=0.3, use_embedding=True)
+reid_model = osnet_x0_25(pretrained=True)
+reid_model.eval()
+device = "cuda" if torch.cuda.is_available() else "cpu"
+reid_model.to(device)
+reid_transform = T.Compose([T.Resize((256,128)), T.ToTensor(), T.Normalize([0.485,0.456,0.406],[0.229,0.224,0.225])])
+
+
+id_remap = defaultdict(dict)
+next_id_counter = defaultdict(int)
+
+
+def load_model(model_path="yolov11_trained.pt"):
+        print(f"Loading YOLOv11 model: {model_path}")
+        return YOLO(model_path)
+
+
+def run_detection_on_frame(model, frame):
+        results = model(frame)
+        img = frame.copy()
+        detected_objects = []
+
+
+        if results[0].boxes is None:
+            return img, detected_objects
+
+
+        detections = []
+        embeddings = []
+
+
+        for box in results[0].boxes:
+            x1, y1, x2, y2 = map(int, box.xyxy[0].cpu().numpy())
+            conf = float(box.conf.cpu().numpy()[0])
+            cls_id = int(box.cls.cpu().numpy()[0])
+            if conf < 0.4: continue
+            detections.append([x1, y1, x2, y2, conf, cls_id])
+
+
+            crop = frame[y1:y2, x1:x2]
+            if crop.size==0:
+                embedding = np.zeros(512, dtype=np.float32)
+            else:
+                img_pil = Image.fromarray(cv2.cvtColor(crop, cv2.COLOR_BGR2RGB))
+                inp = reid_transform(img_pil).unsqueeze(0).to(device)
+                with torch.no_grad():
+                    embedding = reid_model(inp).cpu().numpy().flatten()
+            embeddings.append(embedding)
+
+
+        tracked_objects = tracker.update(detections, embeddings=embeddings)
+
+
+        for trk in tracked_objects:
+            x1, y1, x2, y2, track_id, cls_id = trk
+            class_name = model.names[int(cls_id)]
+            if track_id not in id_remap[class_name]:
+                next_id_counter[class_name] += 1
+                id_remap[class_name][track_id] = next_id_counter[class_name]
+            new_id = id_remap[class_name][track_id]
+            unique_name = f"{class_name} {new_id}"
+
+
+            detected_objects.append({
+                "name": unique_name,
+                "class": class_name,
+                "confidence": float(detections[0][4]),
+                "bbox": (x1, y1, x2, y2),
+                "center": ((x1+x2)//2, (y1+y2)//2)
+            })
+
+
+            color = get_class_color(class_name)
+            cv2.rectangle(img,(x1,y1),(x2,y2),color,2)
+            cv2.putText(img, unique_name,(x1,y1-10),cv2.FONT_HERSHEY_SIMPLEX,0.6,color,2)
+
+
+        return img, detected_objects
+
+
+# -----------------------------------------------------------------------------
+# VIDEO PROCESSING
+# -----------------------------------------------------------------------------
+def compute_direction(start,end):
+        dx,dy = end[0]-start[0], end[1]-start[1]
+        dist = math.hypot(dx,dy)
+        if dist<5: return "stationary"
+        angle = (math.degrees(math.atan2(-dy,dx))+360)%360
+        if 45<=angle<135: return "up"
+        elif 135<=angle<225: return "left"
+        elif 225<=angle<315: return "down"
+        else: return "right"
+
+
+def process_video(video_path, model, output_json_path="video_output.json", save_output=True, trajectory_sample_n=10):
+        cap = cv2.VideoCapture(video_path)
+        if not cap.isOpened():
+            print(f"Error: Cannot open video {video_path}")
+            return
+
+
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        out_writer = None
+        if save_output:
+            fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+            out_writer = cv2.VideoWriter("annotated_output.mp4", fourcc, fps, (width,height))
+
+
+        object_tracks = {}
+        class_map = {}
+        frame_count=0
+
+
+        print("\n--- Starting video processing ---")
+        while True:
+            ret, frame = cap.read()
+            if not ret: break
+            annotated_frame, detected_objects = run_detection_on_frame(model, frame)
+            for obj in detected_objects:
+                name = obj["name"]
+                center = obj["center"]
+                if name not in object_tracks:
+                    object_tracks[name] = []
+                    class_map[name] = obj["class"]
+                if frame_count % trajectory_sample_n == 0:
+                    object_tracks[name].append((frame_count, center))
+
+
+            if save_output: out_writer.write(annotated_frame)
+            frame_count += 1
+            print(f"Processed frame {frame_count}/{total_frames}", end="\r")
+
+
+        summarized_objects = []
+        for name, trajectory in object_tracks.items():
+            if len(trajectory) < 2: continue
+            entry_frame = trajectory[0][0]
+            exit_frame = trajectory[-1][0]
+            duration_sec_obj = (exit_frame-entry_frame)/fps
+            total_dist=0
+            for i in range(1,len(trajectory)):
+                p1,p2 = trajectory[i-1][1], trajectory[i][1]
+                total_dist += math.hypot(p2[0]-p1[0],p2[1]-p1[1])
+            avg_speed = total_dist/duration_sec_obj if duration_sec_obj>0 else 0
+            direction = compute_direction(trajectory[0][1],trajectory[-1][1])
+            summarized_objects.append({
+                "id": name,
+                "class": class_map[name],
+                "entry_frame": entry_frame,
+                "exit_frame": exit_frame,
+                "entry_time_sec": round(entry_frame/fps,2),
+                "exit_time_sec": round(exit_frame/fps,2),
+                "duration_sec": round(duration_sec_obj,2),
+                "trajectory":[{"frame":f,"x":c[0],"y":c[1]} for f,c in trajectory],
+                "avg_speed_px_per_sec": round(avg_speed,2),
+                "direction": direction,
+                "stationary": direction=="stationary"
+            })
+
+
+        video_summary = {
+            "video_metadata":{
+                "video_name":video_path.split("\\")[-1],
+                "fps":fps,"frame_width":width,"frame_height":height,"total_frames":total_frames,
+                "duration_sec":round(total_frames/fps,2)
+            },
+            "objects":summarized_objects
+        }
+
+
+        with open(output_json_path,"w") as f:
+            json.dump(video_summary,f,indent=4)
+
+
+        cap.release()
+        if save_output: out_writer.release()
+        print(f"\n✅ Video processed. JSON saved to {output_json_path}, Annotated video saved to 'annotated_output.mp4'")
+
+
+# -----------------------------------------------------------------------------
+# MAIN
+# -----------------------------------------------------------------------------
+if __name__=="__main__":
+        video_path = "sample_video.mp4"  # <-- Update path
+        model = load_model()
+        process_video(video_path, model)
+
+
+
+
+
+
+
+
+
+
+import cv2
+import numpy as np
+import math
+import json
+import random
+from collections import defaultdict
+from PIL import Image
+import torch
+import torchvision.transforms as T
+from ultralytics import YOLO
+from boxmot import BoxMot
+from torchreid.models.osnet import osnet_x0_25
+
+
+# ----------------------- CONFIG -----------------------
+RELATION_COLORS = {
+        "left of": (255,0,0), "right of": (0,255,0), "near_to": (0,0,255),
+        "inside": (255,255,0), "up": (255,0,255), "down": (0,255,255)
+}
+
+
+class_colors = {}
+def get_class_color(class_name):
+        if class_name not in class_colors:
+            class_colors[class_name] = (random.randint(50,255), random.randint(50,255), random.randint(50,255))
+        return class_colors[class_name]
+
+
+# ----------------------- DETECTION + REID -----------------------
+tracker = BoxMot(max_age=30, min_hits=3, iou_threshold=0.3, use_embedding=True)
+reid_model = osnet_x0_25(pretrained=True)
+reid_model.eval()
+device = "cuda" if torch.cuda.is_available() else "cpu"
+reid_model.to(device)
+reid_transform = T.Compose([T.Resize((256,128)), T.ToTensor(), T.Normalize([0.485,0.456,0.406],[0.229,0.224,0.225])])
+
+
+id_remap = defaultdict(dict)
+next_id_counter = defaultdict(int)
+
+
+def load_model(model_path="yolov11_trained.pt"):
+        print(f"Loading YOLOv11 model: {model_path}")
+        return YOLO(model_path)
+
+
+def run_detection_on_frame(model, frame):
+        results = model(frame)
+        img = frame.copy()
+        detected_objects = []
+
+
+        if results[0].boxes is None: return img, detected_objects
+
+
+        detections = []
+        embeddings = []
+
+
+        for box in results[0].boxes:
+            x1,y1,x2,y2 = map(int, box.xyxy[0].cpu().numpy())
+            conf = float(box.conf.cpu().numpy()[0])
+            cls_id = int(box.cls.cpu().numpy()[0])
+            if conf<0.4: continue
+            detections.append([x1,y1,x2,y2,conf,cls_id])
+
+
+            crop = frame[y1:y2, x1:x2]
+            if crop.size==0: embedding = np.zeros(512,dtype=np.float32)
+            else:
+                img_pil = Image.fromarray(cv2.cvtColor(crop, cv2.COLOR_BGR2RGB))
+                inp = reid_transform(img_pil).unsqueeze(0).to(device)
+                with torch.no_grad(): embedding = reid_model(inp).cpu().numpy().flatten()
+            embeddings.append(embedding)
+
+
+        tracked_objects = tracker.update(detections, embeddings=embeddings)
+
+
+        for trk in tracked_objects:
+            x1,y1,x2,y2,track_id,cls_id = trk
+            class_name = model.names[int(cls_id)]
+            if track_id not in id_remap[class_name]:
+                next_id_counter[class_name] += 1
+                id_remap[class_name][track_id] = next_id_counter[class_name]
+            new_id = id_remap[class_name][track_id]
+            unique_name = f"{class_name} {new_id}"
+
+
+            detected_objects.append({
+                "name": unique_name,
+                "class": class_name,
+                "confidence": float(detections[0][4]),
+                "bbox": (x1,y1,x2,y2),
+                "center": ((x1+x2)//2,(y1+y2)//2)
+            })
+
+
+            color = get_class_color(class_name)
+            cv2.rectangle(img,(x1,y1),(x2,y2),color,2)
+            cv2.putText(img,unique_name,(x1,y1-10),cv2.FONT_HERSHEY_SIMPLEX,0.6,color,2)
+        return img, detected_objects
+
+
+# ----------------------- EGO-MOTION COMPENSATION -----------------------
+def estimate_homography(prev_frame, curr_frame):
+        gray1 = cv2.cvtColor(prev_frame, cv2.COLOR_BGR2GRAY)
+        gray2 = cv2.cvtColor(curr_frame, cv2.COLOR_BGR2GRAY)
+        orb = cv2.ORB_create(500)
+        kp1, des1 = orb.detectAndCompute(gray1,None)
+        kp2, des2 = orb.detectAndCompute(gray2,None)
+        if des1 is None or des2 is None: return np.eye(3)
+        bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+        matches = bf.match(des1,des2)
+        if len(matches)<10: return np.eye(3)
+        src_pts = np.float32([kp1[m.queryIdx].pt for m in matches]).reshape(-1,1,2)
+        dst_pts = np.float32([kp2[m.trainIdx].pt for m in matches]).reshape(-1,1,2)
+        H, _ = cv2.findHomography(src_pts,dst_pts,cv2.RANSAC,5.0)
+        if H is None: return np.eye(3)
+        return H
+
+
+def compensate_ego_motion(prev_boxes, H):
+        compensated = []
+        for box in prev_boxes:
+            x1,y1,x2,y2 = box
+            pts = np.array([[x1,y1],[x2,y2]],dtype='float32').reshape(-1,1,2)
+            warped = cv2.perspectiveTransform(pts,H)
+            x1c,y1c = warped[0,0]
+            x2c,y2c = warped[1,0]
+            compensated.append([int(x1c),int(y1c),int(x2c),int(y2c)])
+        return compensated
+
+
+# ----------------------- VIDEO PROCESSING -----------------------
+def compute_direction(start,end):
+        dx,dy = end[0]-start[0], end[1]-start[1]
+        dist = math.hypot(dx,dy)
+        if dist<5: return "stationary"
+        angle = (math.degrees(math.atan2(-dy,dx))+360)%360
+        if 45<=angle<135: return "up"
+        elif 135<=angle<225: return "left"
+        elif 225<=angle<315: return "down"
+        else: return "right"
+
+
+def process_video(video_path, model, output_json_path="video_output.json", save_output=True, trajectory_sample_n=10):
+        cap = cv2.VideoCapture(video_path)
+        if not cap.isOpened(): return
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        width,height = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        out_writer = None
+        if save_output:
+            fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+            out_writer = cv2.VideoWriter("annotated_output.mp4",fourcc,fps,(width,height))
+
+
+        object_tracks = {}
+        class_map = {}
+        frame_count=0
+        prev_frame = None
+        prev_boxes = []
+
+
+        while True:
+            ret, frame = cap.read()
+            if not ret: break
+            if prev_frame is not None:
+                H = estimate_homography(prev_frame, frame)
+                prev_boxes = compensate_ego_motion(prev_boxes,H)
+            annotated_frame, detected_objects = run_detection_on_frame(model, frame)
+            prev_boxes = [obj["bbox"] for obj in detected_objects]
+
+
+            for obj in detected_objects:
+                name = obj["name"]
+                center = obj["center"]
+                if name not in object_tracks:
+                    object_tracks[name]=[]
+                    class_map[name]=obj["class"]
+                if frame_count%trajectory_sample_n==0:
+                    object_tracks[name].append((frame_count,center))
+
+
+            if save_output: out_writer.write(annotated_frame)
+            frame_count+=1
+            prev_frame = frame.copy()
+            print(f"Processed frame {frame_count}/{total_frames}", end="\r")
+
+
+        summarized_objects=[]
+        for name,trajectory in object_tracks.items():
+            if len(trajectory)<2: continue
+            entry_frame = trajectory[0][0]
+            exit_frame = trajectory[-1][0]
+            duration_sec_obj = (exit_frame-entry_frame)/fps
+            total_dist=0
+            for i in range(1,len(trajectory)):
+                p1,p2=trajectory[i-1][1],trajectory[i][1]
+                total_dist += math.hypot(p2[0]-p1[0],p2[1]-p1[1])
+            avg_speed = total_dist/duration_sec_obj if duration_sec_obj>0 else 0
+            direction = compute_direction(trajectory[0][1],trajectory[-1][1])
+            summarized_objects.append({
+                "id": name,
+                "class": class_map[name],
+                "entry_frame": entry_frame,
+                "exit_frame": exit_frame,
+                "entry_time_sec": round(entry_frame/fps,2),
+                "exit_time_sec": round(exit_frame/fps,2),
+                "duration_sec": round(duration_sec_obj,2),
+                "trajectory":[{"frame":f,"x":c[0],"y":c[1]} for f,c in trajectory],
+                "avg_speed_px_per_sec": round(avg_speed,2),
+                "direction": direction,
+                "stationary": direction=="stationary"
+            })
+
+
+        video_summary = {
+            "video_metadata":{
+                "video_name":video_path.split("\\")[-1],
+                "fps":fps,"frame_width":width,"frame_height":height,"total_frames":total_frames,
+                "duration_sec":round(total_frames/fps,2)
+            },
+            "objects":summarized_objects
+        }
+
+
+        with open(output_json_path,"w") as f: json.dump(video_summary,f,indent=4)
+        cap.release()
+        if save_output: out_writer.release()
+        print(f"\n✅ Video processed. JSON: {output_json_path}, Annotated video: annotated_output.mp4")
+
+
+# ----------------------- MAIN -----------------------
+if __name__=="__main__":
+        video_path = "sample_video.mp4"  # Update path
+        model = load_model()
+        process_video(video_path, model)
