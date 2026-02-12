@@ -1,0 +1,48 @@
+{
+  "target": {
+    "class": "bunker"
+  },
+  "constraints": [
+    {
+      "ref": {
+        "class": "truck",
+        "id": "1",
+        "color": null
+      },
+      "angle": {
+        "relation": "left",
+        "value_deg": 90
+      }
+    },
+    {
+      "ref": {
+        "class": "pedestrian",
+        "id": "2",
+        "color": null
+      },
+      "distance": {
+        "relation": "right",
+        "value_px": 30
+      },
+      "angle": {
+        "relation": "away",
+        "value_deg": 20
+      }
+    },
+    {
+      "ref": {
+        "class": "pedestrian",
+        "id": "1",
+        "color": null
+      },
+      "distance": {
+        "relation": "away",
+        "value_px": 10
+      },
+      "angle": {
+        "relation": "right",
+        "value_deg": 45
+      }
+    }
+  ]
+}
