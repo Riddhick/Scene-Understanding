@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from skimage.feature import local_binary_pattern
-from sklearn.cluster import KMeans
+from sklearn.cluster import MiniBatchKMeans
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import os
 
@@ -38,6 +38,7 @@ def extract_semantic_features_cpu(crop, img_shape, debug=False):
         "edge_density": round(edge_density, 4),
         "texture_var": round(texture_var, 2),
         "lbp": lbp_hist,
+        
         "_hsv_pixels": hsv.reshape(-1, 3)
     }
 
@@ -137,12 +138,15 @@ def sklearn_batched_kmeans_palettes(
 
         pixels = pixels.astype(np.float32)
 
-        kmeans = KMeans(
+        kmeans = MiniBatchKMeans(
             n_clusters=num_colors,
-            n_init=10,
+            batch_size=2048,
             max_iter=100,
+            n_init=3,
+            reassignment_ratio=0.01,
             random_state=42
         )
+
 
         labels = kmeans.fit_predict(pixels)
         centers = kmeans.cluster_centers_

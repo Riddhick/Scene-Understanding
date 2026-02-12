@@ -4,20 +4,23 @@ from distances import draw_pixel_distances
 from visualization import draw_scene_graph, show_image, draw_object_angles, save_image
 from object_metrics import compute_object_metrics, draw_object_metrics, normalize_distance
 from scene_json import build_scene_json, save_scene_json
-from semantic_feature import add_semantic_features
-from semantic_feature_parallel import add_semantic_features_hybrid
+from semantic_feature import add_semantic_features_hybrid, visualize_semantic_results
+#from semantic_feature_parallel import add_semantic_features_hybrid
 import cv2
 
 
 def main():
     img_path = "D:\\Work\\RCI\\Code\\Sample\\0000103_03738_d_0000032.jpg"
     model = load_model()
-
+    image = cv2.imread(img_path)
     # Detection
     img, detected_objects = run_detection(model, img_path)
     #detected_objects = add_semantic_features(img, detected_objects,debug=True)
-    detected_objects  = add_semantic_features_hybrid(img, detected_objects,debug = True)
+    detected_objects  = add_semantic_features_hybrid(image, detected_objects,debug = False)
     # Scene graph
+    final_view = visualize_semantic_results(img, detected_objects)
+    cv2.imshow("Semantic Scene Understanding", final_view)
+    cv2.waitKey(0)
     scene_graph = build_scene_graph(detected_objects)
 
     # Draw distances

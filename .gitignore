@@ -2,3 +2,7 @@
 models/weights
 *.mp4
 Temp
+models/runs
+models/core/model
+models/outputs_compare
+compare

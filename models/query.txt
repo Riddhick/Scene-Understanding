@@ -1,0 +1,111 @@
+SCHEMA = {
+    "target": "<object being located>",
+    "constraints": [
+        {
+            "ref": {
+                "class": "<object class>",
+                "id": "<optional id>",
+                "color": "<optional color>"
+            },
+            "angle": {
+                "relation": "<left/right/up/down/upper-left/...>",
+                "value_deg": "<optional number>"
+            },
+            "distance": {
+                "relation": "<near/far/at>",
+                "value_px": "<optional number>"
+            }
+        }
+    ]
+}
+
+
+
+def repair_json(raw_text: str) -> str:
+    # Extract JSON substring
+    match = re.search(r"\{.*\}", raw_text, re.S)
+    if not match:
+        raise ValueError("No JSON found in LLM output")
+
+    json_text = match.group(0)
+
+    # Basic cleanup
+    json_text = json_text.replace("None", "null")
+    json_text = json_text.replace("'", '"')
+
+    return json_text
+
+
+
+import json
+import re
+from llama_cpp import Llama
+
+llm = Llama(
+    model_path="D:\Work\RCI\Code\models\core\model\mistral-7b-instruct-v0.2.Q4_0.gguf",
+    n_ctx=2048,
+    n_threads=8,
+    n_gpu_layers=1,   # set >0 if using GPU
+    temperature=0.0  # deterministic output
+)
+
+SYSTEM_PROMPT = """
+You are an information extraction system.
+Return ONLY valid JSON.
+Do not include any text outside the JSON.
+
+Extract spatial relationships between a target object and one or more reference objects.
+
+The reference objects MUST belong to the VisDrone object classes:
+["pedestrian", "people", "bicycle", "car", "van", "truck", "tricycle", "awning-tricycle", "bus", "motor"]
+
+Schema:
+{
+  "target": {"class": string},
+  "constraints": [
+    {
+      "ref": {"class": string, "id": string, "color": string | null},
+      "angle": {"relation": string, "value_deg": number} | null,
+      "distance": {"relation": string, "value_px": number} | null
+    }
+  ]
+}
+
+Rules:
+1. 'ref.id' must be only the identifier number as a string (e.g., "1", "2").
+2. 'ref.color' is optional; use null if not mentioned.
+3. Use ONLY the following relations:
+   angle.relation ∈ ["upper-right", "upper-left", "lower-right", "lower-left", "left", "right", "up", "down"]
+   distance.relation ∈ ["at", "away"]
+4. The angle and distance values may appear before or after the reference object in the sentence. You must correctly associate each value with its corresponding reference.
+5. If an angle or distance is not mentioned for a reference object, set that field to null.
+6. Do not invent objects, attributes, or relations not present in the text.
+7. Preserve the order of constraints as they appear in the text.
+8. There may be multiple constraints joined by commas or conjunctions (e.g., "and"). Each reference object must produce one constraint entry.
+9. Do not put distance or angle field in the JSON if they are null or unavailable.
+
+
+"""
+
+def extract_spatial_json(text: str) -> dict:
+    prompt = f"""
+{SYSTEM_PROMPT}
+
+Sentence:
+{text}
+
+Return only JSON:
+"""
+
+    output = llm(prompt, max_tokens=256)["choices"][0]["text"]
+
+    json_text = repair_json(output)
+    return json.loads(json_text)
+
+
+
+text = "A bunker is at 40 degrees upper-right from van 1, 30 pixels away from pedestrian 2 and, 22 degrees left and 20 pixels away from the blue truck 1"
+
+
+result = extract_spatial_json(text)
+print(json.dumps(result, indent=2))
