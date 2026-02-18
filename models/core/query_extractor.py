@@ -154,7 +154,7 @@ def save_json(data: dict, save_path: str):
 
 if __name__ == "__main__":
     text = (
-        "A person is at 956 pixels left and  45 degrees from the truck 1"
+        "A bunker is at 956 pixels right and 17 degrees from the pedestrian 2"
         #"A bunker is at greater than 40 px left from truck 1"
         #"A bunker is at 300px left from truck 1"
         #"A bunker is at 45 degrees left from truck 1, at 300 px up and 20 degrees uppre-right from pedestrian 2, at 100 pixels down and 45 degrees right from pedestrian 1"

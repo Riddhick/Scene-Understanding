@@ -4,7 +4,7 @@ import torch
 from ultralytics import YOLO
 from utils import get_class_color
 
-def load_model(model_name="models/weights/yolov11_trained.pt"):
+def load_model(model_name= r"D:\Work\RCI\Code\models\weights\yolov11_trained.pt"):
     return YOLO(model_name)
 
 def run_detection(model, img_path):
