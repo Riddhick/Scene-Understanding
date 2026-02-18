@@ -6,6 +6,8 @@ from object_metrics import compute_object_metrics, draw_object_metrics, normaliz
 from scene_json import build_scene_json, save_scene_json
 from semantic_feature import add_semantic_features_hybrid, visualize_semantic_results
 #from semantic_feature_parallel import add_semantic_features_hybrid
+from query_extractor import extract_spatial_query
+from area_finder import SpatialRegionGenerator
 import cv2
 
 
@@ -13,6 +15,7 @@ def main():
     img_path = "D:\\Work\\RCI\\Code\\Sample\\0000103_03738_d_0000032.jpg"
     model = load_model()
     image = cv2.imread(img_path)
+    text = "A person is at 956 pixels left and  45 degrees from the truck 1"
     # Detection
     img, detected_objects = run_detection(model, img_path)
     #detected_objects = add_semantic_features(img, detected_objects,debug=True)
@@ -48,7 +51,14 @@ def main():
     # Save JSON
     scene_json = build_scene_json(detected_objects, scene_graph)
     print(scene_json)
-    save_scene_json(scene_json)
+    query_json = extract_spatial_query(text)
+    #save_scene_json(scene_json)
+    print(query_json)
+    generator = SpatialRegionGenerator("D:\Work\RCI\Code\scene_output.json", "D:\Work\RCI\Code\extracted.json", img_path)
+    result = generator.visualize_simple()
+
+    cv2.imshow("Spatial Constraints", result)
+    cv2.waitKey(0)
 
 if __name__ == "__main__":
     main()

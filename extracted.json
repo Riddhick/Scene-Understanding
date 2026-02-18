@@ -1,0 +1,23 @@
+{
+  "target": {
+    "class": "person"
+  },
+  "constraints": [
+    {
+      "ref": {
+        "class": "truck",
+        "id": "1",
+        "color": null
+      },
+      "distance": {
+        "cmp": "eq",
+        "value_px": 956,
+        "direction": "left"
+      },
+      "angle": {
+        "relation": "from",
+        "value_deg": 17
+      }
+    }
+  ]
+}
