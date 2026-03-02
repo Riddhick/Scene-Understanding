@@ -8,6 +8,7 @@ from semantic_feature import add_semantic_features_hybrid, visualize_semantic_re
 #from semantic_feature_parallel import add_semantic_features_hybrid
 from query_extractor import extract_spatial_query
 from area_finder import SpatialRegionGenerator
+from scene_context import SceneContextClassifier
 import cv2
 
 
@@ -15,10 +16,14 @@ def main():
     img_path = "D:\\Work\\RCI\\Code\\Sample\\0000103_03738_d_0000032.jpg"
     model = load_model()
     image = cv2.imread(img_path)
-    text = "A person is at 956 pixels left and  45 degrees from the truck 1"
+    #text = "A person is at 956 pixels left and  45 degrees from the truck 1"
+    context_classifier = SceneContextClassifier(r"D:\Work\RCI\Code\models\weights\models--facebook--dinov2-base\snapshots\f9e44c814b77203eaa57a6bdbbd535f21ede1415",
+    pipeline_path=r"D:\Work\RCI\Code\models\clustering_pipeline.pkl",
+    yolo_class_names=model.names)
     # Detection
     img, detected_objects = run_detection(model, img_path)
     #detected_objects = add_semantic_features(img, detected_objects,debug=True)
+    scene_context = context_classifier.predict(img_path, detected_objects)
     detected_objects  = add_semantic_features_hybrid(image, detected_objects,debug = False)
     # Scene graph
     final_view = visualize_semantic_results(img, detected_objects)
@@ -50,15 +55,16 @@ def main():
     show_image(img_with_metrics, "Scene Graph + Object Metrics")
     # Save JSON
     scene_json = build_scene_json(detected_objects, scene_graph)
+    scene_json["image_context"] = scene_context
     print(scene_json)
-    query_json = extract_spatial_query(text)
+    #query_json = extract_spatial_query(text)
     #save_scene_json(scene_json)
-    print(query_json)
-    generator = SpatialRegionGenerator("D:\Work\RCI\Code\scene_output.json", "D:\Work\RCI\Code\extracted.json", img_path)
-    result = generator.visualize_simple()
+    #rint(query_json)
+    #generator = SpatialRegionGenerator("D:\Work\RCI\Code\scene_output.json", "D:\Work\RCI\Code\extracted.json", img_path)
+    #result = generator.visualize_simple()
 
-    cv2.imshow("Spatial Constraints", result)
-    cv2.waitKey(0)
+    #cv2.imshow("Spatial Constraints", result)
+    #cv2.waitKey(0)
 
 if __name__ == "__main__":
     main()
