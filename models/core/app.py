@@ -14,7 +14,8 @@ from semantic_feature import add_semantic_features_hybrid, visualize_semantic_re
 from query_extractor_unit import extract_spatial_query
 from area_finder_unit import SpatialRegionGenerator
 from conversion import compute_gsd_cm_per_pixel, real_distance_to_pixels
-
+from scene_context import SceneContextClassifier
+from llm_description import run_qtoon_pipeline
 
 # ----------------------------
 # Utils
@@ -55,7 +56,8 @@ if "img_path" not in st.session_state:
 if "img_det" not in st.session_state:
     st.session_state.img_det = None
 
-
+if "scene_context" not in st.session_state:
+    st.session_state.scene_context = None
 # ----------------------------
 # Load Model (cached)
 # ----------------------------
@@ -65,6 +67,16 @@ def load_detector():
 
 model = load_detector()
 
+
+@st.cache_resource
+def load_scene_context_classifier(yolo_class_names):
+    return SceneContextClassifier(
+        r"D:\Work\RCI\Code\models\weights\models--facebook--dinov2-base\snapshots\f9e44c814b77203eaa57a6bdbbd535f21ede1415",
+        pipeline_path=r"D:\Work\RCI\Code\models\clustering_pipeline.pkl",
+        yolo_class_names=yolo_class_names
+    )
+
+context_classifier = load_scene_context_classifier(model.names)
 
 # ----------------------------
 # Upload Image
@@ -84,13 +96,15 @@ if uploaded_file is not None:
     st.sidebar.text(f"Width : {img_w} px")
     st.sidebar.text(f"Height: {img_h} px")
 
+
     # ----------------------------
     # Run Detection
     # ----------------------------
     if st.button("🚀 Run Detection"):
         img_det, detected_objects = run_detection(model, img_path)
+        scene_context = context_classifier.predict(img_path, detected_objects)
+        st.session_state.scene_context = scene_context
         detected_objects = add_semantic_features_hybrid(img_det, detected_objects, debug=False)
-
         st.session_state.detected_objects = detected_objects
         st.session_state.img_det = img_det
         st.session_state.img_path = img_path
@@ -98,10 +112,11 @@ if uploaded_file is not None:
         # Scene graph + JSON
         scene_graph = build_scene_graph(detected_objects)
         scene_json = build_scene_json(detected_objects, scene_graph)
-
+        scene_json["image_context"] = st.session_state.scene_context
         scene_json_path = os.path.join(tempfile.gettempdir(), "scene_output.json")
         save_scene_json(scene_json, scene_json_path)
         st.session_state.scene_json_path = scene_json_path
+        #st.session_state.scene_json_data = scene_json
 
         st.success("✅ Detection and scene graph generated!")
 
@@ -135,7 +150,95 @@ if st.session_state.detected_objects is not None:
     st.subheader("📏 Object Metrics")
     st.image(cv2_to_streamlit(metric_vis), use_container_width=True)
 
+    st.markdown("---")
+    st.subheader("🪖 Scene Understanding Overview")
+
+    if st.session_state.scene_json_path is not None:
+        with open(st.session_state.scene_json_path, "r") as f:
+            scene_json = json.load(f)
+
     # ----------------------------
+    # Scene Context
+    # ----------------------------
+        context = scene_json.get("image_context", {})
+
+        st.markdown("### 📍 Scene Context")
+        st.markdown(f"""
+    **Scene Type:** `{context.get('scene_label', 'Unknown')}`  
+    **Context Confidence:** `{round(context.get('confidence', 0)*100, 2)}%`  
+    **Total Objects Detected:** `{len(scene_json.get('objects', []))}`  
+    """)
+
+    # ----------------------------
+    # Object Details
+    # ----------------------------
+        st.markdown("### 🎯 Object Details")
+
+        objects = scene_json.get("objects", [])
+        cols_per_row = 4
+
+        for i in range(0, len(objects), cols_per_row):
+            cols = st.columns(cols_per_row)
+            for col, obj in zip(cols, objects[i:i+cols_per_row]):
+                with col:
+                    st.markdown(f"""
+        **{obj.get('id')}**
+
+        - Class: `{obj.get('class')}`
+        - Area: `{obj.get('semantic', {}).get('rel_area', 'N/A')}`
+        - Aspect Ratio: `{obj.get('semantic', {}).get('aspect_ratio', 'N/A')}`
+        """)
+
+    # ----------------------------
+    # Spatial Relationships
+    # ----------------------------
+        st.markdown("### 🔗 Spatial Relationships")
+
+        relationships = scene_json.get("relationships", [])
+
+        if relationships:
+            rel_limit = relationships  # no change in logic
+            cols_per_row = 5
+
+            for i in range(0, len(rel_limit), cols_per_row):
+                cols = st.columns(cols_per_row)
+                for col, rel in zip(cols, rel_limit[i:i+cols_per_row]):
+                    with col:
+                        st.markdown(
+                            f"""
+        `{rel.get('subject')}` → **{rel.get('predicate')}** → `{rel.get('object')}` ({round(rel.get('angle', 0),2)}°) """)
+        else:
+            st.markdown("_No spatial relations identified._")
+
+    # ----------------------------
+    # Distance Summary (Optional but Useful)
+    # ----------------------------
+        st.markdown("### 📏 Pairwise Distances (Pixels)")
+
+        distances = scene_json.get("distances", [])
+
+        if distances:
+            limited_distances = distances[:10]  # same limit as before
+            cols_per_row = 3
+
+            for i in range(0, len(limited_distances), cols_per_row):
+                cols = st.columns(cols_per_row)
+                for col, d in zip(cols, limited_distances[i:i+cols_per_row]):
+                    with col:
+                        st.markdown(
+                            f"""
+        `{d.get('object1')}` ↔ `{d.get('object2')}` **{round(d.get('distance_px', 0),2)} px**""")
+
+            if len(distances) > 10:
+                st.markdown(f"_Showing 10 of {len(distances)} total distances._")
+        else:
+            st.markdown("_No distance data available._")
+
+        st.markdown("---")
+        st.success("✔ Scene Intelligence Report Generated")
+
+
+           
     # Query Input
     # ----------------------------
     st.subheader("✍️ Enter Spatial Query")

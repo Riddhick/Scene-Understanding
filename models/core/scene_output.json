@@ -1,0 +1,685 @@
+{
+    "objects": [
+        {
+            "id": "car 1",
+            "class": "car",
+            "bbox": [
+                638,
+                229,
+                863,
+                388
+            ],
+            "center": [
+                750,
+                308
+            ],
+            "semantic": {
+                "rel_area": 0.0344,
+                "aspect_ratio": 1.415,
+                "brightness": 111.03,
+                "saturation": 108.01,
+                "edge_density": 0.1099,
+                "texture_var": 2218.4,
+                "lbp": [
+                    0.03,
+                    0.057,
+                    0.036,
+                    0.115,
+                    0.269,
+                    0.178,
+                    0.07,
+                    0.072,
+                    0.091,
+                    0.083
+                ],
+                "color_palette": [
+                    {
+                        "hsv": [
+                            177,
+                            63,
+                            125
+                        ],
+                        "percent": 0.462
+                    },
+                    {
+                        "hsv": [
+                            175,
+                            120,
+                            68
+                        ],
+                        "percent": 0.453
+                    },
+                    {
+                        "hsv": [
+                            16,
+                            91,
+                            222
+                        ],
+                        "percent": 0.085
+                    }
+                ]
+            }
+        },
+        {
+            "id": "car 2",
+            "class": "car",
+            "bbox": [
+                442,
+                126,
+                607,
+                251
+            ],
+            "center": [
+                524,
+                188
+            ],
+            "semantic": {
+                "rel_area": 0.0198,
+                "aspect_ratio": 1.32,
+                "brightness": 134.23,
+                "saturation": 104.29,
+                "edge_density": 0.0972,
+                "texture_var": 3452.71,
+                "lbp": [
+                    0.037,
+                    0.067,
+                    0.039,
+                    0.109,
+                    0.248,
+                    0.161,
+                    0.072,
+                    0.076,
+                    0.091,
+                    0.098
+                ],
+                "color_palette": [
+                    {
+                        "hsv": [
+                            165,
+                            96,
+                            90
+                        ],
+                        "percent": 0.584
+                    },
+                    {
+                        "hsv": [
+                            169,
+                            65,
+                            153
+                        ],
+                        "percent": 0.257
+                    },
+                    {
+                        "hsv": [
+                            16,
+                            41,
+                            238
+                        ],
+                        "percent": 0.159
+                    }
+                ]
+            }
+        },
+        {
+            "id": "car 3",
+            "class": "car",
+            "bbox": [
+                782,
+                160,
+                932,
+                284
+            ],
+            "center": [
+                857,
+                222
+            ],
+            "semantic": {
+                "rel_area": 0.0179,
+                "aspect_ratio": 1.21,
+                "brightness": 110.22,
+                "saturation": 105.35,
+                "edge_density": 0.0872,
+                "texture_var": 2345.68,
+                "lbp": [
+                    0.025,
+                    0.041,
+                    0.03,
+                    0.125,
+                    0.275,
+                    0.198,
+                    0.067,
+                    0.066,
+                    0.103,
+                    0.069
+                ],
+                "color_palette": [
+                    {
+                        "hsv": [
+                            171,
+                            118,
+                            56
+                        ],
+                        "percent": 0.467
+                    },
+                    {
+                        "hsv": [
+                            175,
+                            95,
+                            134
+                        ],
+                        "percent": 0.314
+                    },
+                    {
+                        "hsv": [
+                            178,
+                            56,
+                            178
+                        ],
+                        "percent": 0.219
+                    }
+                ]
+            }
+        },
+        {
+            "id": "car 4",
+            "class": "car",
+            "bbox": [
+                31,
+                168,
+                219,
+                347
+            ],
+            "center": [
+                125,
+                257
+            ],
+            "semantic": {
+                "rel_area": 0.0323,
+                "aspect_ratio": 1.05,
+                "brightness": 84.89,
+                "saturation": 103.48,
+                "edge_density": 0.0498,
+                "texture_var": 1984.82,
+                "lbp": [
+                    0.019,
+                    0.042,
+                    0.023,
+                    0.114,
+                    0.234,
+                    0.229,
+                    0.074,
+                    0.069,
+                    0.129,
+                    0.067
+                ],
+                "color_palette": [
+                    {
+                        "hsv": [
+                            169,
+                            118,
+                            54
+                        ],
+                        "percent": 0.64
+                    },
+                    {
+                        "hsv": [
+                            165,
+                            64,
+                            128
+                        ],
+                        "percent": 0.334
+                    },
+                    {
+                        "hsv": [
+                            6,
+                            17,
+                            234
+                        ],
+                        "percent": 0.026
+                    }
+                ]
+            }
+        },
+        {
+            "id": "pedestrian 1",
+            "class": "pedestrian",
+            "bbox": [
+                1320,
+                6,
+                1349,
+                62
+            ],
+            "center": [
+                1334,
+                34
+            ],
+            "semantic": {
+                "rel_area": 0.0016,
+                "aspect_ratio": 0.518,
+                "brightness": 46.37,
+                "saturation": 138.72,
+                "edge_density": 0.1071,
+                "texture_var": 523.08,
+                "lbp": [
+                    0.031,
+                    0.1,
+                    0.044,
+                    0.1,
+                    0.234,
+                    0.141,
+                    0.068,
+                    0.06,
+                    0.111,
+                    0.109
+                ],
+                "color_palette": [
+                    {
+                        "hsv": [
+                            168,
+                            87,
+                            73
+                        ],
+                        "percent": 0.413
+                    },
+                    {
+                        "hsv": [
+                            164,
+                            187,
+                            15
+                        ],
+                        "percent": 0.402
+                    },
+                    {
+                        "hsv": [
+                            166,
+                            99,
+                            49
+                        ],
+                        "percent": 0.185
+                    }
+                ]
+            }
+        },
+        {
+            "id": "pedestrian 2",
+            "class": "pedestrian",
+            "bbox": [
+                1308,
+                0,
+                1333,
+                19
+            ],
+            "center": [
+                1320,
+                9
+            ],
+            "semantic": {
+                "rel_area": 0.0005,
+                "aspect_ratio": 1.316,
+                "brightness": 52.36,
+                "saturation": 112.86,
+                "edge_density": 0.12,
+                "texture_var": 274.72,
+                "lbp": [
+                    0.034,
+                    0.074,
+                    0.082,
+                    0.181,
+                    0.246,
+                    0.149,
+                    0.055,
+                    0.061,
+                    0.042,
+                    0.076
+                ],
+                "color_palette": [
+                    {
+                        "hsv": [
+                            163,
+                            143,
+                            32
+                        ],
+                        "percent": 0.339
+                    },
+                    {
+                        "hsv": [
+                            167,
+                            75,
+                            71
+                        ],
+                        "percent": 0.335
+                    },
+                    {
+                        "hsv": [
+                            163,
+                            92,
+                            50
+                        ],
+                        "percent": 0.326
+                    }
+                ]
+            }
+        },
+        {
+            "id": "truck 1",
+            "class": "truck",
+            "bbox": [
+                570,
+                339,
+                826,
+                714
+            ],
+            "center": [
+                698,
+                526
+            ],
+            "semantic": {
+                "rel_area": 0.0923,
+                "aspect_ratio": 0.683,
+                "brightness": 94.06,
+                "saturation": 100.91,
+                "edge_density": 0.0331,
+                "texture_var": 949.68,
+                "lbp": [
+                    0.016,
+                    0.055,
+                    0.026,
+                    0.105,
+                    0.211,
+                    0.215,
+                    0.084,
+                    0.077,
+                    0.137,
+                    0.073
+                ],
+                "color_palette": [
+                    {
+                        "hsv": [
+                            95,
+                            45,
+                            108
+                        ],
+                        "percent": 0.439
+                    },
+                    {
+                        "hsv": [
+                            174,
+                            144,
+                            62
+                        ],
+                        "percent": 0.3
+                    },
+                    {
+                        "hsv": [
+                            176,
+                            92,
+                            94
+                        ],
+                        "percent": 0.262
+                    }
+                ]
+            }
+        }
+    ],
+    "distances": [
+        {
+            "object1": "car 1",
+            "object2": "car 2",
+            "distance_px": 255.88
+        },
+        {
+            "object1": "car 1",
+            "object2": "car 3",
+            "distance_px": 137.28
+        },
+        {
+            "object1": "car 1",
+            "object2": "car 4",
+            "distance_px": 627.08
+        },
+        {
+            "object1": "car 1",
+            "object2": "pedestrian 1",
+            "distance_px": 645.08
+        },
+        {
+            "object1": "car 1",
+            "object2": "pedestrian 2",
+            "distance_px": 643.66
+        },
+        {
+            "object1": "car 1",
+            "object2": "truck 1",
+            "distance_px": 224.12
+        },
+        {
+            "object1": "car 2",
+            "object2": "car 3",
+            "distance_px": 334.73
+        },
+        {
+            "object1": "car 2",
+            "object2": "car 4",
+            "distance_px": 404.92
+        },
+        {
+            "object1": "car 2",
+            "object2": "pedestrian 1",
+            "distance_px": 824.51
+        },
+        {
+            "object1": "car 2",
+            "object2": "pedestrian 2",
+            "distance_px": 815.88
+        },
+        {
+            "object1": "car 2",
+            "object2": "truck 1",
+            "distance_px": 380.16
+        },
+        {
+            "object1": "car 3",
+            "object2": "car 4",
+            "distance_px": 732.84
+        },
+        {
+            "object1": "car 3",
+            "object2": "pedestrian 1",
+            "distance_px": 512.71
+        },
+        {
+            "object1": "car 3",
+            "object2": "pedestrian 2",
+            "distance_px": 509.64
+        },
+        {
+            "object1": "car 3",
+            "object2": "truck 1",
+            "distance_px": 343.07
+        },
+        {
+            "object1": "car 4",
+            "object2": "pedestrian 1",
+            "distance_px": 1229.39
+        },
+        {
+            "object1": "car 4",
+            "object2": "pedestrian 2",
+            "distance_px": 1220.46
+        },
+        {
+            "object1": "car 4",
+            "object2": "truck 1",
+            "distance_px": 633.0
+        },
+        {
+            "object1": "pedestrian 1",
+            "object2": "pedestrian 2",
+            "distance_px": 28.65
+        },
+        {
+            "object1": "pedestrian 1",
+            "object2": "truck 1",
+            "distance_px": 804.09
+        },
+        {
+            "object1": "pedestrian 2",
+            "object2": "truck 1",
+            "distance_px": 808.81
+        }
+    ],
+    "relationships": [
+        {
+            "subject": "car 1",
+            "predicate": "upper-left",
+            "object": "car 2",
+            "angle": 152.03,
+            "description": "car 2 is upper-left (152.03\u00b0) relative to car 1"
+        },
+        {
+            "subject": "car 1",
+            "predicate": "upper-right",
+            "object": "car 3",
+            "angle": 39.08,
+            "description": "car 3 is upper-right (39.08\u00b0) relative to car 1"
+        },
+        {
+            "subject": "car 1",
+            "predicate": "left",
+            "object": "car 4",
+            "angle": 175.34,
+            "description": "car 4 is left (175.34\u00b0) relative to car 1"
+        },
+        {
+            "subject": "car 1",
+            "predicate": "upper-right",
+            "object": "pedestrian 1",
+            "angle": 25.18,
+            "description": "pedestrian 1 is upper-right (25.18\u00b0) relative to car 1"
+        },
+        {
+            "subject": "car 1",
+            "predicate": "upper-right",
+            "object": "pedestrian 2",
+            "angle": 27.68,
+            "description": "pedestrian 2 is upper-right (27.68\u00b0) relative to car 1"
+        },
+        {
+            "subject": "car 1",
+            "predicate": "down",
+            "object": "truck 1",
+            "angle": 256.46,
+            "description": "truck 1 is down (256.46\u00b0) relative to car 1"
+        },
+        {
+            "subject": "car 2",
+            "predicate": "right",
+            "object": "car 3",
+            "angle": 354.25,
+            "description": "car 3 is right (354.25\u00b0) relative to car 2"
+        },
+        {
+            "subject": "car 2",
+            "predicate": "left",
+            "object": "car 4",
+            "angle": 189.8,
+            "description": "car 4 is left (189.8\u00b0) relative to car 2"
+        },
+        {
+            "subject": "car 2",
+            "predicate": "right",
+            "object": "pedestrian 1",
+            "angle": 10.8,
+            "description": "pedestrian 1 is right (10.8\u00b0) relative to car 2"
+        },
+        {
+            "subject": "car 2",
+            "predicate": "right",
+            "object": "pedestrian 2",
+            "angle": 12.67,
+            "description": "pedestrian 2 is right (12.67\u00b0) relative to car 2"
+        },
+        {
+            "subject": "car 2",
+            "predicate": "lower-right",
+            "object": "truck 1",
+            "angle": 297.17,
+            "description": "truck 1 is lower-right (297.17\u00b0) relative to car 2"
+        },
+        {
+            "subject": "car 3",
+            "predicate": "left",
+            "object": "car 4",
+            "angle": 182.78,
+            "description": "car 4 is left (182.78\u00b0) relative to car 3"
+        },
+        {
+            "subject": "car 3",
+            "predicate": "right",
+            "object": "pedestrian 1",
+            "angle": 21.49,
+            "description": "pedestrian 1 is right (21.49\u00b0) relative to car 3"
+        },
+        {
+            "subject": "car 3",
+            "predicate": "upper-right",
+            "object": "pedestrian 2",
+            "angle": 24.63,
+            "description": "pedestrian 2 is upper-right (24.63\u00b0) relative to car 3"
+        },
+        {
+            "subject": "car 3",
+            "predicate": "lower-left",
+            "object": "truck 1",
+            "angle": 242.43,
+            "description": "truck 1 is lower-left (242.43\u00b0) relative to car 3"
+        },
+        {
+            "subject": "car 4",
+            "predicate": "right",
+            "object": "pedestrian 1",
+            "angle": 10.47,
+            "description": "pedestrian 1 is right (10.47\u00b0) relative to car 4"
+        },
+        {
+            "subject": "car 4",
+            "predicate": "right",
+            "object": "pedestrian 2",
+            "angle": 11.72,
+            "description": "pedestrian 2 is right (11.72\u00b0) relative to car 4"
+        },
+        {
+            "subject": "car 4",
+            "predicate": "lower-right",
+            "object": "truck 1",
+            "angle": 334.85,
+            "description": "truck 1 is lower-right (334.85\u00b0) relative to car 4"
+        },
+        {
+            "subject": "pedestrian 1",
+            "predicate": "upper-left",
+            "object": "pedestrian 2",
+            "angle": 119.74,
+            "description": "pedestrian 2 is upper-left (119.74\u00b0) relative to pedestrian 1"
+        },
+        {
+            "subject": "pedestrian 1",
+            "predicate": "lower-left",
+            "object": "truck 1",
+            "angle": 217.73,
+            "description": "truck 1 is lower-left (217.73\u00b0) relative to pedestrian 1"
+        },
+        {
+            "subject": "pedestrian 2",
+            "predicate": "lower-left",
+            "object": "truck 1",
+            "angle": 219.71,
+            "description": "truck 1 is lower-left (219.71\u00b0) relative to pedestrian 2"
+        }
+    ],
+    "image_context": {
+        "cluster_id": 1,
+        "scene_label": "Low-light urban street scenes with artificial illumination",
+        "confidence": 0.6313189209165917
+    }
+}

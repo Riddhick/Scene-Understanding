@@ -13,7 +13,7 @@ import cv2
 
 
 def main():
-    img_path = "D:\\Work\\RCI\\Code\\Sample\\0000103_03738_d_0000032.jpg"
+    img_path = r"D:\Work\RCI\Code\Sample\0000120_01535_d_0000095.jpg"
     model = load_model()
     image = cv2.imread(img_path)
     #text = "A person is at 956 pixels left and  45 degrees from the truck 1"
@@ -58,7 +58,7 @@ def main():
     scene_json["image_context"] = scene_context
     print(scene_json)
     #query_json = extract_spatial_query(text)
-    #save_scene_json(scene_json)
+    save_scene_json(scene_json)
     #rint(query_json)
     #generator = SpatialRegionGenerator("D:\Work\RCI\Code\scene_output.json", "D:\Work\RCI\Code\extracted.json", img_path)
     #result = generator.visualize_simple()
